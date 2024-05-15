@@ -17,16 +17,11 @@ public class Escalar implements CPU{
         // for(int i = 0; i < 5; i++) {
         //     pipeline[i] = new Nodo();
         //     pipeline[i].setNodo(1,0,0,4);
-        pipeline[0] = new Nodo();
-        pipeline[0].setNodo(2,0,0,4);
-        pipeline[1] = new Nodo();
-        pipeline[1].setNodo(1,0,0,0);
-        pipeline[2] = new Nodo();
-        pipeline[2].setNodo(2,10,0,4);
-        pipeline[3] = new Nodo();
-        pipeline[3].setNodo(2,10,0,4);
-        pipeline[4] = new Nodo();
-        pipeline[4].setNodo(2,10,0,4);
+        pipeline[0] = new Nodo(2,0,0,4);
+        pipeline[1] = new Nodo(1,0,0,0);
+        pipeline[2] = new Nodo(2,10,0,4);
+        pipeline[3] = new Nodo(2,10,0,4);
+        pipeline[4] = new Nodo(2,10,0,4);
         // }
         for(int i = 0; i < 32; i++){
             registradores[i] = 0;

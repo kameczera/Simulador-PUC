@@ -9,6 +9,10 @@ public class Nodo{
         this.instrucoes = new int[4];
     }
 
+    public Nodo(int i, int j, int k, int l){
+        this.instrucoes = new int[]{i, j, k, l};
+    }
+
     public void setNodo(int i, int j, int k, int l){
         this.instrucoes = new int[]{i, j, k, l};
     }
