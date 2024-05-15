@@ -1,5 +1,7 @@
 package Nodo;
 
+import Registrador.*;
+
 public class Nodo{
     private int[] instrucoes;
 
@@ -11,8 +13,12 @@ public class Nodo{
         this.instrucoes = new int[]{i, j, k, l};
     }
 
-    public int getRegistrador(){
-        return instrucoes[1];
+    public void setNodo(int[] instrucao){
+        this.instrucoes = instrucao;
+    }
+
+    public int[] getInstrucoes(){
+        return instrucoes;
     }
 
     public void printValores(){
@@ -22,16 +28,16 @@ public class Nodo{
         System.out.println("");
     }
 
-    public int rodarNodo(){
+    public void rodarNodo(int[] registradores){
         switch(instrucoes[0]){
-            case 1: // addi
-                return instrucoes[2] + instrucoes[3];
-            case 2:
-                return instrucoes[2] - instrucoes[3];
-            case 3:
-                return instrucoes[2] * instrucoes[3];
-            default:
-                return -1;
+            case 1: // add
+                registradores[instrucoes[1]] = registradores[instrucoes[2]] + registradores[instrucoes[3]];
+                break;
+                // 1,0,0,0
+            case 2: // addi
+                registradores[instrucoes[1]] = registradores[instrucoes[2]] + instrucoes[3];
+                // 2,0,0,4
+                break;
         }
     }
 }

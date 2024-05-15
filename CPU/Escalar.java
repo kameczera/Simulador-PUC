@@ -1,23 +1,35 @@
 package CPU;
+
 import CPU.*;
 import Nodo.*;
-import Registrador.*;
 
 public class Escalar implements CPU{
+    // TODOS: qual é melhor: simular uma visualização  das instruções nos estágios do pipeline
+    // ou não (caso sim, utilizar uma ED para representar um pipeline. caso não, apenas ler as instruções)
     private Nodo[] pipeline;
-    private Nodo ponteiro;
-    private Registrador[] registradores;
+    // TODO: qual é melhor: um array da classe registrador ou um array de ints
+    // private Registrador[] registradores;
+    private int[] registradores;
 
     public Escalar(){
         pipeline = new Nodo[5];
-        registradores = new Registrador[32];
-        for(int i = 0; i < 5; i++) {
-            pipeline[i] = new Nodo();
-            pipeline[i].setNodo(1,2,3,4); 
-        }
+        registradores = new int[32];
+        // for(int i = 0; i < 5; i++) {
+        //     pipeline[i] = new Nodo();
+        //     pipeline[i].setNodo(1,0,0,4);
+        pipeline[0] = new Nodo();
+        pipeline[0].setNodo(2,0,0,4);
+        pipeline[1] = new Nodo();
+        pipeline[1].setNodo(1,0,0,0);
+        pipeline[2] = new Nodo();
+        pipeline[2].setNodo(2,10,0,4);
+        pipeline[3] = new Nodo();
+        pipeline[3].setNodo(2,10,0,4);
+        pipeline[4] = new Nodo();
+        pipeline[4].setNodo(2,10,0,4);
+        // }
         for(int i = 0; i < 32; i++){
-            String n = "R" + i;
-            registradores[i] = new Registrador(n);
+            registradores[i] = 0;
         }
     }
 
@@ -29,13 +41,14 @@ public class Escalar implements CPU{
 
     public void printarTodosRegistradores(){
         for(int i = 0; i < 32; i++){
-            registradores[i].printRegistrador();
+            System.out.println("R"+ i + " " + registradores[i]);
         }
     }
 
+    // TODO: passar o codigo como parametro
     public void rodarCodigo(){
-        // for(int i = 0; i < pipeline.length; i++){
-            registradores[pipeline[0].getRegistrador()].setValor(pipeline[0].rodarNodo());
-        // }
+        for(int i = 0; i < pipeline.length; i++){
+            pipeline[i].rodarNodo(registradores);
+        }
     }
 }
