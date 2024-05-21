@@ -2,6 +2,7 @@ package Processo;
 
 import Nodo.*;
 import java.util.*;
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -21,7 +22,7 @@ public class Processo {
                 switch(partes[0]){
                     case "add":
                         String[] registradores = partes[1].split(",");
-                        instrucoes[cont].setNodo(1, registradores[0][1], registradores[1][1], registradores[2][1]);
+                        instrucoes[cont].setNodo(1, Integer.parseInt(String.valueOf(registradores[0].charAt(1))), (int)registradores[1].charAt(1),(int)registradores[2].charAt(1));
                 }
                 linha = buffer.readLine();
                 cont++;
