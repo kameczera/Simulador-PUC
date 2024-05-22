@@ -30,7 +30,7 @@ public class Escalar implements CPU{
             registradores[i] = 0;
         }
         processos = new Processo[1];
-        processos[0] = new Processo("../codigo.txt");
+        processos[0] = new Processo("./codigo.txt");
         numeroProcessos = 1;
     }
 
@@ -46,9 +46,11 @@ public class Escalar implements CPU{
         }
     }
 
-    public void rodarCodigo(){
+    public void rodarCodigo()
+    {
         pipeline = processos[0].getInstrucoes();
-        for(int i = 0; i < pipeline.length; i++){
+        for(int i = 0; i < pipeline.length; i++)
+        {
             pipeline[i].rodarNodo(registradores);
         }
     }
