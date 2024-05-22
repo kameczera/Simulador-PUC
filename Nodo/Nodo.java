@@ -17,9 +17,8 @@ public class Nodo{
         this.instrucao = instrucao;
     }
 
-    public void setNodo(int i, int registrador01,int registrador02, int registrador03)
-    {
-        this.instrucao = new int[]{i, registrador01, registrador02, registrador03};
+    public void setNodo(int i, int j, int k, int l){
+        this.instrucao = new int[]{i, j, k, l};
     }
 
     public int[] getinstrucao(){
