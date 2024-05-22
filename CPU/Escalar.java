@@ -13,7 +13,8 @@ public class Escalar implements CPU{
     private Processo[] processos;
     private int numeroProcessos;
 
-    public Escalar(){
+    public Escalar()
+    {
         pipeline = new Nodo[5];
         registradores = new int[32];
         // for(int i = 0; i < 5; i++) {
