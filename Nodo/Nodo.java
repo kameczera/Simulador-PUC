@@ -17,6 +17,10 @@ public class Nodo{
         this.instrucao = instrucao;
     }
 
+    public void setNodo(int i, int j, int k, int l){
+        this.instrucao = new int[]{i, j, k, l};
+    }
+
     public int[] getinstrucao(){
         return instrucao;
     }
