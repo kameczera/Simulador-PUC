@@ -15,8 +15,10 @@ public class Escalar implements CPU{
     private int[] registradores;
     private List<Processo> processos;
     private int numeroProcessos;
+    private int escalonador;
 
     public Escalar(){
+        escalonador = 0;
         pipeline = new ArrayList<Nodo>();
         registradores = new int[32];
         for(int i = 0; i < 32; i++){
@@ -49,10 +51,7 @@ public class Escalar implements CPU{
     // }
 
     public void printarTodosRegistradores(){
-        for(int i = 0; i < numeroProcessos; i++){
-            System.out.println("Registradores do Processo " + i);
-            for(int j = 1; j <= 32 / numeroProcessos; j++) System.out.println("R"+ j + " " + registradores[j]);
-        }
+        for(int j = 0; j < 32; j++) System.out.println("R"+ j + " " + registradores[j]);
     }
 
 
@@ -60,29 +59,25 @@ public class Escalar implements CPU{
         // TODO: loop de adição de instruções no pipeline. esse while faltante é pra loopar até todas threads já terem concluídas
         while(!processos.isEmpty()){
             preencherPipelineIMT();
-            int tamanho = pipeline.size();
-            for(int i = 0; i < tamanho; i++){
+            int tamanhoPipeline = pipeline.size();
+            for(int i = 0; i < tamanhoPipeline; i++){
                 Nodo p = pipeline.get(0);
-                if(p != null){
-                    p.rodarNodo(registradores);
-                    pipeline.remove(p);
-                }
+                p.rodarNodo(registradores);
+                pipeline.remove(p);
             }
         }
     }
     
     public void preencherPipelineIMT(){
-        int p = 0;
         while(pipeline.size() < 5){
-            Processo processo = processos.get(p);
-            if(!processo.getEstado()) {
+            Processo processo = processos.get(escalonador);
+            pipeline.add(processo.getInstrucao());
+            if(processo.getEstado()){
                 processos.remove(processo);
                 numeroProcessos--;
+                if(processos.isEmpty()) break;
             }
-            else{
-                pipeline.add(processo.getInstrucao());
-                p = (p + 1) % numeroProcessos;
-            }
+            escalonador = (escalonador + 1) % numeroProcessos;
         }
     }
 }
