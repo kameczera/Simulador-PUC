@@ -53,10 +53,8 @@ public class Escalar implements CPU{
     public void printarTodosRegistradores(){
         for(int j = 0; j < 32; j++) System.out.println("R"+ j + " " + registradores[j]);
     }
-
-
+    
     public void rodarCodigo(){
-        // TODO: loop de adição de instruções no pipeline. esse while faltante é pra loopar até todas threads já terem concluídas
         while(!processos.isEmpty()){
             preencherPipelineIMT();
             int tamanhoPipeline = pipeline.size();
@@ -67,7 +65,7 @@ public class Escalar implements CPU{
             }
         }
     }
-    
+    // java.lang.ArrayIndexOutOfBoundsException: Index 5 out of bounds for length 5
     public void preencherPipelineIMT(){
         while(pipeline.size() < 5){
             Processo processo = processos.get(escalonador);
