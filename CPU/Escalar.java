@@ -65,6 +65,7 @@ public class Escalar implements CPU{
             }
         }
     }
+    
     // java.lang.ArrayIndexOutOfBoundsException: Index 5 out of bounds for length 5
     public void preencherPipelineIMT(){
         while(pipeline.size() < 5){
