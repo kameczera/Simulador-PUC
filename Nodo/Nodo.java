@@ -21,12 +21,12 @@ public class Nodo{
         this.instrucao = new int[]{i, j, k, l};
     }
 
-    public int[] getinstrucao(){
+    public int[] getInstrucao(){
         return instrucao;
     }
 
     public void printValores(){
-        for(int i = 0; i < 3; i++){
+        for(int i = 0; i < 4; i++){
             System.out.print(instrucao[i]);
         }
         System.out.println("");
