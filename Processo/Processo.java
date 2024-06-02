@@ -7,51 +7,67 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Processo {
-    private Nodo[] instrucoes;
+    private List<Nodo> instrucoes;
     private int instrucaoAtual;
     private boolean estado;
     
-    public Processo(String nomeArquivo)
+    public Processo(String nomeArquivo, int id)
     {
         try {
-            instrucoes = new Nodo[5];
-            instrucaoAtual = 0;
-            estado = false;
-             // Inicializar cada elemento do array instrucoes. Sem inicializar ele é nulo por padrão e fica dando erro
-             for (int i = 0; i < instrucoes.length; i++) {
-                instrucoes[i] = new Nodo(); 
-            }
             FileReader arq = new FileReader(nomeArquivo);
             BufferedReader buffer = new BufferedReader(arq);
-
+            instrucoes = new ArrayList<Nodo>();
+            instrucaoAtual = 0;
+            estado = false;
+            
             String linha = buffer.readLine();
-            int cont = 0;
+            // flag -> variavel para encontrar dependencia verdadeira, atualiza no lw e no sw
+            // int flag = -1;
             while (linha != null) {
                 String[] partes = linha.split(" ");
                 String[] registradores = partes[1].split(",");
-                int a, b, c;
+                int a = -1;
+                int b = -1;
+                int c = -1;
+                int idInstrucao = -1;
+                Nodo n = new Nodo();
                 switch(partes[0]){
                     case "add":
                         a = Character.getNumericValue(registradores[0].charAt(1));
                         b = Character.getNumericValue(registradores[1].charAt(1));
                         c = Character.getNumericValue(registradores[2].charAt(1));
-                        instrucoes[cont].setNodo(1,a,b,c);
+                        idInstrucao = 1;
+                        // if(b == flag || c == flag) instrucoes.add(new Nodo(0,0,0,0,id));
+                        // flag = -1;
                         break;
-                    case "addi":
+                        case "addi":
                         a = Character.getNumericValue(registradores[0].charAt(1));
                         b = Character.getNumericValue(registradores[1].charAt(1));
                         c = Character.getNumericValue(registradores[2].charAt(0));
-                        instrucoes[cont].setNodo(2,a,b,c);
+                        idInstrucao = 2;
+                        // if(b == flag || c == flag) instrucoes.add(new Nodo(0,0,0,0,id));
+                        // flag = -1;
                         break;
-                    case "and":
+                        case "and":
                         a = Character.getNumericValue(registradores[0].charAt(1));
                         b = Character.getNumericValue(registradores[1].charAt(1));
                         c = Character.getNumericValue(registradores[2].charAt(1));
-                        instrucoes[cont].setNodo(3,a,b,c);
+                        idInstrucao = 3;
+                        // if(b == flag || c == flag) instrucoes.add(new Nodo(0,0,0,0,id));
+                        // flag = -1;
+                        break;
+                        case "lw":
+                        a = Character.getNumericValue(registradores[0].charAt(1));
+                        b = Character.getNumericValue(registradores[1].charAt(1));
+                        c = Character.getNumericValue(registradores[1].charAt(3));
+                        idInstrucao = 4;
+                        // if(b == flag || c == flag) instrucoes.add(new Nodo(0,0,0,0,id));
+                        // flag = a;
                         break;
                 }
+                n = new Nodo(idInstrucao,a,b,c,id);
+                instrucoes.add(n);
                 linha = buffer.readLine();
-                cont++;
             }
             arq.close();
         } catch (IOException e) {
@@ -61,13 +77,12 @@ public class Processo {
 
     public Nodo getInstrucao(){
         Nodo p = null;
-        p = instrucoes[instrucaoAtual++];
-        if(instrucaoAtual == instrucoes.length) estado = true;
+        p = instrucoes.get(instrucaoAtual++);
+        if(instrucaoAtual == instrucoes.size()) estado = true;
         return p;
     }
 
     public boolean getEstado(){
         return estado;
     }
-
 }

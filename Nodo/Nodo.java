@@ -4,25 +4,32 @@ import Registrador.*;
 
 public class Nodo{
     private int[] instrucao;
+    private int idProcesso;
 
     public Nodo(){
         this.instrucao = new int[4];
+        idProcesso = 0;
     }
 
-    public Nodo(int i, int j, int k, int l){
+    public Nodo(int i, int j, int k, int l, int idProcesso){
         this.instrucao = new int[]{i, j, k, l};
+        this.idProcesso = idProcesso;
     }
 
     public void setNodo(int[] instrucao){
         this.instrucao = instrucao;
     }
 
-    public void setNodo(int i, int j, int k, int l){
+    public void setNodo(int i, int j, int k, int l, int idProcesso){
         this.instrucao = new int[]{i, j, k, l};
     }
 
     public int[] getInstrucao(){
         return instrucao;
+    }
+
+    public int getIdProcesso(){
+        return idProcesso;
     }
 
     public void printValores(){
@@ -34,6 +41,8 @@ public class Nodo{
 
     public void rodarNodo(int[] registradores){
         switch(instrucao[0]){
+            // case 0: // bubble
+            //     break;
             case 1: // add
                 registradores[instrucao[1]] = registradores[instrucao[2]] + registradores[instrucao[3]];
                 break;
@@ -42,6 +51,9 @@ public class Nodo{
                 break;
             case 3: // and
                 registradores[instrucao[1]] = registradores[instrucao[2]] & registradores[instrucao[3]];
+                break;
+            case 4: // lw
+                // TODO
                 break;
             // case 4: // beq
             //     registradores[instrucao[1]] = registradores[instrucao[2]] == registradores[instrucao[3]];

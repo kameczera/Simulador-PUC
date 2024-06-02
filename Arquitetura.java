@@ -3,8 +3,8 @@ import CPU.*;
 
 public class Arquitetura{
     public static void main(String[] args){
-        String[] pathProcessos = {"./codigoTeste.txt", "./codigo.txt"};
-        Escalar escalar = new Escalar(2, pathProcessos);
+        String[] pathProcessos = {"./processo1.txt"};
+        Escalar escalar = new Escalar(pathProcessos.length, pathProcessos);
         escalar.rodarCodigo();
         escalar.printarTodosRegistradores();
     }

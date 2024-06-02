@@ -1,5 +1,0 @@
-addi r7,r7,4
-add r7,r7,r7
-addi r8,r7,4
-and r9,r7,r8
-addi r9,r9,4
