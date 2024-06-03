@@ -8,14 +8,10 @@ import Registrador.Registradores;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
+// Classe Pipeline Escalar
 public class Escalar implements CPU {
-    // TODO: será que predefinimos a ordem de execução de todas instruções das
-    // thread? ou fazemos em tempo real?
     private LinkedList<Nodo> pipeline;
-    // TODO: qual é melhor: um array da classe registrador ou um array de ints?
-    // private Registrador[] registradores;
     private List<Processo> processos;
     private int nProcessos;
     private int escalonador;
@@ -34,12 +30,18 @@ public class Escalar implements CPU {
         nProcessos = 1;
     }
 
+    // Escalar(): Construtor do pipeline escalar que divide 12 registradores entre 1, 2 ou 3 processos
+    // (12, 6 e 4 registradores para cada processo respectivamente).
+    // Preenche pipeline com instruções bolha só para simular o processo de adição de instruções no pipeline
     public Escalar(int nProcessos, String[] pathProcessos) {
         registradores = new Registradores[nProcessos];
         for (int i = 0; i < nProcessos; i++) {
             registradores[i] = new Registradores(12 / nProcessos);
         }
         pipeline = new LinkedList<Nodo>();
+        for(int i = 0; i < 4; i++){
+            pipeline.add(new Nodo(0,0,0,0,0));
+        }
         this.nProcessos = nProcessos;
         processos = new ArrayList<Processo>();
         for (int i = 0; i < nProcessos; i++) {
@@ -57,6 +59,7 @@ public class Escalar implements CPU {
         }
     }
 
+    // rodarCodigo(): Método para simular multithreading em pipeline escalar IMT
     public void rodarCodigo() {
         do {
             if (processos.size() > 1) preencherPipelineIMT();
@@ -66,6 +69,10 @@ public class Escalar implements CPU {
         } while (pipeline.size() != 0);
     }
 
+    // verificaBolha(): Método para identificar bolha. 
+    // (1) Verifica se a instrução do nodo na posição EX do pipeline é um lw
+    // (2) Verifica se o nodo na posição EX do pipeline tem o mesmo id processo do nodo MEM
+    // (3) Verifica se o nodo na posição EX do pipeline usa registradores que escrevem no nodo MEM
     public void verificaBolha() {
         if(pipeline.size() > 2){
             Nodo nodoEX = pipeline.get(2);
@@ -73,9 +80,9 @@ public class Escalar implements CPU {
             if (nodoMEM.getInstrucao()[0] == 4) {
                 if (nodoMEM.getIdProcesso() == nodoEX.getIdProcesso()) {
                     if (nodoMEM.getInstrucao()[1] == nodoEX.getInstrucao()[2] || nodoMEM.getInstrucao()[1] == nodoEX.getInstrucao()[3]) {
+                        pipeline.add(2, new Nodo(0,0,0,0,0));
                         Nodo p = pipeline.poll();
                         p.rodarNodo(registradores[p.getIdProcesso()].getRegistradores());
-                        pipeline.add(3, new Nodo(0,0,0,0,0));
                     }
                 }
             }
@@ -83,33 +90,36 @@ public class Escalar implements CPU {
     }
 
     public void preencherPipelineIMT() {
-        while (pipeline.size() < 5) {
-            Processo processo = processos.get(escalonador);
-            Nodo n = processo.getInstrucao();
-            // ignora se for bolha. vai para a próxima instrução
-            if (n.getInstrucao()[0] == 0)
-                n = processo.getInstrucao();
-            pipeline.add(n);
-            if (processo.getEstado()) {
-                processos.remove(processo);
-                nProcessos--;
-                if (processos.isEmpty())
-                    break;
-            }
-            escalonador = (escalonador + 1) % nProcessos;
+        Processo processo = processos.get(escalonador);
+        Nodo n = processo.getInstrucao();
+        // ignora se for bolha. vai para a próxima instrução
+        pipeline.add(n);
+        if (processo.getEstado()) {
+            processos.remove(processo);
+            nProcessos--;
         }
+        escalonador = (escalonador + 1) % nProcessos;
+    }
+
+    public void preencherPipelineBMT() {
+        Processo processo = processos.get(escalonador);
+        Nodo n = processo.getInstrucao();
+        // ignora se for bolha. vai para a próxima instrução
+        pipeline.add(n);
+        if (processo.getEstado()) {
+            processos.remove(processo);
+            nProcessos--;
+        }
+        escalonador = (escalonador + 1) % nProcessos;
     }
 
     public void preencherPipeline() {
         if (!processos.isEmpty()){
-            while (pipeline.size() < 5) {
-                Processo processo = processos.get(0);
-                pipeline.add(processo.getInstrucao());
-                if (processo.getEstado()) {
-                    processos.remove(processo);
-                    nProcessos--;
-                    break;
-                }
+            Processo processo = processos.get(0);
+            pipeline.add(processo.getInstrucao());
+            if (processo.getEstado()) {
+                processos.remove(processo);
+                nProcessos--;
             }
         }
         verificaBolha();

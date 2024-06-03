@@ -11,6 +11,7 @@ public class Processo {
     private int instrucaoAtual;
     private boolean estado;
     
+    // Processo(): Faz o parse das instruções no .txt
     public Processo(String nomeArquivo, int id)
     {
         try {
@@ -21,8 +22,6 @@ public class Processo {
             estado = false;
             
             String linha = buffer.readLine();
-            // flag -> variavel para encontrar dependencia verdadeira, atualiza no lw e no sw
-            // int flag = -1;
             while (linha != null) {
                 String[] partes = linha.split(" ");
                 String[] registradores = partes[1].split(",");
@@ -37,32 +36,24 @@ public class Processo {
                         b = Character.getNumericValue(registradores[1].charAt(1));
                         c = Character.getNumericValue(registradores[2].charAt(1));
                         idInstrucao = 1;
-                        // if(b == flag || c == flag) instrucoes.add(new Nodo(0,0,0,0,id));
-                        // flag = -1;
                         break;
                         case "addi":
                         a = Character.getNumericValue(registradores[0].charAt(1));
                         b = Character.getNumericValue(registradores[1].charAt(1));
                         c = Character.getNumericValue(registradores[2].charAt(0));
                         idInstrucao = 2;
-                        // if(b == flag || c == flag) instrucoes.add(new Nodo(0,0,0,0,id));
-                        // flag = -1;
                         break;
                         case "and":
                         a = Character.getNumericValue(registradores[0].charAt(1));
                         b = Character.getNumericValue(registradores[1].charAt(1));
                         c = Character.getNumericValue(registradores[2].charAt(1));
                         idInstrucao = 3;
-                        // if(b == flag || c == flag) instrucoes.add(new Nodo(0,0,0,0,id));
-                        // flag = -1;
                         break;
                         case "lw":
                         a = Character.getNumericValue(registradores[0].charAt(1));
                         b = Character.getNumericValue(registradores[1].charAt(1));
                         c = Character.getNumericValue(registradores[1].charAt(3));
                         idInstrucao = 4;
-                        // if(b == flag || c == flag) instrucoes.add(new Nodo(0,0,0,0,id));
-                        // flag = a;
                         break;
                 }
                 n = new Nodo(idInstrucao,a,b,c,id);
