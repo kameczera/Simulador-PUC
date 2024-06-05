@@ -1,0 +1,4 @@
+add r1,r1,4
+add r2,r1,5
+add r3,r2,3
+add r4,5,4

@@ -34,6 +34,7 @@ public class Escalar implements CPU {
     // (12, 6 e 4 registradores para cada processo respectivamente).
     // Preenche pipeline com instruções bolha só para simular o processo de adição de instruções no pipeline
     public Escalar(int nProcessos, String[] pathProcessos) {
+        
         registradores = new Registradores[nProcessos];
         for (int i = 0; i < nProcessos; i++) {
             registradores[i] = new Registradores(12 / nProcessos);
