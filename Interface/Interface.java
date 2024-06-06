@@ -13,11 +13,11 @@ public class Interface {
     private QuadradoComDado EX;
     private QuadradoComDado MEM;
     private QuadradoComDado WB;
-    private Color[] corProcessos = { Color.GREEN, Color.BLUE, Color.ORANGE, Color.CYAN };
+    private Color[] corProcessos = { Color.GREEN, Color.BLUE, Color.ORANGE, Color.CYAN, Color.PINK };
     private Escalar escalar;
 
     public Interface() {
-        String[] pathProcessos = { "./processo1.txt", "./processo2.txt" };
+        String[] pathProcessos = { "./processo1.txt" };
         escalar = new Escalar(pathProcessos.length, pathProcessos);
         IF = new QuadradoComDado("ASD", Color.WHITE);
         ID = new QuadradoComDado("ASD", Color.WHITE);

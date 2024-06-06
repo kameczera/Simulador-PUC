@@ -41,7 +41,7 @@ public class Escalar implements CPU {
         }
         pipeline = new LinkedList<Nodo>();
         for(int i = 0; i < 5; i++){
-            pipeline.add(new Nodo(0,0,0,0,0));
+            pipeline.add(new Nodo(20,0,0,0,4));
         }
         this.nProcessos = nProcessos;
         processos = new ArrayList<Processo>();
@@ -62,10 +62,9 @@ public class Escalar implements CPU {
 
     // rodarCodigo(): Método para simular multithreading em pipeline escalar IMT
     public void rodarCodigo() {
-        if (processos.size() > 1) preencherPipelineIMT();
-        else preencherPipeline();
+        preencherPipelineIMT();
         Nodo p = pipeline.poll();
-        p.rodarNodo(registradores[p.getIdProcesso()].getRegistradores());
+        if(p.getIdProcesso() != 4)p.rodarNodo(registradores[p.getIdProcesso()].getRegistradores());
     }
 
     // verificaBolha(): Método para identificar bolha. 
@@ -79,7 +78,7 @@ public class Escalar implements CPU {
             if (nodoMEM.getInstrucao()[0] == 4) {
                 if (nodoMEM.getIdProcesso() == nodoEX.getIdProcesso()) {
                     if (nodoMEM.getInstrucao()[1] == nodoEX.getInstrucao()[2] || nodoMEM.getInstrucao()[1] == nodoEX.getInstrucao()[3]) {
-                        pipeline.add(2, new Nodo(0,0,0,0,0));
+                        pipeline.add(2, new Nodo(20,0,0,0,4));
                         Nodo p = pipeline.poll();
                         p.rodarNodo(registradores[p.getIdProcesso()].getRegistradores());
                     }
@@ -98,19 +97,20 @@ public class Escalar implements CPU {
             nProcessos--;
         }
         escalonador = (escalonador + 1) % nProcessos;
+        verificaBolha();
     }
 
-    public void preencherPipelineBMT() {
-        Processo processo = processos.get(escalonador);
-        Nodo n = processo.getInstrucao();
-        // ignora se for bolha. vai para a próxima instrução
-        pipeline.add(n);
-        if (processo.getEstado()) {
-            processos.remove(processo);
-            nProcessos--;
-        }
-        escalonador = (escalonador + 1) % nProcessos;
-    }
+    // public void preencherPipelineBMT() {
+    //     Processo processo = processos.get(escalonador);
+    //     Nodo n = processo.getInstrucao();
+    //     // ignora se for bolha. vai para a próxima instrução
+    //     pipeline.add(n);
+    //     if (processo.getEstado()) {
+    //         processos.remove(processo);
+    //         nProcessos--;
+    //     }
+    //     escalonador = (escalonador + 1) % nProcessos;
+    // }
 
     public void preencherPipeline() {
         if (!processos.isEmpty()){
