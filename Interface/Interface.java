@@ -1,13 +1,35 @@
 import javax.swing.*;
+import CPU.Escalar;
+import Nodo.Nodo;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.ListIterator;
 
 public class Interface {
-    public static void main(String[] args) {
+    private QuadradoComDado IF;
+    private QuadradoComDado ID;
+    private QuadradoComDado EX;
+    private QuadradoComDado MEM;
+    private QuadradoComDado WB;
+    private Color[] corProcessos = { Color.GREEN, Color.BLUE, Color.ORANGE, Color.CYAN };
+    private Escalar escalar;
+
+    public Interface() {
+        String[] pathProcessos = { "./processo1.txt", "./processo2.txt" };
+        escalar = new Escalar(pathProcessos.length, pathProcessos);
+        IF = new QuadradoComDado("ASD", Color.WHITE);
+        ID = new QuadradoComDado("ASD", Color.WHITE);
+        EX = new QuadradoComDado("ASD", Color.WHITE);
+        MEM = new QuadradoComDado("ASD", Color.WHITE);
+        WB = new QuadradoComDado("ASD", Color.WHITE);
+    }
+
+    public void criarInterface() {
         // Criar uma janela
         JFrame janela = new JFrame("Simulador Suporte a Multithreading");
-        
+
         // Definir tamanho da janela
         janela.setSize(600, 400);
         janela.setLayout(new BorderLayout()); // Usar BorderLayout na janela principal
@@ -16,26 +38,16 @@ public class Interface {
         JPanel painelHeader = new JPanel();
         painelHeader.setBackground(Color.LIGHT_GRAY); // Cor de fundo do cabeçalho
         painelHeader.setPreferredSize(new Dimension(600, 50));
-        
+
         // Criar um botão no painel do cabeçalho
-        JButton botao = new JButton("Selecionar Arquivo");
-        painelHeader.add(botao); // Adicionar o botão ao painel do cabeçalho
+        JButton botaoArquivo = new JButton("Selecionar Arquivo");
+        painelHeader.add(botaoArquivo);
+        JButton botaoProximo = new JButton("Proximo");
+        painelHeader.add(botaoProximo);
 
         // Criar um painel de conteúdo
         JPanel conteudo = new JPanel();
         conteudo.setLayout(new GridBagLayout()); // Usar GridBagLayout no painel de conteúdo
-        GridBagConstraints gbcConteudo = new GridBagConstraints();
-        gbcConteudo.gridx = 0;
-        gbcConteudo.gridy = 0;
-        gbcConteudo.anchor = GridBagConstraints.CENTER;
-        gbcConteudo.fill = GridBagConstraints.NONE;
-
-        // Criar painel centralizado
-        JPanel painelCentralizado = new JPanel();
-        GroupLayout layout = new GroupLayout(painelCentralizado);
-        painelCentralizado.setLayout(layout);
-        layout.setAutoCreateGaps(true);
-        layout.setAutoCreateContainerGaps(true);
 
         // Criar rótulos e campos de texto
         JLabel LabelIPC = new JLabel("IPC: 2.5");
@@ -65,64 +77,54 @@ public class Interface {
         JLabel LabelWB = new JLabel("WB");
         LabelWB.setFont(new Font("Arial", Font.BOLD, 16)); // Definir a fonte e o tamanho do texto
 
-        JTextField IF = new JTextField();
-        IF.setEditable(false); // Definir como não editável
-        IF.setBackground(Color.WHITE);
+        JPanel panel = new JPanel();
+        GroupLayout pipeline = new GroupLayout(panel);
+        panel.setLayout(pipeline);
+        pipeline.setAutoCreateGaps(true);
+        pipeline.setAutoCreateContainerGaps(true);
 
-        JTextField ID = new JTextField();
-        ID.setEditable(false); // Definir como não editável
-        ID.setBackground(Color.WHITE);
+        pipeline.setHorizontalGroup(
+                pipeline.createSequentialGroup()
+                        .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                .addComponent(LabelIF)
+                                .addComponent(IF.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
+                                        GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                .addComponent(LabelID)
+                                .addComponent(ID.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
+                                        GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                .addComponent(LabelEX)
+                                .addComponent(EX.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
+                                        GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                .addComponent(LabelMEM)
+                                .addComponent(MEM.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
+                                        GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                .addComponent(LabelWB)
+                                .addComponent(WB.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
+                                        GroupLayout.PREFERRED_SIZE)));
 
-        JTextField EX = new JTextField();
-        EX.setEditable(false); // Definir como não editável
-        EX.setBackground(Color.WHITE);
-
-        JTextField MEM = new JTextField();
-        MEM.setEditable(false); // Definir como não editável
-        MEM.setBackground(Color.WHITE);
-
-        JTextField WB = new JTextField();
-        WB.setEditable(false); // Definir como não editável
-        WB.setBackground(Color.WHITE);
-
-        // Configurar o GroupLayout para organizar os componentes
-        layout.setHorizontalGroup(
-            layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(LabelIF)
-                    .addComponent(IF, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(LabelID)
-                    .addComponent(ID, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(LabelEX)
-                    .addComponent(EX, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(LabelMEM)
-                    .addComponent(MEM, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(LabelWB)
-                    .addComponent(WB, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE))
-        );
-
-        layout.setVerticalGroup(
-            layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(LabelIF)
-                    .addComponent(LabelID)
-                    .addComponent(LabelEX)
-                    .addComponent(LabelMEM)
-                    .addComponent(LabelWB))
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(IF, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ID, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(EX, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(MEM, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-                    .addComponent(WB, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE))
-        );
+        pipeline.setVerticalGroup(
+                pipeline.createSequentialGroup()
+                        .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                .addComponent(LabelIF)
+                                .addComponent(LabelID)
+                                .addComponent(LabelEX)
+                                .addComponent(LabelMEM)
+                                .addComponent(LabelWB))
+                        .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                .addComponent(IF.getPanel(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(ID.getPanel(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(EX.getPanel(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(MEM.getPanel(), GroupLayout.PREFERRED_SIZE, 50,
+                                        GroupLayout.PREFERRED_SIZE)
+                                .addComponent(WB.getPanel(), GroupLayout.PREFERRED_SIZE, 50,
+                                        GroupLayout.PREFERRED_SIZE)));
 
         // Adicionar painel centralizado ao painel de conteúdo
-        conteudo.add(painelCentralizado, gbcConteudo);
+        conteudo.add(panel);
 
         // Criar outro painel de conteúdo para o IPC e Ciclos
         JPanel painelDeDados = new JPanel();
@@ -146,9 +148,8 @@ public class Interface {
         // Adicionar painel do cabeçalho e painel de conteúdo à janela principal
         janela.add(painelHeader, BorderLayout.NORTH);
         janela.add(conteudo, BorderLayout.CENTER);
-
         // Adicionar um ouvinte de evento ao botão
-        botao.addActionListener(new ActionListener() {
+        botaoArquivo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Criar um seletor de arquivo
@@ -162,9 +163,26 @@ public class Interface {
                     // Obter o arquivo selecionado
                     File arquivoSelecionado = seletorArquivo.getSelectedFile();
 
-                    // Exibir o caminho do arquivo selecionado no console (você pode fazer o que quiser com o arquivo aqui)
+                    // Exibir o caminho do arquivo selecionado no console (você pode fazer o que
+                    // quiser com o arquivo aqui)
                     System.out.println("Arquivo selecionado: " + arquivoSelecionado.getAbsolutePath());
                 }
+            }
+        });
+
+        botaoProximo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                escalar.rodarCodigo();
+                System.out.println(escalar.getPipeline().size());
+                ListIterator<Nodo> list_Iter = escalar.getPipeline().listIterator();
+                System.out.println("The list is as follows:");
+                WB.mudarCor(corProcessos[list_Iter.next().getIdProcesso()]);
+                MEM.mudarCor(corProcessos[list_Iter.next().getIdProcesso()]);
+                EX.mudarCor(corProcessos[list_Iter.next().getIdProcesso()]);
+                ID.mudarCor(corProcessos[list_Iter.next().getIdProcesso()]);
+                IF.mudarCor(corProcessos[list_Iter.next().getIdProcesso()]);
+                if(escalar.getPipeline().size() == 0) botaoProximo.setEnabled(false);
             }
         });
 
@@ -173,5 +191,11 @@ public class Interface {
 
         // Exibir a janela
         janela.setVisible(true);
+    }
+
+    public void simular() {
+        String[] pathProcessos = { "./processo1.txt", "./processo2.txt" };
+        Escalar escalar = new Escalar(pathProcessos.length, pathProcessos);
+        escalar.rodarCodigo();
     }
 }

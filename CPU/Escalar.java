@@ -40,7 +40,7 @@ public class Escalar implements CPU {
             registradores[i] = new Registradores(12 / nProcessos);
         }
         pipeline = new LinkedList<Nodo>();
-        for(int i = 0; i < 4; i++){
+        for(int i = 0; i < 5; i++){
             pipeline.add(new Nodo(0,0,0,0,0));
         }
         this.nProcessos = nProcessos;
@@ -62,12 +62,10 @@ public class Escalar implements CPU {
 
     // rodarCodigo(): Método para simular multithreading em pipeline escalar IMT
     public void rodarCodigo() {
-        do {
-            if (processos.size() > 1) preencherPipelineIMT();
-            else preencherPipeline();
-            Nodo p = pipeline.poll();
-            p.rodarNodo(registradores[p.getIdProcesso()].getRegistradores());
-        } while (pipeline.size() != 0);
+        if (processos.size() > 1) preencherPipelineIMT();
+        else preencherPipeline();
+        Nodo p = pipeline.poll();
+        p.rodarNodo(registradores[p.getIdProcesso()].getRegistradores());
     }
 
     // verificaBolha(): Método para identificar bolha. 
@@ -124,5 +122,9 @@ public class Escalar implements CPU {
             }
         }
         verificaBolha();
+    }
+
+    public LinkedList<Nodo> getPipeline(){
+        return pipeline;
     }
 }
