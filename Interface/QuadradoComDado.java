@@ -28,4 +28,9 @@ public class QuadradoComDado extends JPanel {
     public void mudarCor(Color cor){
         panel.setBackground(cor);
     }
+
+    public void invisivel(boolean flag){
+        panel.setVisible(flag);
+        label.setVisible(flag);
+    }
 }

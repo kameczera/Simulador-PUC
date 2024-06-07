@@ -10,6 +10,7 @@ import java.util.ListIterator;
 public class Interface {
     private QuadradoComDado IF;
     private QuadradoComDado ID;
+    private QuadradoComDado BUBBLE;
     private QuadradoComDado EX;
     private QuadradoComDado MEM;
     private QuadradoComDado WB;
@@ -17,10 +18,11 @@ public class Interface {
     private Escalar escalar;
 
     public Interface() {
-        String[] pathProcessos = { "./processo1.txt" };
+        String[] pathProcessos = { "./processo1.txt", "./processo2.txt"};
         escalar = new Escalar(pathProcessos.length, pathProcessos);
         IF = new QuadradoComDado("ASD", Color.WHITE);
         ID = new QuadradoComDado("ASD", Color.WHITE);
+        BUBBLE = new QuadradoComDado("ASD", Color.WHITE);
         EX = new QuadradoComDado("ASD", Color.WHITE);
         MEM = new QuadradoComDado("ASD", Color.WHITE);
         WB = new QuadradoComDado("ASD", Color.WHITE);
@@ -51,32 +53,35 @@ public class Interface {
 
         // Criar rótulos e campos de texto
         JLabel LabelIPC = new JLabel("IPC: 2.5");
-        LabelIPC.setFont(new Font("Arial", Font.BOLD, 14)); // Definir a fonte e o tamanho do texto
+        LabelIPC.setFont(new Font("Arial", Font.BOLD, 14));
 
         JLabel LabelCiclos = new JLabel("Ciclos: 100");
-        LabelCiclos.setFont(new Font("Arial", Font.BOLD, 14)); // Definir a fonte e o tamanho do texto
+        LabelCiclos.setFont(new Font("Arial", Font.BOLD, 14));
 
         JLabel LabelCiclosBolha = new JLabel("Ciclos Bolhas: 7");
-        LabelCiclosBolha.setFont(new Font("Arial", Font.BOLD, 14)); // Definir a fonte e o tamanho do texto
+        LabelCiclosBolha.setFont(new Font("Arial", Font.BOLD, 14));
 
         JLabel LabelTempoGasto = new JLabel("Tempo Gasto: 20 ns");
-        LabelTempoGasto.setFont(new Font("Arial", Font.BOLD, 14)); // Definir a fonte e o tamanho do texto
+        LabelTempoGasto.setFont(new Font("Arial", Font.BOLD, 14));
 
         JLabel LabelIF = new JLabel("IF");
-        LabelIF.setFont(new Font("Arial", Font.BOLD, 16)); // Definir a fonte e o tamanho do texto
+        LabelIF.setFont(new Font("Arial", Font.BOLD, 16));
 
         JLabel LabelID = new JLabel("ID");
-        LabelID.setFont(new Font("Arial", Font.BOLD, 16)); // Definir a fonte e o tamanho do texto
+        LabelID.setFont(new Font("Arial", Font.BOLD, 16));
+        
+        JLabel LabelBUBBLE = new JLabel("BUBBLE");
+        LabelBUBBLE.setFont(new Font("Arial", Font.BOLD, 16));
 
         JLabel LabelEX = new JLabel("EX");
-        LabelEX.setFont(new Font("Arial", Font.BOLD, 16)); // Definir a fonte e o tamanho do texto
+        LabelEX.setFont(new Font("Arial", Font.BOLD, 16));
 
         JLabel LabelMEM = new JLabel("MEM");
-        LabelMEM.setFont(new Font("Arial", Font.BOLD, 16)); // Definir a fonte e o tamanho do texto
+        LabelMEM.setFont(new Font("Arial", Font.BOLD, 16));
 
         JLabel LabelWB = new JLabel("WB");
-        LabelWB.setFont(new Font("Arial", Font.BOLD, 16)); // Definir a fonte e o tamanho do texto
-
+        LabelWB.setFont(new Font("Arial", Font.BOLD, 16));
+        
         JPanel panel = new JPanel();
         GroupLayout pipeline = new GroupLayout(panel);
         panel.setLayout(pipeline);
@@ -92,6 +97,10 @@ public class Interface {
                         .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addComponent(LabelID)
                                 .addComponent(ID.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
+                                        GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                .addComponent(LabelBUBBLE)
+                                .addComponent(BUBBLE.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
                                         GroupLayout.PREFERRED_SIZE))
                         .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addComponent(LabelEX)
@@ -111,12 +120,14 @@ public class Interface {
                         .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addComponent(LabelIF)
                                 .addComponent(LabelID)
+                                .addComponent(LabelBUBBLE)
                                 .addComponent(LabelEX)
                                 .addComponent(LabelMEM)
                                 .addComponent(LabelWB))
                         .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addComponent(IF.getPanel(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(ID.getPanel(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(BUBBLE.getPanel(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(EX.getPanel(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(MEM.getPanel(), GroupLayout.PREFERRED_SIZE, 50,
                                         GroupLayout.PREFERRED_SIZE)
@@ -174,15 +185,22 @@ public class Interface {
             @Override
             public void actionPerformed(ActionEvent e) {
                 escalar.rodarCodigo();
-                System.out.println(escalar.getPipeline().size());
                 ListIterator<Nodo> list_Iter = escalar.getPipeline().listIterator();
-                System.out.println("The list is as follows:");
                 WB.mudarCor(corProcessos[list_Iter.next().getIdProcesso()]);
                 MEM.mudarCor(corProcessos[list_Iter.next().getIdProcesso()]);
                 EX.mudarCor(corProcessos[list_Iter.next().getIdProcesso()]);
+                if(escalar.getPipeline().size() == 6) {
+                        BUBBLE.mudarCor(corProcessos[list_Iter.next().getIdProcesso()]);
+                        BUBBLE.invisivel(true);
+                        LabelBUBBLE.setVisible(true);
+                }else{
+                        BUBBLE.invisivel(false);
+                        LabelBUBBLE.setVisible(false);
+                }
                 ID.mudarCor(corProcessos[list_Iter.next().getIdProcesso()]);
                 IF.mudarCor(corProcessos[list_Iter.next().getIdProcesso()]);
                 if(escalar.getPipeline().size() == 0) botaoProximo.setEnabled(false);
+                escalar.printarTodosRegistradores();
             }
         });
 
