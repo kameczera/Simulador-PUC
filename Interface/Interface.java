@@ -18,7 +18,7 @@ public class Interface {
     private Escalar escalar;
 
     public Interface() {
-        String[] pathProcessos = { "./processo1.txt", "./processo2.txt"};
+        String[] pathProcessos = {  "./processo1.txt","./processo2.txt"};
         escalar = new Escalar(pathProcessos.length, pathProcessos);
         IF = new QuadradoComDado("ASD", Color.WHITE);
         ID = new QuadradoComDado("ASD", Color.WHITE);
@@ -181,19 +181,24 @@ public class Interface {
             }
         });
 
-        botaoProximo.addActionListener(new ActionListener() {
+        botaoProximo.addActionListener(new ActionListener() 
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) 
+            {
                 escalar.rodarCodigo();
                 ListIterator<Nodo> list_Iter = escalar.getPipeline().listIterator();
                 WB.mudarCor(corProcessos[list_Iter.next().getIdProcesso()]);
                 MEM.mudarCor(corProcessos[list_Iter.next().getIdProcesso()]);
                 EX.mudarCor(corProcessos[list_Iter.next().getIdProcesso()]);
-                if(escalar.getPipeline().size() == 6) {
+                if(escalar.getPipeline().size() == 6) 
+                {
                         BUBBLE.mudarCor(corProcessos[list_Iter.next().getIdProcesso()]);
                         BUBBLE.invisivel(true);
                         LabelBUBBLE.setVisible(true);
-                }else{
+                }
+                else
+                {
                         BUBBLE.invisivel(false);
                         LabelBUBBLE.setVisible(false);
                 }
@@ -211,9 +216,10 @@ public class Interface {
         janela.setVisible(true);
     }
 
-    public void simular() {
-        String[] pathProcessos = { "./processo1.txt", "./processo2.txt" };
-        Escalar escalar = new Escalar(pathProcessos.length, pathProcessos);
-        escalar.rodarCodigo();
-    }
+//     public void simular() 
+//     {
+//         String[] pathProcessos = { "./processo1.txt", "./processo2.txt" };
+//         Escalar escalar = new Escalar(pathProcessos.length, pathProcessos);
+//         escalar.rodarCodigo();
+//     }
 }

@@ -38,33 +38,61 @@ public class Escalar implements CPU {
         }
     }
 
-    public void printarTodosRegistradores() {
-        for (int i = 0; i < registradores.length; i++) {
-            System.out.println("Processo " + i);
-            for (int j = 0; j < 12 / registradores.length; j++) {
-                System.out.print(registradores[i].getRegistradores()[j] + " ");
+   public void printarTodosRegistradores() {
+    for (int i = 0; i < registradores.length; i++) {
+        // Verifica se todos os valores em registradores[i] são zero
+        boolean todosZeros = true;
+        for (int j = 0; j < registradores[i].getRegistradores().length; j++) {
+            if (registradores[i].getRegistradores()[j] != 0) {
+                todosZeros = false;
+                break;
             }
-            System.out.println();
+        }
+        
+        // Só imprime se não forem todos zeros
+        if (!todosZeros) 
+        {
+            System.out.println("Thread [" + i + "]");
+            for (int j = 0; j < registradores[i].getRegistradores().length; j++) {
+                System.out.print("$R"+ j + ":" + registradores[i].getRegistradores()[j] + " ");     
+            }
+            System.out.println();      
+            System.out.println();       
+
+        }
+    }
+}
+
+
+    // rodarCodigo(): Método para simular multithreading em pipeline escalar IMT
+    public void rodarCodigo() 
+    {
+        if(pipeline.size() == 5)
+        {
+        preencherPipelineIMT();
+        }
+        Nodo p = pipeline.poll();
+        if(p.getIdProcesso() != 4)
+        {
+        p.rodarNodo(registradores[p.getIdProcesso()].getRegistradores());
         }
     }
 
-    // rodarCodigo(): Método para simular multithreading em pipeline escalar IMT
-    public void rodarCodigo() {
-        if(pipeline.size() == 5) preencherPipelineIMT();
-        Nodo p = pipeline.poll();
-        if(p.getIdProcesso() != 4)p.rodarNodo(registradores[p.getIdProcesso()].getRegistradores());
-    }
 
     // verificaBolha(): Método para identificar bolha. 
     // (1) Verifica se a instrução do nodo na posição EX do pipeline é um lw
     // (2) Verifica se o nodo na posição EX do pipeline tem o mesmo id processo do nodo MEM
     // (3) Verifica se o nodo na posição EX do pipeline usa registradores que escrevem no nodo MEM
-    public void verificaBolha() {
+    public void verificaBolha() 
+    {
         Nodo nodoIF = pipeline.get(4);
         Nodo nodoEX = pipeline.get(3);
-        if (nodoEX.getInstrucao()[0] == 4) {
-            if (nodoEX.getIdProcesso() == nodoIF.getIdProcesso()) {
-                if (nodoEX.getInstrucao()[1] == nodoIF.getInstrucao()[2] || nodoEX.getInstrucao()[1] == nodoIF.getInstrucao()[3]) {
+        if (nodoEX.getInstrucao()[0] == 4) 
+        {
+            if (nodoEX.getIdProcesso() == nodoIF.getIdProcesso()) 
+            {
+                if (nodoEX.getInstrucao()[1] == nodoIF.getInstrucao()[2] || nodoEX.getInstrucao()[1] == nodoIF.getInstrucao()[3]) 
+                {
                     pipeline.add(4, new Nodo(20,0,0,0,4));
                     // Nodo p = pipeline.poll();
                     // p.rodarNodo(registradores[p.getIdProcesso()].getRegistradores());
@@ -73,27 +101,35 @@ public class Escalar implements CPU {
         }
     }
 
-    public void preencherPipelineIMT() {
-        if(nProcessos > 1) {
+    public void preencherPipelineIMT() 
+    {
+        if(nProcessos > 1) 
+        {
             Processo processo = processos.get(escalonador);
             Nodo n = processo.getInstrucao();
             pipeline.add(n);
-            if (processo.getEstado()) {
+            if (processo.getEstado()) 
+            {
                 processos.remove(processo);
                 nProcessos--;
             }
             escalonador = (escalonador + 1) % nProcessos;
-        }else if(nProcessos == 1){
+        }
+        else if(nProcessos == 1)
+        {
             Processo processo = processos.get(escalonador);
             Nodo n = processo.getInstrucao();
             // ignora se for bolha. vai para a próxima instrução
             pipeline.add(n);
-            if (processo.getEstado()) {
+            if (processo.getEstado()) 
+            {
                 processos.remove(processo);
                 nProcessos--;
             }
             verificaBolha();
-        }else{
+        }
+        else
+        {
             pipeline.add(new Nodo(20,0,0,0,4));
         }
     }
