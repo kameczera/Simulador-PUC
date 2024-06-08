@@ -16,19 +16,22 @@ public class Interface {
     private QuadradoComDado WB;
     private Color[] corProcessos = { Color.GREEN, Color.BLUE, Color.ORANGE, Color.CYAN, Color.PINK };
     private Escalar escalar;
+    String[] pathProcessos = { "./processo1.txt","./processo2.txt"};
 
-    public Interface() {
-        String[] pathProcessos = {  "./processo1.txt","./processo2.txt"};
+    public Interface() 
+    {
+        
         escalar = new Escalar(pathProcessos.length, pathProcessos);
-        IF = new QuadradoComDado("ASD", Color.WHITE);
-        ID = new QuadradoComDado("ASD", Color.WHITE);
-        BUBBLE = new QuadradoComDado("ASD", Color.WHITE);
-        EX = new QuadradoComDado("ASD", Color.WHITE);
-        MEM = new QuadradoComDado("ASD", Color.WHITE);
-        WB = new QuadradoComDado("ASD", Color.WHITE);
+        IF = new QuadradoComDado("IF", Color.WHITE);
+        ID = new QuadradoComDado("ID", Color.WHITE);
+        BUBBLE = new QuadradoComDado("BUBBLE", Color.WHITE);
+        EX = new QuadradoComDado("EX", Color.WHITE);
+        MEM = new QuadradoComDado("MEM", Color.WHITE);
+        WB = new QuadradoComDado("WB", Color.WHITE);
     }
 
-    public void criarInterface() {
+    public void criarInterface() 
+    {
         // Criar uma janela
         JFrame janela = new JFrame("Simulador Suporte a Multithreading");
 
@@ -177,6 +180,8 @@ public class Interface {
                     // Exibir o caminho do arquivo selecionado no console (você pode fazer o que
                     // quiser com o arquivo aqui)
                     System.out.println("Arquivo selecionado: " + arquivoSelecionado.getAbsolutePath());
+                    String processoSelecionado = arquivoSelecionado.getAbsolutePath();
+                    pathProcessos[0] = processoSelecionado;
                 }
             }
         });
@@ -186,14 +191,26 @@ public class Interface {
             @Override
             public void actionPerformed(ActionEvent e) 
             {
+                int idProcesso = 0;
                 escalar.rodarCodigo();
                 ListIterator<Nodo> list_Iter = escalar.getPipeline().listIterator();
-                WB.mudarCor(corProcessos[list_Iter.next().getIdProcesso()]);
-                MEM.mudarCor(corProcessos[list_Iter.next().getIdProcesso()]);
-                EX.mudarCor(corProcessos[list_Iter.next().getIdProcesso()]);
+                idProcesso = list_Iter.next().getIdProcesso();
+                WB.mudarCor(corProcessos[(idProcesso)]);
+                WB.mudarLabel("T" + idProcesso);
+
+                idProcesso = list_Iter.next().getIdProcesso();
+                MEM.mudarCor(corProcessos[(idProcesso)]);
+                MEM.mudarLabel("T" + idProcesso);
+
+                idProcesso = list_Iter.next().getIdProcesso();
+                EX.mudarCor(corProcessos[(idProcesso)]);
+                EX.mudarLabel("T" + idProcesso);
+
                 if(escalar.getPipeline().size() == 6) 
                 {
-                        BUBBLE.mudarCor(corProcessos[list_Iter.next().getIdProcesso()]);
+                        idProcesso = list_Iter.next().getIdProcesso();
+                        BUBBLE.mudarLabel("T" + idProcesso);
+                        BUBBLE.mudarCor(corProcessos[(idProcesso)]);
                         BUBBLE.invisivel(true);
                         LabelBUBBLE.setVisible(true);
                 }
@@ -202,8 +219,13 @@ public class Interface {
                         BUBBLE.invisivel(false);
                         LabelBUBBLE.setVisible(false);
                 }
-                ID.mudarCor(corProcessos[list_Iter.next().getIdProcesso()]);
-                IF.mudarCor(corProcessos[list_Iter.next().getIdProcesso()]);
+                idProcesso = list_Iter.next().getIdProcesso();
+                ID.mudarCor(corProcessos[(idProcesso)]);
+                ID.mudarLabel("T" + idProcesso);
+                
+                idProcesso = list_Iter.next().getIdProcesso();
+                IF.mudarCor(corProcessos[(idProcesso)]);
+                IF.mudarLabel("T" + idProcesso);
                 if(escalar.getPipeline().size() == 0) botaoProximo.setEnabled(false);
                 escalar.printarTodosRegistradores();
             }

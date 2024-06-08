@@ -20,19 +20,26 @@ public class Escalar implements CPU {
     // Escalar(): Construtor do pipeline escalar que divide 12 registradores entre 1, 2 ou 3 processos
     // (12, 6 e 4 registradores para cada processo respectivamente).
     // Preenche pipeline com instruções bolha só para simular o processo de adição de instruções no pipeline
-    public Escalar(int nProcessos, String[] pathProcessos) {
+    public Escalar(int nProcessos, String[] pathProcessos) 
+    {
         
         registradores = new Registradores[nProcessos];
-        for (int i = 0; i < nProcessos; i++) {
+        for (int i = 0; i < nProcessos; i++) 
+        {
             registradores[i] = new Registradores(12 / nProcessos);
         }
+
         pipeline = new LinkedList<Nodo>();
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < 5; i++)
+        {
             pipeline.add(new Nodo(20,0,0,0,4));
         }
+
         this.nProcessos = nProcessos;
         processos = new ArrayList<Processo>();
-        for (int i = 0; i < nProcessos; i++) {
+        
+        for (int i = 0; i < nProcessos; i++) 
+        {
             Processo processo = new Processo(pathProcessos[i], i);
             processos.add(processo);
         }
