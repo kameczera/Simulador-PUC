@@ -16,6 +16,16 @@ public class Escalar implements CPU {
     private int nProcessos;
     private int escalonador;
     private Registradores[] registradores;
+    private int ciclos;
+    private int ciclosBolha;
+    private int TempoGasto;
+    private float IPC;
+
+    //um IPC mais alto indica um processador mais eficiente em executar instruções.
+    public float CalculoIPC(int instrucoesExecutadas, int ciclosDeClock)
+    {
+     return instrucoesExecutadas/ciclosDeClock;
+    }
 
     // Escalar(): Construtor do pipeline escalar que divide 12 registradores entre 1, 2 ou 3 processos
     // (12, 6 e 4 registradores para cada processo respectivamente).
