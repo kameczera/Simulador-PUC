@@ -192,9 +192,17 @@ public class Interface {
             @Override
             public void actionPerformed(ActionEvent e) 
             {
+               //Desativa o botão de Proximo se o pipeline tiver todo vazio
+               //Isso significa que todas as instruções ja foram executadas
+                if(escalar.pararPipeLine == 4)
+                {
+                botaoProximo.setEnabled(false);
+                }
+
                 int idProcesso = 0;
                 escalar.rodarCodigo();
                 ListIterator<Nodo> list_Iter = escalar.getPipeline().listIterator();
+               
                 idProcesso = list_Iter.next().getIdProcesso();
                 WB.mudarCor(corProcessos[(idProcesso)]);
                 WB.mudarLabel("T" + idProcesso);

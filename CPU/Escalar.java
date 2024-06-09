@@ -20,12 +20,12 @@ public class Escalar implements CPU {
     private int ciclosBolha = 0;
     private int TempoGasto;
     private int instrucoesExecutadas = 0;
+    public  int pararPipeLine = 0;
 
     //um IPC mais alto indica um processador mais eficiente em executar instruções.
-    public double CalculoIPC()
+    public float CalculoIPC()
     {
-     System.out.println((double)this.instrucoesExecutadas/(this.ciclos));
-     return (double)this.instrucoesExecutadas/(this.ciclos);
+     return (float)this.instrucoesExecutadas/(this.ciclos);
     }
 
     public int CiclosBolha()
@@ -163,7 +163,20 @@ public class Escalar implements CPU {
         }
         else
         {
+            //Variavel de controle pra parar de colocar bolha quando o pipeline todo estiver cheio de bolha (vazio)
+            this.pararPipeLine = 0;
             pipeline.add(new Nodo(0,0,0,0,4));
+            //Verifica cada nodo do pipeline, se ele tiver IdProcesso = 4, isso significa que é uma bolha
+            //Ele verifica para todas as instruções no pipeline,caso todas tenha IdProcesso = 4, vamos esconder o botão de proximo.
+            for (Nodo nodo : pipeline) 
+            {
+             if(nodo.getIdProcesso() == 4)
+             {
+                pararPipeLine++;
+             }   
+            }
+
+
         }
     }
 
