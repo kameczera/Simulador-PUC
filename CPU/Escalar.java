@@ -18,7 +18,7 @@ public class Escalar implements CPU {
     private Registradores[] registradores;
     private int ciclos = 0; 
     private int ciclosBolha = 0;
-    private int TempoGasto;
+    private double TempoCiclo = 2.0; // Tempo de ciclo em nanosegundos
     private int instrucoesExecutadas = 0;
     public  int pararPipeLine = 0;
 
@@ -36,6 +36,12 @@ public class Escalar implements CPU {
     public int getCiclos()
     {
      return this.ciclos;
+    }
+    //A fórmula básica para calcular o tempo total de execução em um pipeline é:
+    // TempoTotal = Numero de instruções + numero de bolhas + tempo de ciclo
+    public double TempoTotalGasto()
+    {
+        return ((ciclos + ciclosBolha) * (TempoCiclo));
     }
     
     // O nosso pipeline utiliza adiantamento de dados e escrita e leitura no mesmo ciclo.
@@ -100,8 +106,10 @@ public class Escalar implements CPU {
         {
         preencherPipelineIMT();
         }
+
         Nodo p = pipeline.poll();
         ciclos++;
+
         if(p.getIdProcesso() != 4)
         {
         p.rodarNodo(registradores[p.getIdProcesso()].getRegistradores());

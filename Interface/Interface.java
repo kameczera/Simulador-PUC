@@ -16,7 +16,7 @@ public class Interface {
     private QuadradoComDado WB;
     private Color[] corProcessos = { Color.GREEN, Color.BLUE, Color.ORANGE, Color.CYAN, Color.PINK };
     private Escalar escalar;
-    String[] pathProcessos = { "./processo2.txt", "./processo1.txt"};
+    String[] pathProcessos = { "./processo3.txt", "./processo1.txt"};
 
     public Interface() 
     {
@@ -241,6 +241,7 @@ public class Interface {
                 LabelIPC.setText("IPC: " + ((escalar.CalculoIPC())));
                 LabelCiclos.setText("Ciclos: " + (escalar.getCiclos()));
                 LabelCiclosBolha.setText("Ciclos Bolhas: " + escalar.CiclosBolha());
+                LabelTempoGasto.setText("Tempo Gasto: " + escalar.TempoTotalGasto() + " ns");
             }
         });
 
