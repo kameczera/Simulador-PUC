@@ -16,17 +16,24 @@ public class Escalar implements CPU {
     private int nProcessos;
     private int escalonador;
     private Registradores[] registradores;
-    private int ciclos;
-    private int ciclosBolha;
+    private int ciclos = 0; 
+    private int ciclosBolha = 0;
     private int TempoGasto;
     private float IPC;
+    private int instrucoesExecutadas = 0;
 
     //um IPC mais alto indica um processador mais eficiente em executar instruções.
-    public float CalculoIPC(int instrucoesExecutadas, int ciclosDeClock)
+    public float CalculoIPC()
     {
-     return instrucoesExecutadas/ciclosDeClock;
+     return instrucoesExecutadas/(ciclos);
     }
 
+    public int CiclosBolha()
+    {
+     return instrucoesExecutadas - ciclos;
+    }
+    
+    // O nosso pipeline utiliza adiantamento de dados e escrita e leitura no mesmo ciclo.
     // Escalar(): Construtor do pipeline escalar que divide 12 registradores entre 1, 2 ou 3 processos
     // (12, 6 e 4 registradores para cada processo respectivamente).
     // Preenche pipeline com instruções bolha só para simular o processo de adição de instruções no pipeline
@@ -89,10 +96,13 @@ public class Escalar implements CPU {
         preencherPipelineIMT();
         }
         Nodo p = pipeline.poll();
+        ciclos++;
         if(p.getIdProcesso() != 4)
         {
         p.rodarNodo(registradores[p.getIdProcesso()].getRegistradores());
+        System.out.println(++instrucoesExecutadas);
         }
+        
     }
 
 
@@ -110,9 +120,10 @@ public class Escalar implements CPU {
             {
                 if (nodoEX.getInstrucao()[1] == nodoIF.getInstrucao()[2] || nodoEX.getInstrucao()[1] == nodoIF.getInstrucao()[3]) 
                 {
+                    //bolha
                     pipeline.add(4, new Nodo(20,0,0,0,4));
-                    // Nodo p = pipeline.poll();
-                    // p.rodarNodo(registradores[p.getIdProcesso()].getRegistradores());
+                    //Porque há adiantamento de dados
+                    ciclosBolha++;
                 }
             }
         }
@@ -147,7 +158,7 @@ public class Escalar implements CPU {
         }
         else
         {
-            pipeline.add(new Nodo(20,0,0,0,4));
+            pipeline.add(new Nodo(0,0,0,0,4));
         }
     }
 

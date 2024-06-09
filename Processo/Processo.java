@@ -66,6 +66,8 @@ public class Processo {
         }
     }
 
+
+
     public Nodo getInstrucao(){
         Nodo p = null;
         p = instrucoes.get(instrucaoAtual++);

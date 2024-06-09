@@ -22,12 +22,12 @@ public class Interface {
     {
         
         escalar = new Escalar(pathProcessos.length, pathProcessos);
-        IF = new QuadradoComDado("IF", Color.WHITE);
-        ID = new QuadradoComDado("ID", Color.WHITE);
-        BUBBLE = new QuadradoComDado("BUBBLE", Color.WHITE);
-        EX = new QuadradoComDado("EX", Color.WHITE);
-        MEM = new QuadradoComDado("MEM", Color.WHITE);
-        WB = new QuadradoComDado("WB", Color.WHITE);
+        IF = new QuadradoComDado("Vazio", Color.WHITE);
+        ID = new QuadradoComDado("Vazio", Color.WHITE);
+        BUBBLE = new QuadradoComDado("Vazio", Color.WHITE);
+        EX = new QuadradoComDado("Vazio", Color.WHITE);
+        MEM = new QuadradoComDado("Vazio", Color.WHITE);
+        WB = new QuadradoComDado("Vazio", Color.WHITE);
     }
 
     public void criarInterface() 
