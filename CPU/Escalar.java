@@ -19,18 +19,22 @@ public class Escalar implements CPU {
     private int ciclos = 0; 
     private int ciclosBolha = 0;
     private int TempoGasto;
-    private float IPC;
     private int instrucoesExecutadas = 0;
 
     //um IPC mais alto indica um processador mais eficiente em executar instruções.
     public float CalculoIPC()
     {
-     return instrucoesExecutadas/(ciclos);
+     return (float)this.instrucoesExecutadas/(this.ciclos);
     }
 
     public int CiclosBolha()
     {
-     return instrucoesExecutadas - ciclos;
+     return this.ciclosBolha;
+    }
+
+    public int getCiclos()
+    {
+     return this.ciclos;
     }
     
     // O nosso pipeline utiliza adiantamento de dados e escrita e leitura no mesmo ciclo.
@@ -100,7 +104,6 @@ public class Escalar implements CPU {
         if(p.getIdProcesso() != 4)
         {
         p.rodarNodo(registradores[p.getIdProcesso()].getRegistradores());
-        System.out.println(++instrucoesExecutadas);
         }
         
     }

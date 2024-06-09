@@ -16,7 +16,7 @@ public class Interface {
     private QuadradoComDado WB;
     private Color[] corProcessos = { Color.GREEN, Color.BLUE, Color.ORANGE, Color.CYAN, Color.PINK };
     private Escalar escalar;
-    String[] pathProcessos = { "./processo1.txt","./processo2.txt"};
+    String[] pathProcessos = { "./processo1.txt", "./processo2.txt"};
 
     public Interface() 
     {
@@ -29,6 +29,7 @@ public class Interface {
         MEM = new QuadradoComDado("Vazio", Color.WHITE);
         WB = new QuadradoComDado("Vazio", Color.WHITE);
     }
+
 
     public void criarInterface() 
     {
@@ -55,16 +56,16 @@ public class Interface {
         conteudo.setLayout(new GridBagLayout()); // Usar GridBagLayout no painel de conteúdo
 
         // Criar rótulos e campos de texto
-        JLabel LabelIPC = new JLabel("IPC: 2.5");
+        JLabel LabelIPC = new JLabel("IPC: ");
         LabelIPC.setFont(new Font("Arial", Font.BOLD, 14));
 
-        JLabel LabelCiclos = new JLabel("Ciclos: 100");
+        JLabel LabelCiclos = new JLabel("Ciclos: ");
         LabelCiclos.setFont(new Font("Arial", Font.BOLD, 14));
 
-        JLabel LabelCiclosBolha = new JLabel("Ciclos Bolhas: 7");
+        JLabel LabelCiclosBolha = new JLabel("Ciclos Bolhas: ");
         LabelCiclosBolha.setFont(new Font("Arial", Font.BOLD, 14));
 
-        JLabel LabelTempoGasto = new JLabel("Tempo Gasto: 20 ns");
+        JLabel LabelTempoGasto = new JLabel("Tempo Gasto: ");
         LabelTempoGasto.setFont(new Font("Arial", Font.BOLD, 14));
 
         JLabel LabelIF = new JLabel("IF");
@@ -228,6 +229,10 @@ public class Interface {
                 IF.mudarLabel("T" + idProcesso);
                 if(escalar.getPipeline().size() == 0) botaoProximo.setEnabled(false);
                 escalar.printarTodosRegistradores();
+
+                LabelIPC.setText("IPC: " + ((escalar.CalculoIPC())));
+                LabelCiclos.setText("Ciclos: " + (escalar.getCiclos()));
+                LabelCiclosBolha.setText("Ciclos Bolhas: " + escalar.CiclosBolha());
             }
         });
 
