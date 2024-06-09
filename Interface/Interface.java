@@ -16,7 +16,7 @@ public class Interface {
     private QuadradoComDado WB;
     private Color[] corProcessos = { Color.GREEN, Color.BLUE, Color.ORANGE, Color.CYAN, Color.PINK };
     private Escalar escalar;
-    String[] pathProcessos = { "./processo1.txt", "./processo2.txt"};
+    String[] pathProcessos = { "./processo2.txt", "./processo1.txt"};
 
     public Interface() 
     {

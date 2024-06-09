@@ -22,9 +22,10 @@ public class Escalar implements CPU {
     private int instrucoesExecutadas = 0;
 
     //um IPC mais alto indica um processador mais eficiente em executar instruções.
-    public float CalculoIPC()
+    public double CalculoIPC()
     {
-     return (float)this.instrucoesExecutadas/(this.ciclos);
+     System.out.println((double)this.instrucoesExecutadas/(this.ciclos));
+     return (double)this.instrucoesExecutadas/(this.ciclos);
     }
 
     public int CiclosBolha()
@@ -104,6 +105,7 @@ public class Escalar implements CPU {
         if(p.getIdProcesso() != 4)
         {
         p.rodarNodo(registradores[p.getIdProcesso()].getRegistradores());
+        ++instrucoesExecutadas;
         }
         
     }
