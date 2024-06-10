@@ -2,6 +2,9 @@ package Nodo;
 
 import Registrador.*;
 
+//Nodo:
+// Representa uma fase do pipeline. Guarda a informacao das instrucoes e o id do processo ao qual a instrucao pertence
+// TODO: Fazer a leitura e execucao de todas instrucoes RISC-V no metodo rodarNodo (ultimo metodo da classe)
 public class Nodo{
     private int[] instrucao;
     private int idProcesso;
@@ -39,6 +42,8 @@ public class Nodo{
         System.out.println("");
     }
 
+    // executa a instrucao, modificando os valores dos registradores.
+    // Observacao e TODO: Ao implementar instrucoes de branch( beq, jump etc..). Sera necessario passar como argumento dessa funcao os PCs dos processos/threads. (Prioridade 5)
     public void rodarNodo(int[] registradores){
         switch(instrucao[0]){
             // case 0: // bubble

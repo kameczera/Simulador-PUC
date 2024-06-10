@@ -7,6 +7,10 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.ListIterator;
 
+// Interface:
+// Classe da interface grafica do nosso simulador.
+// TODO: pathProcessos deve ser dinamico (Prioridade 1)
+
 public class Interface {
     private QuadradoComDado IF;
     private QuadradoComDado ID;
@@ -16,7 +20,7 @@ public class Interface {
     private QuadradoComDado WB;
     private Color[] corProcessos = { Color.GREEN, Color.BLUE, Color.ORANGE, Color.CYAN, Color.PINK };
     private Escalar escalar;
-    String[] pathProcessos = { "./processo3.txt", "./processo1.txt"};
+    String[] pathProcessos = { "./processo1.txt", "./processo3.txt"};
 
     public Interface() 
     {

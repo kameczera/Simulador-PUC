@@ -1,5 +1,6 @@
 addi r1,r1,4
 addi r2,r2,5
+DELAY 5
 addi r3,r3,7
 add r4,r1,r2
 addi r5,r3,5
