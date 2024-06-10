@@ -32,7 +32,7 @@ class Instrucoes {
     }
 }
 
-public class ExecucaoForaDeOrdem {
+public class ExecucaoForaDeOrdemA {
     public static void main(String[] args) {
         String inputFileName = "processoTeste4.txt";
         String outputFileName = "instrucoes_reordenadas.txt";
