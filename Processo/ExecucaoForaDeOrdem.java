@@ -30,6 +30,27 @@ class Instrucoes {
     public String toString() {
         return operacao + " " + registrador + "," + valor1 + (valor2 != null ? "," + valor2 : "");
     }
+
+    // Executa a instrução atual usando um mapa de registradores
+    public void executar(HashMap<String, Integer> registradores) {
+        int val1 = valor1.startsWith("R") ? registradores.get(valor1) : Integer.parseInt(valor1);
+        int val2 = valor2 != null ? (valor2.startsWith("R") ? registradores.get(valor2) : Integer.parseInt(valor2)) : 0;
+
+        switch (operacao) {
+            case "AND":
+                registradores.put(registrador, val1 & val2);
+                break;
+            case "ANDI":
+                registradores.put(registrador, val1 & Integer.parseInt(valor2));
+                break;
+            case "OR":
+                registradores.put(registrador, val1 | val2);
+                break;
+            case "ORI":
+                registradores.put(registrador, val1 | Integer.parseInt(valor2));
+                break;
+        }
+    }
 }
 
 public class ExecucaoForaDeOrdem {
