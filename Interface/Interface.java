@@ -239,6 +239,7 @@ public class Interface {
                 {
                 escalar.rodarCodigo(comboBoxSuportesMultiThreading.getSelectedItem().toString());
                 }
+                comboBoxSuportesMultiThreading.setEnabled(false);
                 int idProcesso = 0;
                 //escalar.rodarCodigo();
                 ListIterator<Nodo> list_Iter = escalar.getPipeline().listIterator();
