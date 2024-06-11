@@ -19,6 +19,7 @@ public class Interface {
     private QuadradoComDado MEM;
     private QuadradoComDado WB;
     private Color[] corProcessos = { Color.GREEN, Color.BLUE, Color.ORANGE, Color.CYAN, Color.PINK };
+    String[] suportesMultiThreading = { "IMT", "BMT"};
     private Escalar escalar;
     String[] pathProcessos = { "./processo1.txt", "./processo3.txt"};
 
@@ -44,16 +45,41 @@ public class Interface {
         janela.setSize(600, 400);
         janela.setLayout(new BorderLayout()); // Usar BorderLayout na janela principal
 
-        // Criar um painel para o cabeçalho
-        JPanel painelHeader = new JPanel();
+        // Criação do painel de cabeçalho
+        JPanel painelHeader = new JPanel(new BorderLayout());
         painelHeader.setBackground(Color.LIGHT_GRAY); // Cor de fundo do cabeçalho
         painelHeader.setPreferredSize(new Dimension(600, 50));
+        //Criação do ComboBox
+        JComboBox<String> comboBoxSuportesMultiThreading = new JComboBox<>(suportesMultiThreading);
+        Dimension comboBoxSize = new Dimension(60,25);
+        // Criando um ListCellRenderer personalizado para centralizar o texto
+        DefaultListCellRenderer listRenderer = new DefaultListCellRenderer();
+        listRenderer.setHorizontalAlignment(DefaultListCellRenderer.CENTER);
+        //Tamanho do ComboBox
+        comboBoxSuportesMultiThreading.setPreferredSize(comboBoxSize);
+        comboBoxSuportesMultiThreading.setRenderer(listRenderer);
+        // Painel para manter o JComboBox alinhado à esquerda
+        JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        leftPanel.setOpaque(false); // Para manter o fundo transparente
+        leftPanel.add(comboBoxSuportesMultiThreading);
 
-        // Criar um botão no painel do cabeçalho
+        // Adicionar o painel alinhado à esquerda no painel de cabeçalho
+        painelHeader.add(leftPanel, BorderLayout.EAST);
+
+        // Criação dos botões
         JButton botaoArquivo = new JButton("Selecionar Arquivo");
-        painelHeader.add(botaoArquivo);
-        JButton botaoProximo = new JButton("Proximo");
-        painelHeader.add(botaoProximo);
+        JButton botaoProximo = new JButton("Próximo");
+
+        // Painel para manter os botões alinhados à direita
+        JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        centerPanel.setOpaque(false); // Para manter o fundo transparente
+        centerPanel.add(botaoArquivo);
+        centerPanel.add(botaoProximo);
+
+        // Adicionar o painel alinhado à direita no painel de cabeçalho
+        painelHeader.add(centerPanel, BorderLayout.CENTER);
+        // Adicionar o painel de cabeçalho na janela principal
+        janela.add(painelHeader, BorderLayout.NORTH);
 
         // Criar um painel de conteúdo
         JPanel conteudo = new JPanel();
@@ -191,6 +217,7 @@ public class Interface {
             }
         });
 
+
         botaoProximo.addActionListener(new ActionListener() 
         {
             @Override
@@ -202,9 +229,18 @@ public class Interface {
                 {
                 botaoProximo.setEnabled(false);
                 }
-
+ 
+                //Se a opção selecionada no ComboBox for IMT
+                if(comboBoxSuportesMultiThreading.getSelectedItem().toString() == suportesMultiThreading[0])
+                {
+                escalar.rodarCodigo(comboBoxSuportesMultiThreading.getSelectedItem().toString());
+                }
+                else if(comboBoxSuportesMultiThreading.getSelectedItem().toString() == suportesMultiThreading[1])
+                {
+                escalar.rodarCodigo(comboBoxSuportesMultiThreading.getSelectedItem().toString());
+                }
                 int idProcesso = 0;
-                escalar.rodarCodigo();
+                //escalar.rodarCodigo();
                 ListIterator<Nodo> list_Iter = escalar.getPipeline().listIterator();
                
                 idProcesso = list_Iter.next().getIdProcesso();

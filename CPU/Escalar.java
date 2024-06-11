@@ -94,6 +94,30 @@ public class Escalar implements CPU {
     }
 
     // rodarCodigo(): Método para simular multithreading em pipeline escalar IMT
+    public void rodarCodigo(String comboBoxItem) 
+    {
+
+        if (pipeline.size() == 5 && comboBoxItem.equals("IMT")) 
+        {
+            preencherPipelineIMT();
+        }
+        else if (pipeline.size() == 5 && comboBoxItem.equals("BMT"))
+        {
+            preencherPipelineBMT();
+        }
+
+        Nodo p = pipeline.poll();
+        p.printValores();
+        ciclos++;
+
+        if (p.getIdProcesso() != 4) {
+            p.rodarNodo(registradores[p.getIdProcesso()].getRegistradores());
+            ++instrucoesExecutadas;
+        }
+    }
+
+    //Metodo normal no qual não possui passagem de parametro
+    @Override
     public void rodarCodigo() {
         if (pipeline.size() == 5) {
             preencherPipelineIMT();
@@ -217,4 +241,6 @@ public class Escalar implements CPU {
     public LinkedList<Nodo> getPipeline() {
         return pipeline;
     }
+
+
 }
