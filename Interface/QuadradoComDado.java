@@ -14,6 +14,10 @@ public class QuadradoComDado extends JPanel {
     }
 
     public void mudarLabel(String label){
+        if(label.equals("T4"))
+        {
+        label = "";
+        }
         this.label.setText(label);
     }
 

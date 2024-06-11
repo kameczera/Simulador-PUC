@@ -27,12 +27,12 @@ public class Interface {
     {
         
         escalar = new Escalar(pathProcessos.length, pathProcessos);
-        IF = new QuadradoComDado("Vazio", Color.WHITE);
-        ID = new QuadradoComDado("Vazio", Color.WHITE);
-        BUBBLE = new QuadradoComDado("Vazio", Color.WHITE);
-        EX = new QuadradoComDado("Vazio", Color.WHITE);
-        MEM = new QuadradoComDado("Vazio", Color.WHITE);
-        WB = new QuadradoComDado("Vazio", Color.WHITE);
+        IF = new QuadradoComDado("", Color.PINK);
+        ID = new QuadradoComDado("", Color.PINK);
+        BUBBLE = new QuadradoComDado("", Color.PINK);
+        EX = new QuadradoComDado("", Color.PINK);
+        MEM = new QuadradoComDado("", Color.PINK);
+        WB = new QuadradoComDado("", Color.PINK);
     }
 
 
@@ -42,8 +42,19 @@ public class Interface {
         JFrame janela = new JFrame("Simulador Suporte a Multithreading");
 
         // Definir tamanho da janela
-        janela.setSize(600, 400);
-        janela.setLayout(new BorderLayout()); // Usar BorderLayout na janela principal
+        janela.setSize(700, 500);
+
+        // Obter as dimensões da tela
+        Dimension dimensaoTela = Toolkit.getDefaultToolkit().getScreenSize();
+
+       // Calcular as coordenadas X e Y para centralizar a janela
+       int x = (dimensaoTela.width - janela.getWidth()) / 2;
+       int y = (dimensaoTela.height - janela.getHeight()) / 2;
+
+       // Definir a posição da janela
+       janela.setLocation(x, y);
+       janela.setLayout(new BorderLayout()); // Usar BorderLayout na janela principal
+        
 
         // Criação do painel de cabeçalho
         JPanel painelHeader = new JPanel(new BorderLayout());
@@ -89,6 +100,9 @@ public class Interface {
         JLabel LabelIPC = new JLabel("IPC: ");
         LabelIPC.setFont(new Font("Arial", Font.BOLD, 14));
 
+        JLabel LabelCPI = new JLabel("CPI: ");
+        LabelCPI.setFont(new Font("Arial", Font.BOLD, 14));
+
         JLabel LabelCiclos = new JLabel("Ciclos: ");
         LabelCiclos.setFont(new Font("Arial", Font.BOLD, 14));
 
@@ -105,6 +119,8 @@ public class Interface {
         LabelID.setFont(new Font("Arial", Font.BOLD, 16));
         
         JLabel LabelBUBBLE = new JLabel("BUBBLE");
+        LabelBUBBLE.setVisible(false);
+        BUBBLE.invisivel(false);
         LabelBUBBLE.setFont(new Font("Arial", Font.BOLD, 16));
 
         JLabel LabelEX = new JLabel("EX");
@@ -174,7 +190,7 @@ public class Interface {
         // Criar outro painel de conteúdo para o IPC e Ciclos
         JPanel painelDeDados = new JPanel();
         painelDeDados.setLayout(new FlowLayout(FlowLayout.LEFT)); // Usar FlowLayout para organizar os rótulos
-        painelDeDados.add(LabelIPC);
+        painelDeDados.add(LabelCPI);
         painelDeDados.add(Box.createHorizontalStrut(20)); // Espaçamento de 10 pixels
         painelDeDados.add(LabelCiclos);
         painelDeDados.add(Box.createHorizontalStrut(20)); // Espaçamento de 10 pixels
@@ -223,14 +239,17 @@ public class Interface {
             @Override
             public void actionPerformed(ActionEvent e) 
             {
-               //Desativa o botão de Proximo se o pipeline tiver todo vazio
+               //Desativa o botão de Proximo se o pipeline tiver todo 
                //Isso significa que todas as instruções ja foram executadas
-                if(escalar.pararPipeLine == 4)
+               System.out.println(escalar.getPipeline().size());
+               System.out.println(escalar.pararPipeLine);
+                //Se a opção selecionada no ComboBox for IMT
+
+                if(escalar.pararPipeLine == escalar.getPipeline().size() && escalar.CiclosBolha() > 0)
                 {
                 botaoProximo.setEnabled(false);
                 }
- 
-                //Se a opção selecionada no ComboBox for IMT
+
                 if(comboBoxSuportesMultiThreading.getSelectedItem().toString() == suportesMultiThreading[0])
                 {
                 escalar.rodarCodigo(comboBoxSuportesMultiThreading.getSelectedItem().toString());
@@ -240,6 +259,16 @@ public class Interface {
                 escalar.rodarCodigo(comboBoxSuportesMultiThreading.getSelectedItem().toString());
                 }
                 comboBoxSuportesMultiThreading.setEnabled(false);
+
+                if(escalar.pararPipeLine == escalar.getPipeline().size() && escalar.CiclosBolha() == 0)
+                {
+                botaoProximo.setEnabled(false);
+                }
+                
+        
+
+ 
+
                 int idProcesso = 0;
                 //escalar.rodarCodigo();
                 ListIterator<Nodo> list_Iter = escalar.getPipeline().listIterator();
@@ -279,7 +308,7 @@ public class Interface {
                 if(escalar.getPipeline().size() == 0) botaoProximo.setEnabled(false);
                 escalar.printarTodosRegistradores();
 
-                LabelIPC.setText("IPC: " + ((escalar.CalculoIPC())));
+                LabelCPI.setText("CPI: " + ((escalar.CalculoCPI())));
                 LabelCiclos.setText("Ciclos: " + (escalar.getCiclos()));
                 LabelCiclosBolha.setText("Ciclos Bolhas: " + escalar.CiclosBolha());
                 LabelTempoGasto.setText("Tempo Gasto: " + escalar.TempoTotalGasto() + " ns");

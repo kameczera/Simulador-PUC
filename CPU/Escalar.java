@@ -27,6 +27,11 @@ public class Escalar implements CPU {
         return (float) this.instrucoesExecutadas / (this.ciclos);
     }
 
+    public float CalculoCPI()
+    {
+     return (float) (this.ciclos) / this.instrucoesExecutadas;
+    }
+
     public int CiclosBolha() {
         return this.ciclosBolha;
     }
@@ -114,6 +119,8 @@ public class Escalar implements CPU {
             p.rodarNodo(registradores[p.getIdProcesso()].getRegistradores());
             ++instrucoesExecutadas;
         }
+
+        
     }
 
     //Metodo normal no qual não possui passagem de parametro
@@ -142,10 +149,13 @@ public class Escalar implements CPU {
     public void verificaBolha() {
         Nodo nodoIF = pipeline.get(4);
         Nodo nodoEX = pipeline.get(3);
-        if (nodoEX.getInstrucao()[0] == 4) { // (1)
-            if (nodoEX.getIdProcesso() == nodoIF.getIdProcesso()) { // (2)
+        if (nodoEX.getInstrucao()[0] == 4) 
+        { // (1)
+            if (nodoEX.getIdProcesso() == nodoIF.getIdProcesso()) 
+            { // (2)
                 if (nodoEX.getInstrucao()[1] == nodoIF.getInstrucao()[2]
-                        || nodoEX.getInstrucao()[1] == nodoIF.getInstrucao()[3]) { // (3)
+                        || nodoEX.getInstrucao()[1] == nodoIF.getInstrucao()[3]) 
+                        { // (3)
                     pipeline.add(4, new Nodo(20, 0, 0, 0, 4));
                     // Porque há adiantamento de dados
                     ciclosBolha++;
@@ -171,7 +181,8 @@ public class Escalar implements CPU {
             }
             // escalonador faz o entrelacamento das threads, pois e atualizado a cada chamada da funcao
             escalonador = (escalonador + 1) % nProcessos;
-        } else if (nProcessos == 1) {
+        } else if (nProcessos == 1) 
+        {
             Processo processo = processos.get(0);
             Nodo n = processo.getInstrucao();
             pipeline.add(n);
@@ -195,6 +206,7 @@ public class Escalar implements CPU {
                     pararPipeLine++;
                 }
             }
+            verificaBolha();
         }
     }
 
