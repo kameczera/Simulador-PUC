@@ -22,10 +22,12 @@ public class Interface {
     String[] suportesMultiThreading = { "IMT", "BMT"};
     private Escalar escalar;
     String[] pathProcessos = { "./processo1.txt", "./processo3.txt"};
+    String[] pathProcessosTeste = new String[10];
+    private JTextArea selectedFilesArea;
+    private String[] selectedFilesPaths;
 
     public Interface() 
-    {
-        
+    {      
         escalar = new Escalar(pathProcessos.length, pathProcessos);
         IF = new QuadradoComDado("", Color.PINK);
         ID = new QuadradoComDado("", Color.PINK);
@@ -209,6 +211,10 @@ public class Interface {
         // Adicionar painel do cabeçalho e painel de conteúdo à janela principal
         janela.add(painelHeader, BorderLayout.NORTH);
         janela.add(conteudo, BorderLayout.CENTER);
+
+        selectedFilesArea = new JTextArea();
+        selectedFilesArea.setEditable(false);
+
         // Adicionar um ouvinte de evento ao botão
         botaoArquivo.addActionListener(new ActionListener() {
             @Override
@@ -216,19 +222,28 @@ public class Interface {
                 // Criar um seletor de arquivo
                 JFileChooser seletorArquivo = new JFileChooser();
 
-                // Exibir o seletor de arquivo e aguardar a seleção do usuário
-                int resultado = seletorArquivo.showOpenDialog(null);
+                seletorArquivo.setMultiSelectionEnabled(true);
+                seletorArquivo.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                String userDir = System.getProperty("user.dir");
+                // Combina o diretório de trabalho com o nome da pasta
+                String targetDir = userDir + File.separator;
 
-                // Verificar se o usuário selecionou um arquivo
-                if (resultado == JFileChooser.APPROVE_OPTION) {
-                    // Obter o arquivo selecionado
-                    File arquivoSelecionado = seletorArquivo.getSelectedFile();
+                // Especifica o diretório inicial
+                seletorArquivo.setCurrentDirectory(new File(targetDir));
 
-                    // Exibir o caminho do arquivo selecionado no console (você pode fazer o que
-                    // quiser com o arquivo aqui)
-                    System.out.println("Arquivo selecionado: " + arquivoSelecionado.getAbsolutePath());
-                    String processoSelecionado = arquivoSelecionado.getAbsolutePath();
-                    pathProcessos[0] = processoSelecionado;
+
+
+                    int returnValue = seletorArquivo.showOpenDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION) 
+                {
+                    File[] selectedFiles = seletorArquivo.getSelectedFiles();
+                    selectedFilesPaths = new String[selectedFiles.length];
+                    selectedFilesArea.setText("");
+                    for (int i = 0; i < selectedFiles.length; i++) 
+                    {
+                        selectedFilesPaths[i] = selectedFiles[i].getAbsolutePath();
+                        pathProcessosTeste[i] = selectedFilesPaths[i];
+                    }
                 }
             }
         });
