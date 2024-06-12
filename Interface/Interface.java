@@ -31,12 +31,12 @@ public class Interface {
     public Interface() 
     {      
         escalar = new Escalar(pathProcessos.length, pathProcessos);
-        IF = new QuadradoComDado("", Color.PINK);
-        ID = new QuadradoComDado("", Color.PINK);
-        BUBBLE = new QuadradoComDado("", Color.PINK);
-        EX = new QuadradoComDado("", Color.PINK);
-        MEM = new QuadradoComDado("", Color.PINK);
-        WB = new QuadradoComDado("", Color.PINK);
+        IF = new QuadradoComDado("", "", Color.PINK);
+        ID = new QuadradoComDado("", "",  Color.PINK);
+        BUBBLE = new QuadradoComDado("", "",  Color.PINK);
+        EX = new QuadradoComDado("", "",  Color.PINK);
+        MEM = new QuadradoComDado("", "",  Color.PINK);
+        WB = new QuadradoComDado("", "",  Color.PINK);
     }
 
 
@@ -341,8 +341,7 @@ public class Interface {
         
                 int idProcesso = 0;
                 //escalar.rodarCodigo();
-                ListIterator<Nodo> list_Iter = escalar.getPipeline().listIterator();
-               
+                ListIterator<Nodo> list_Iter = escalar.getPipeline().listIterator();             
                 idProcesso = list_Iter.next().getIdProcesso();
                 WB.mudarCor(corProcessos[(idProcesso)]);
                 WB.mudarLabel("T" + idProcesso);
@@ -373,7 +372,7 @@ public class Interface {
                 ID.mudarLabel("T" + idProcesso);
                 
                 idProcesso = list_Iter.next().getIdProcesso();
-                IF.mudarCor(corProcessos[(idProcesso)]);
+                IF.mudarCor(corProcessos[(idProcesso)]);        
                 IF.mudarLabel("T" + idProcesso);
                 if(escalar.getPipeline().size() == 0) botaoProximo.setEnabled(false);
                 escalar.printarTodosRegistradores();
