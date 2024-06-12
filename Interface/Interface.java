@@ -1,5 +1,6 @@
 import javax.swing.*;
 import CPU.Escalar;
+import CPU.SuperEscalar;
 import Nodo.Nodo;
 
 import java.awt.*;
@@ -18,8 +19,9 @@ public class Interface {
     private QuadradoComDado EX;
     private QuadradoComDado MEM;
     private QuadradoComDado WB;
-    private Color[] corProcessos = { Color.GREEN, Color.BLUE, Color.ORANGE, Color.CYAN, Color.PINK };
-    String[] suportesMultiThreading = { "IMT", "BMT"};
+    private Color[] corProcessos = { Color.GREEN, new Color(0x60, 0x7E, 0xC9), Color.ORANGE, Color.CYAN, Color.PINK };
+    String[] suportesMultiThreading = {"","",""};
+    String[] TipoDePipeLine = { "","Escalar", "Superescalar"};
     private Escalar escalar;
     String[] pathProcessos = { "./processo1.txt", "./processo3.txt"};
     String[] pathProcessosTeste = new String[10];
@@ -64,6 +66,8 @@ public class Interface {
         painelHeader.setPreferredSize(new Dimension(600, 50));
         //Criação do ComboBox
         JComboBox<String> comboBoxSuportesMultiThreading = new JComboBox<>(suportesMultiThreading);
+        comboBoxSuportesMultiThreading.setEnabled(false);
+        JComboBox<String> comboBoxTipoDeEscalaridade = new JComboBox<>(TipoDePipeLine);
         Dimension comboBoxSize = new Dimension(60,25);
         // Criando um ListCellRenderer personalizado para centralizar o texto
         DefaultListCellRenderer listRenderer = new DefaultListCellRenderer();
@@ -71,9 +75,11 @@ public class Interface {
         //Tamanho do ComboBox
         comboBoxSuportesMultiThreading.setPreferredSize(comboBoxSize);
         comboBoxSuportesMultiThreading.setRenderer(listRenderer);
+        comboBoxTipoDeEscalaridade.setRenderer(listRenderer);
         // Painel para manter o JComboBox alinhado à esquerda
         JPanel leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         leftPanel.setOpaque(false); // Para manter o fundo transparente
+        leftPanel.add(comboBoxTipoDeEscalaridade);
         leftPanel.add(comboBoxSuportesMultiThreading);
 
         // Adicionar o painel alinhado à esquerda no painel de cabeçalho
@@ -82,6 +88,7 @@ public class Interface {
         // Criação dos botões
         JButton botaoArquivo = new JButton("Selecionar Arquivo");
         JButton botaoProximo = new JButton("Próximo");
+        botaoProximo.setEnabled(false);
 
         // Painel para manter os botões alinhados à direita
         JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -249,6 +256,56 @@ public class Interface {
         });
 
 
+        
+        comboBoxTipoDeEscalaridade.addActionListener(new ActionListener() 
+        {
+                @Override
+                public void actionPerformed(ActionEvent e) 
+                {
+
+                    // Obtém o item selecionado
+                    String selectedItem = (String) comboBoxTipoDeEscalaridade.getSelectedItem();
+                    // Exibe o item selecionado em um JOptionPane
+                    //JOptionPane.showMessageDialog(janela, "Arquitetura do tipo: " + selectedItem);
+
+                   
+                   if(selectedItem.equals("Escalar"))
+                   {                  
+                   comboBoxSuportesMultiThreading.removeAllItems();
+                   comboBoxSuportesMultiThreading.addItem("IMT");
+                   comboBoxSuportesMultiThreading.addItem("BMT");
+                   comboBoxSuportesMultiThreading.setEnabled(true);
+                   }
+                   else if(selectedItem.equals("Superescalar"))
+                   {
+                        comboBoxSuportesMultiThreading.removeAllItems();
+                        comboBoxSuportesMultiThreading.addItem("IMT");
+                        comboBoxSuportesMultiThreading.addItem("BMT");
+                        comboBoxSuportesMultiThreading.addItem("SMT");
+                        comboBoxSuportesMultiThreading.setEnabled(true);
+                   }
+                    
+                }
+            });
+
+            comboBoxSuportesMultiThreading.addActionListener(new ActionListener() 
+            {
+                    @Override
+                    public void actionPerformed(ActionEvent e) 
+                    {
+    
+                        // Obtém o item selecionado
+                        String selectedItem = (String) comboBoxSuportesMultiThreading.getSelectedItem();
+                      
+                       if(selectedItem != null || selectedItem != "")
+                       {
+                        botaoProximo.setEnabled(true);
+                       }
+                       
+                        
+                    }
+                });
+
         botaoProximo.addActionListener(new ActionListener() 
         {
             @Override
@@ -258,18 +315,19 @@ public class Interface {
                //Isso significa que todas as instruções ja foram executadas
                System.out.println(escalar.getPipeline().size());
                System.out.println(escalar.pararPipeLine);
+               comboBoxTipoDeEscalaridade.setEnabled(false);
                 //Se a opção selecionada no ComboBox for IMT
 
                 if(escalar.pararPipeLine == escalar.getPipeline().size() && escalar.CiclosBolha() > 0)
                 {
-                botaoProximo.setEnabled(false);
+                botaoProximo.setEnabled(false);             
                 }
 
-                if(comboBoxSuportesMultiThreading.getSelectedItem().toString() == suportesMultiThreading[0])
+                if(comboBoxSuportesMultiThreading.getSelectedItem().toString().equals("IMT"))
                 {
                 escalar.rodarCodigo(comboBoxSuportesMultiThreading.getSelectedItem().toString());
                 }
-                else if(comboBoxSuportesMultiThreading.getSelectedItem().toString() == suportesMultiThreading[1])
+                else if(comboBoxSuportesMultiThreading.getSelectedItem().toString().equals("BMT"))
                 {
                 escalar.rodarCodigo(comboBoxSuportesMultiThreading.getSelectedItem().toString());
                 }
@@ -281,9 +339,6 @@ public class Interface {
                 }
                 
         
-
- 
-
                 int idProcesso = 0;
                 //escalar.rodarCodigo();
                 ListIterator<Nodo> list_Iter = escalar.getPipeline().listIterator();

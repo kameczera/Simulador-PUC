@@ -23,6 +23,7 @@ public class Escalar implements CPU {
     public int pararPipeLine = 0;
 
     // um IPC mais alto indica um processador mais eficiente em executar instruções.
+    //O Calculo de IPC é feito na EXECUÇÃO
     public float CalculoIPC() {
         return (float) this.instrucoesExecutadas / (this.ciclos);
     }
@@ -73,6 +74,7 @@ public class Escalar implements CPU {
             processos.add(processo);
         }
     }
+
 
     public void printarTodosRegistradores() {
         for (int i = 0; i < registradores.length; i++) {
@@ -163,6 +165,8 @@ public class Escalar implements CPU {
             }
         }
     }
+
+
 
     // PreencherPipelineIMT entrelaça as instrucoes das threads/processos. Fazendo com que bolhas de dependencias verdadeiras nao afetem o IPC
     public void preencherPipelineIMT() {
