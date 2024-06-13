@@ -1,5 +1,5 @@
 package CPU;
 
 public interface CPU{
-    void rodarCodigo();
+    void rodarCodigo(String combobox);
 }

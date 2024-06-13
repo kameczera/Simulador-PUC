@@ -121,25 +121,6 @@ public class Escalar implements CPU {
             p.rodarNodo(registradores[p.getIdProcesso()].getRegistradores());
             ++instrucoesExecutadas;
         }
-
-        
-    }
-
-    //Metodo normal no qual não possui passagem de parametro
-    @Override
-    public void rodarCodigo() {
-        if (pipeline.size() == 5) {
-            preencherPipelineIMT();
-        }
-
-        Nodo p = pipeline.poll();
-        p.printValores();
-        ciclos++;
-
-        if (p.getIdProcesso() != 4) {
-            p.rodarNodo(registradores[p.getIdProcesso()].getRegistradores());
-            ++instrucoesExecutadas;
-        }
     }
 
     // verificaBolha(): Método para identificar bolha.
