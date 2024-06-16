@@ -25,12 +25,15 @@ public class SuperEscalar implements CPU {
     public int pararPipeLine = 0;
 
     // unidades especializadas: ALU, branch e LOAD/STORE
-    public SuperEscalar(int nProcessos, String[] pathProcessos) {
+    public SuperEscalar(int nProcessos, String[] pathProcessos) 
+    {
         registradores = new Registradores[nProcessos];
-        for (int i = 0; i < nProcessos; i++) {
+        for (int i = 0; i < nProcessos; i++) 
+        {
             registradores[i] = new Registradores(12 / nProcessos);
         }
 
+        //Inicializa as unidades de execução todas como null
         unidades = new Nodo[4];
         for (int i = 0; i < 4; i++) {
             unidades[i] = null;
@@ -93,7 +96,8 @@ public class SuperEscalar implements CPU {
             // escalonador faz o entrelacamento das threads, pois e atualizado a cada
             // chamada da funcao
             escalonador = (escalonador + 1) % nProcessos;
-        } else if (nProcessos == 1) {
+        } else if (nProcessos == 1) 
+        {
             Processo processo = processos.get(0);
             processo.getInstrucoesSuper(unidades);
             if (processo.getEstado()) {

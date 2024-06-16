@@ -199,13 +199,12 @@ public class Interface {
         // Criar outro painel de conteúdo para o IPC e Ciclos
         JPanel painelDeDados = new JPanel();
         painelDeDados.setLayout(new FlowLayout(FlowLayout.LEFT)); // Usar FlowLayout para organizar os rótulos
-        painelDeDados.add(LabelCPI);
-        painelDeDados.add(Box.createHorizontalStrut(20)); // Espaçamento de 10 pixels
         painelDeDados.add(LabelCiclos);
         painelDeDados.add(Box.createHorizontalStrut(20)); // Espaçamento de 10 pixels
         painelDeDados.add(LabelCiclosBolha);
         painelDeDados.add(Box.createHorizontalStrut(20)); // Espaçamento de 10 pixels
         painelDeDados.add(LabelTempoGasto);
+        painelDeDados.add(Box.createHorizontalStrut(20));
 
         // Adicionar o painel IPC ao painel de conteúdo
         GridBagConstraints gbcIPC = new GridBagConstraints();
@@ -275,6 +274,9 @@ public class Interface {
                    comboBoxSuportesMultiThreading.addItem("IMT");
                    comboBoxSuportesMultiThreading.addItem("BMT");
                    comboBoxSuportesMultiThreading.setEnabled(true);
+                   painelDeDados.add(LabelCPI);
+                   painelDeDados.revalidate();
+                   painelDeDados.repaint();
                    }
                    else if(selectedItem.equals("Superescalar"))
                    {
@@ -283,6 +285,9 @@ public class Interface {
                         comboBoxSuportesMultiThreading.addItem("BMT");
                         comboBoxSuportesMultiThreading.addItem("SMT");
                         comboBoxSuportesMultiThreading.setEnabled(true);
+                        painelDeDados.add(LabelIPC);
+                        painelDeDados.revalidate();
+                        painelDeDados.repaint();
                    }
                     
                 }

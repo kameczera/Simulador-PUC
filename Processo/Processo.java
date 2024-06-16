@@ -95,7 +95,8 @@ public class Processo {
         return p;
     }
 
-    public void getInstrucoesSuper(Nodo[] unidades) {
+    public void getInstrucoesSuper(Nodo[] unidades) 
+    {
         int adicionados = 0;
         // faz no maximo 4 vezes, pq tem 4 unidades de execucao
         for (int i = 0; i < 4; i++) {
