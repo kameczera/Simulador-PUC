@@ -9,7 +9,5 @@ public class Arquitetura{
         String[] pathProcessos = { "./processo1.txt", "./processo3.txt"};
         // Escalar escalar = new Escalar(pathProcessos.length, pathProcessos);
         SuperEscalar superescalar = new SuperEscalar(pathProcessos.length, pathProcessos);
-        //superescalar.rodarCodigo("BMT");
-        //superescalar.rodarCodigo("BMT");
     }
 }

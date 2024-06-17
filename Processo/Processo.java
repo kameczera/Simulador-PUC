@@ -110,26 +110,31 @@ public class Processo {
             // verifica se tem dependencia com as adicionadas anteriormente
             for (int j = 0; j < i; j++) {
                 Nodo q = unidades[j];
-                if (p.getInstrucao()[2] == q.getInstrucao()[1] || p.getInstrucao()[3] == q.getInstrucao()[1])
-                    semDependencia = false;
+                if(p.getIdProcesso() == q.getIdProcesso()){
+                    if (p.getInstrucao()[2] == q.getInstrucao()[1] || p.getInstrucao()[3] == q.getInstrucao()[1])
+                        semDependencia = false;
+                }
             }
             if (semDependencia) {
-                // addi, add, and ou DELAY
+                // DELAY
+                if(p.getInstrucao()[0] == -1) break;
+                // addi, add, and etc..
                 if (p.getInstrucao()[0] < 3) {
-                    if(unidades[0] != null) break;
-                    unidades[0] = p;
+                    if(unidades[0] == null) unidades[0] = p;
+                    else if(unidades[1] == null) unidades[1] = p;
+                    else break;
                     // load: lw
                 } else if (p.getInstrucao()[0] == 4) {
-                    if(unidades[1] != null) break;
-                    unidades[1] = p;
-                    // store: sw
-                } else if (p.getInstrucao()[0] == 5) {
                     if(unidades[2] != null) break;
                     unidades[2] = p;
-                    // branch: beq, j etc..
-                } else {
+                    // store: sw
+                } else if (p.getInstrucao()[0] == 5) {
                     if(unidades[3] != null) break;
                     unidades[3] = p;
+                    // branch: beq, j etc..
+                } else {
+                    if(unidades[4] != null) break;
+                    unidades[4] = p;
                 }
                 adicionados++;
             } else
