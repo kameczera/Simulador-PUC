@@ -44,6 +44,10 @@ public class Interface {
         EX = new QuadradoComDado("", "",  Color.PINK);
         MEM = new QuadradoComDado("", "",  Color.PINK);
         WB = new QuadradoComDado("", "",  Color.PINK);
+        ALU = new QuadradoComDado("", "", Color.PINK);
+        BRANCH = new QuadradoComDado("", "", Color.PINK);
+        LOAD = new QuadradoComDado("", "", Color.PINK);
+        STORE = new QuadradoComDado("", "", Color.PINK);
     }
 
     
@@ -54,7 +58,7 @@ public class Interface {
         JFrame janela = new JFrame("Simulador Suporte a Multithreading");
 
         // Definir tamanho da janela
-        janela.setSize(700, 500);
+        janela.setSize(900, 500);
 
         // Obter as dimensões da tela
         Dimension dimensaoTela = Toolkit.getDefaultToolkit().getScreenSize();
@@ -140,8 +144,30 @@ public class Interface {
         BUBBLE.invisivel(false);
         LabelBUBBLE.setFont(new Font("Arial", Font.BOLD, 16));
 
+         
+        JLabel LabelALU = new JLabel("ALU");
+        LabelALU.setVisible(false);
+        ALU.invisivel(false);
+        LabelALU.setFont(new Font("Arial", Font.BOLD, 16));
+
+        JLabel LabelBranch = new JLabel("BRANCH");
+        LabelBranch.setVisible(false);
+        BRANCH.invisivel(false);
+        LabelBranch.setFont(new Font("Arial", Font.BOLD, 16));
+
+        JLabel LabelStore = new JLabel("STORE");
+        LabelStore.setVisible(false);
+        STORE.invisivel(false);
+        LabelStore.setFont(new Font("Arial", Font.BOLD, 16));
+
+        JLabel LabelLoad = new JLabel("LOAD");
+        LabelLoad.setVisible(false);
+        LOAD.invisivel(false);
+        LabelLoad.setFont(new Font("Arial", Font.BOLD, 16));
+
         JLabel LabelEX = new JLabel("EX");
         LabelEX.setFont(new Font("Arial", Font.BOLD, 16));
+        
 
         JLabel LabelMEM = new JLabel("MEM");
         LabelMEM.setFont(new Font("Arial", Font.BOLD, 16));
@@ -173,6 +199,27 @@ public class Interface {
                                 .addComponent(LabelEX)
                                 .addComponent(EX.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
                                         GroupLayout.PREFERRED_SIZE))
+
+                        .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                .addComponent(LabelALU)
+                                .addComponent(ALU.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
+                                        GroupLayout.PREFERRED_SIZE))
+
+                                        .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                .addComponent(LabelBranch)
+                                .addComponent(BRANCH.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
+                                        GroupLayout.PREFERRED_SIZE))
+
+                                        .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                .addComponent(LabelStore)
+                                .addComponent(STORE.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
+                                        GroupLayout.PREFERRED_SIZE))
+
+                                        .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                .addComponent(LabelLoad)
+                                .addComponent(LOAD.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
+                                        GroupLayout.PREFERRED_SIZE))
+
                         .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addComponent(LabelMEM)
                                 .addComponent(MEM.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
@@ -189,6 +236,10 @@ public class Interface {
                                 .addComponent(LabelID)
                                 .addComponent(LabelBUBBLE)
                                 .addComponent(LabelEX)
+                                .addComponent(LabelALU)
+                                .addComponent(LabelBranch)
+                                .addComponent(LabelStore)
+                                .addComponent(LabelLoad)
                                 .addComponent(LabelMEM)
                                 .addComponent(LabelWB))
                         .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
@@ -196,6 +247,10 @@ public class Interface {
                                 .addComponent(ID.getPanel(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(BUBBLE.getPanel(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(EX.getPanel(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(ALU.getPanel(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(BRANCH.getPanel(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(LOAD.getPanel(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(STORE.getPanel(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(MEM.getPanel(), GroupLayout.PREFERRED_SIZE, 50,
                                         GroupLayout.PREFERRED_SIZE)
                                 .addComponent(WB.getPanel(), GroupLayout.PREFERRED_SIZE, 50,
@@ -282,6 +337,16 @@ public class Interface {
                    comboBoxSuportesMultiThreading.addItem("IMT");
                    comboBoxSuportesMultiThreading.addItem("BMT");
                    comboBoxSuportesMultiThreading.setEnabled(true);
+                   EX.invisivel(true);
+                   LabelEX.setVisible(true);
+                   ALU.invisivel(false);
+                   LabelALU.setVisible(false);
+                   BRANCH.invisivel(false);
+                   LabelBranch.setVisible(false);
+                   LOAD.invisivel(false);
+                   LabelLoad.setVisible(false);
+                   STORE.invisivel(false);
+                   LabelStore.setVisible(false);
                    painelDeDados.add(LabelCPI);
                    painelDeDados.remove(LabelIPC);
                    painelDeDados.revalidate();
@@ -294,6 +359,16 @@ public class Interface {
                         comboBoxSuportesMultiThreading.addItem("BMT");
                         comboBoxSuportesMultiThreading.addItem("SMT");
                         comboBoxSuportesMultiThreading.setEnabled(true);
+                        EX.invisivel(false);
+                        LabelEX.setVisible(false);
+                        ALU.invisivel(true);
+                        LabelALU.setVisible(true);
+                        BRANCH.invisivel(true);
+                        LabelBranch.setVisible(true);
+                        LOAD.invisivel(true);
+                        LabelLoad.setVisible(true);
+                        STORE.invisivel(true);
+                        LabelStore.setVisible(true);
                         painelDeDados.add(LabelIPC);
                         painelDeDados.remove(LabelCPI);
                         painelDeDados.revalidate();
