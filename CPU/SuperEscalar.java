@@ -33,8 +33,8 @@ public class SuperEscalar implements CPU {
         }
 
         //Inicializa as unidades de execução todas como null
-        unidades = new Nodo[4];
-        for (int i = 0; i < 4; i++) 
+        unidades = new Nodo[5];
+        for (int i = 0; i < 5; i++) 
         {
             unidades[i] = null;
         }
@@ -78,13 +78,6 @@ public class SuperEscalar implements CPU {
                 processos.remove(processo);
                 nProcessos--;
             }
-            // Ignorar delays de outras threads/processos porque o processo atual esta
-            // trabalhando no tempo de ociosidade delas
-            for (int i = 0; i < nProcessos; i++) {
-                Processo p = processos.get(i);
-                if (processo != p)
-                    p.avancarInstrucao();
-            }
             // escalonador faz o entrelacamento das threads, pois e atualizado a cada
             // chamada da funcao
             if(unidades[0] != null){
@@ -110,6 +103,10 @@ public class SuperEscalar implements CPU {
                 }
             }
         }
+        for (int j = 0; j < nProcessos; j++) {
+            Processo p = processos.get(j);
+            p.avancarInstrucao();
+        }
     }
 
     public void preencherPipelineSMT() {
@@ -121,19 +118,11 @@ public class SuperEscalar implements CPU {
                     processos.remove(processo);
                     nProcessos--;
                 }
+                escalonador = (escalonador + 1) % nProcessos;
                 // Ignorar delays de outras threads/processos porque o processo atual esta
                 // trabalhando no tempo de ociosidade delas
                 // escalonador faz o entrelacamento das threads, pois e atualizado a cada
                 // chamada da funcao
-                for (int j = 0; j < nProcessos; j++) {
-                    Processo p = processos.get(i);
-                    if (processo != p) p.avancarInstrucao();
-                }
-            }
-            if(unidades[0] != null){
-                if (unidades[0].getInstrucao()[0] == -1) {
-                    escalonador = (escalonador + 1) % nProcessos;
-                }
             }
         } else if (nProcessos == 1) 
         {
@@ -153,6 +142,10 @@ public class SuperEscalar implements CPU {
                 }
             }
         }
+        for (int j = 0; j < nProcessos; j++) {
+            Processo p = processos.get(j);
+            p.avancarInstrucao();
+        }
     }
 
     public void preencherPipelineIMT() {
@@ -165,11 +158,6 @@ public class SuperEscalar implements CPU {
             }
             // Ignorar delays de outras threads/processos porque o processo atual esta
             // trabalhando no tempo de ociosidade delas
-            for (int i = 0; i < nProcessos; i++) {
-                Processo p = processos.get(i);
-                if (processo != p)
-                    p.avancarInstrucao();
-            }
             // escalonador faz o entrelacamento das threads, pois e atualizado a cada
             // chamada da funcao
             escalonador = (escalonador + 1) % nProcessos;
@@ -190,6 +178,10 @@ public class SuperEscalar implements CPU {
                     unidades[0] = p;
                 }
             }
+        }
+        for (int j = 0; j < nProcessos; j++) {
+            Processo p = processos.get(j);
+            p.avancarInstrucao();
         }
     }
 }
