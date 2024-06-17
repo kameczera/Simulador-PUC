@@ -298,9 +298,7 @@ public class Interface {
                 // Especifica o diretório inicial
                 seletorArquivo.setCurrentDirectory(new File(targetDir));
 
-
-
-                    int returnValue = seletorArquivo.showOpenDialog(null);
+                int returnValue = seletorArquivo.showOpenDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION) 
                 {
                     File[] selectedFiles = seletorArquivo.getSelectedFiles();
@@ -328,10 +326,7 @@ public class Interface {
 
                     // Obtém o item selecionado
                     String selectedItem = (String) comboBoxTipoDeEscalaridade.getSelectedItem();
-                    // Exibe o item selecionado em um JOptionPane
-                    //JOptionPane.showMessageDialog(janela, "Arquitetura do tipo: " + selectedItem);
-
-                   
+           
                    if(selectedItem.equals("Escalar"))
                    {                  
                    comboBoxSuportesMultiThreading.removeAllItems();
@@ -529,11 +524,4 @@ public class Interface {
         // Exibir a janela
         janela.setVisible(true);
     }
-
-//     public void simular() 
-//     {
-//         String[] pathProcessos = { "./processo1.txt", "./processo2.txt" };
-//         Escalar escalar = new Escalar(pathProcessos.length, pathProcessos);
-//         escalar.rodarCodigo();
-//     }
 }

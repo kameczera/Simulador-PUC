@@ -83,7 +83,7 @@ public class Processo {
             }
             arq.close();
         } catch (IOException e) {
-            System.err.printf("Erro na abertura do arquivo: %s.\n", e.getMessage());
+            System.err.printf("Selecionar o arquivo %s.\n", e.getMessage());
         }
     }
 

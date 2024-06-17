@@ -7,7 +7,5 @@ public class Arquitetura{
          Interface i = new Interface();
          i.criarInterface();
         String[] pathProcessos = { "./processo1.txt", "./processo3.txt"};
-        // Escalar escalar = new Escalar(pathProcessos.length, pathProcessos);
-        SuperEscalar superescalar = new SuperEscalar(pathProcessos.length, pathProcessos);
     }
 }
