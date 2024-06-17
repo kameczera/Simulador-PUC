@@ -15,7 +15,6 @@ public class SuperEscalar implements CPU {
     private Nodo[] unidades;
     private List<Processo> processos;
     private int nProcessos;
-    private BufferReordenamento buffer;
     private int escalonador;
     private Registradores[] registradores;
     private int ciclos = 0;
@@ -72,11 +71,88 @@ public class SuperEscalar implements CPU {
     }
 
     public void preencherPipelineBMT() {
-
+        if (nProcessos > 1) {
+            Processo processo = processos.get(escalonador);
+            processo.getInstrucoesSuper(unidades);
+            if (processo.getEstado()) {
+                processos.remove(processo);
+                nProcessos--;
+            }
+            // Ignorar delays de outras threads/processos porque o processo atual esta
+            // trabalhando no tempo de ociosidade delas
+            for (int i = 0; i < nProcessos; i++) {
+                Processo p = processos.get(i);
+                if (processo != p)
+                    p.avancarInstrucao();
+            }
+            // escalonador faz o entrelacamento das threads, pois e atualizado a cada
+            // chamada da funcao
+            if(unidades[0] != null){
+                if (unidades[0].getInstrucao()[0] == -1) {
+                    escalonador = (escalonador + 1) % nProcessos;
+                }
+            }
+        } else if (nProcessos == 1) 
+        {
+            Processo processo = processos.get(0);
+            processo.getInstrucoesSuper(unidades);
+            if (processo.getEstado()) {
+                processos.remove(processo);
+                nProcessos--;
+            }
+            // apenas se houver 1 processo que ele executa o metodo de verificacao de bolha.
+            // Dado que o entrelacamento se perde entre threads se perde
+        } else {
+            for(int i = 0; i < 4; i++){
+                Nodo p = unidades[i];
+                if (p == null) {
+                    unidades[0] = p;
+                }
+            }
+        }
     }
 
     public void preencherPipelineSMT() {
-
+        if (nProcessos > 1) {
+            for(int i = 0; i < nProcessos; i++){
+                Processo processo = processos.get(escalonador);
+                processo.getInstrucoesSuper(unidades);
+                if (processo.getEstado()) {
+                    processos.remove(processo);
+                    nProcessos--;
+                }
+                // Ignorar delays de outras threads/processos porque o processo atual esta
+                // trabalhando no tempo de ociosidade delas
+                // escalonador faz o entrelacamento das threads, pois e atualizado a cada
+                // chamada da funcao
+                for (int j = 0; j < nProcessos; j++) {
+                    Processo p = processos.get(i);
+                    if (processo != p) p.avancarInstrucao();
+                }
+            }
+            if(unidades[0] != null){
+                if (unidades[0].getInstrucao()[0] == -1) {
+                    escalonador = (escalonador + 1) % nProcessos;
+                }
+            }
+        } else if (nProcessos == 1) 
+        {
+            Processo processo = processos.get(0);
+            processo.getInstrucoesSuper(unidades);
+            if (processo.getEstado()) {
+                processos.remove(processo);
+                nProcessos--;
+            }
+            // apenas se houver 1 processo que ele executa o metodo de verificacao de bolha.
+            // Dado que o entrelacamento se perde entre threads se perde
+        } else {
+            for(int i = 0; i < 4; i++){
+                Nodo p = unidades[i];
+                if (p == null) {
+                    unidades[0] = p;
+                }
+            }
+        }
     }
 
     public void preencherPipelineIMT() {
@@ -114,12 +190,6 @@ public class SuperEscalar implements CPU {
                     unidades[0] = p;
                 }
             }
-        }
-    }
-
-    public void printUnidades(){
-        for(int i = 0; i < unidades.length; i++){
-            unidades[0].printValores();
         }
     }
 }

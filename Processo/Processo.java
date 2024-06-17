@@ -62,7 +62,7 @@ public class Processo {
                         break;
                     case "lw":
                         a = Character.getNumericValue(registradores[0].charAt(1));
-                        b = Character.getNumericValue(registradores[1].charAt(1));
+                        b = Character.getNumericValue(registradores[1].charAt(0));
                         c = Character.getNumericValue(registradores[1].charAt(3));
                         idInstrucao = 4;
                         break;
@@ -110,7 +110,7 @@ public class Processo {
             // verifica se tem dependencia com as adicionadas anteriormente
             for (int j = 0; j < i; j++) {
                 Nodo q = unidades[j];
-                if (p.getInstrucao()[2] == q.getInstrucao()[1] && p.getInstrucao()[3] == q.getInstrucao()[1])
+                if (p.getInstrucao()[2] == q.getInstrucao()[1] || p.getInstrucao()[3] == q.getInstrucao()[1])
                     semDependencia = false;
             }
             if (semDependencia) {

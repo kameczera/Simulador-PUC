@@ -201,15 +201,17 @@ public class Escalar implements CPU {
         if (nProcessos > 1) {
             Processo processo = processos.get(escalonador);
             Nodo n = processo.getInstrucao();
+            if (n.getInstrucao()[0] == -1) {
+                escalonador = (escalonador + 1) % nProcessos;
+                processo = processos.get(escalonador);
+                n = processo.getInstrucao();
+            }
             pipeline.add(n);
             if (processo.getEstado()) {
                 processos.remove(processo);
                 nProcessos--;
             }
             // So mudara de thread/processo SE a instrucao lida for um DELAY (IdInstrucao == -1)
-            if (n.getInstrucao()[0] == -1) {
-                escalonador = (escalonador + 1) % nProcessos;
-                }
             // Ignorar delays de outras threads/processos porque o processo atual esta trabalhando no tempo de ociosidade delas
             for(int i = 0; i < nProcessos; i++){
                 Processo p = processos.get(i);
