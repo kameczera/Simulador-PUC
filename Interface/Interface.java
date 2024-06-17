@@ -23,14 +23,12 @@ public class Interface {
     private QuadradoComDado STORE;
     private QuadradoComDado MEM;
     private QuadradoComDado WB;
-
     private Color[] corProcessos = { Color.GREEN, new Color(0x60, 0x7E, 0xC9), Color.ORANGE, Color.CYAN, Color.PINK };
     String[] suportesMultiThreading = {"","",""};
     String[] TipoDePipeLine = { "","Escalar", "Superescalar"};
     private Escalar escalar;
     private SuperEscalar superEscalar;
     String[] pathProcessos = { "./processo1.txt", "./processo3.txt"};
-    String[] pathProcessosTeste = new String[10];
     private JTextArea selectedFilesArea;
     private String[] selectedFilesPaths;
 
@@ -311,8 +309,11 @@ public class Interface {
                     for (int i = 0; i < selectedFiles.length; i++) 
                     {
                         selectedFilesPaths[i] = selectedFiles[i].getAbsolutePath();
-                        pathProcessosTeste[i] = selectedFilesPaths[i];
+                        pathProcessos[i] = selectedFilesPaths[i];
                     }
+                    escalar = new Escalar(pathProcessos.length, pathProcessos);
+                    superEscalar = new SuperEscalar(pathProcessos.length, pathProcessos);
+
                 }
             }
         });
