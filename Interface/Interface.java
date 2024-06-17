@@ -17,8 +17,13 @@ public class Interface {
     private QuadradoComDado ID;
     private QuadradoComDado BUBBLE;
     private QuadradoComDado EX;
+    private QuadradoComDado ALU;
+    private QuadradoComDado BRANCH;
+    private QuadradoComDado LOAD;
+    private QuadradoComDado STORE;
     private QuadradoComDado MEM;
     private QuadradoComDado WB;
+
     private Color[] corProcessos = { Color.GREEN, new Color(0x60, 0x7E, 0xC9), Color.ORANGE, Color.CYAN, Color.PINK };
     String[] suportesMultiThreading = {"","",""};
     String[] TipoDePipeLine = { "","Escalar", "Superescalar"};
@@ -32,7 +37,7 @@ public class Interface {
     public Interface() 
     {      
         escalar = new Escalar(pathProcessos.length, pathProcessos);
-        //superEscalar = new SuperEscalar(pathProcessos.length, pathProcessos);
+        superEscalar = new SuperEscalar(pathProcessos.length, pathProcessos);
         IF = new QuadradoComDado("", "", Color.PINK);
         ID = new QuadradoComDado("", "",  Color.PINK);
         BUBBLE = new QuadradoComDado("", "",  Color.PINK);
@@ -41,6 +46,7 @@ public class Interface {
         WB = new QuadradoComDado("", "",  Color.PINK);
     }
 
+    
 
     public void criarInterface() 
     {
@@ -331,7 +337,10 @@ public class Interface {
                 {
                 botaoProximo.setEnabled(false);             
                 }
-
+                
+                //Se a arquitetura for escalar
+                if(comboBoxTipoDeEscalaridade.getSelectedItem().toString().equals("Escalar"))
+                {
                 if(comboBoxSuportesMultiThreading.getSelectedItem().toString().equals("IMT"))
                 {
                 escalar.rodarCodigo(comboBoxSuportesMultiThreading.getSelectedItem().toString());
@@ -340,6 +349,26 @@ public class Interface {
                 {
                 escalar.rodarCodigo(comboBoxSuportesMultiThreading.getSelectedItem().toString());
                 }
+                }
+                //Se a arquitetura for Superescalar
+                else if(comboBoxTipoDeEscalaridade.getSelectedItem().toString().equals("Superescalar"))
+                {
+                if(comboBoxSuportesMultiThreading.getSelectedItem().toString().equals("IMT"))
+                {
+                superEscalar.rodarCodigo(comboBoxSuportesMultiThreading.getSelectedItem().toString());
+                }
+                else if(comboBoxSuportesMultiThreading.getSelectedItem().toString().equals("BMT"))
+                {
+                superEscalar.rodarCodigo(comboBoxSuportesMultiThreading.getSelectedItem().toString());
+                }
+                else
+                {
+                 superEscalar.rodarCodigo(comboBoxSuportesMultiThreading.getSelectedItem().toString());
+                }
+                  
+                }
+
+
                 comboBoxSuportesMultiThreading.setEnabled(false);
 
                 if(escalar.pararPipeLine == escalar.getPipeline().size() && escalar.CiclosBolha() == 0)
