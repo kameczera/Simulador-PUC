@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import Nodo.*;
 
 public class QuadradoComDado extends JPanel {
     private JPanel panel;
@@ -30,11 +31,20 @@ public class QuadradoComDado extends JPanel {
             label = "";
         }
         this.label.setText(label);
-        this.labelInstrucao.setText("Teste");
+        this.labelInstrucao.setText(this.labelInstrucao.getText());
     }
 
-    public void mudarLabelInstrucao(String labelInstrucao) {
-        this.labelInstrucao.setText(labelInstrucao);
+    public void mudarLabelInstrucao(int [] instrucaoAtual) 
+    {
+        String operando = getOperando(instrucaoAtual[0]);
+        if(operando.equals("DELAY"))
+        {
+        this.labelInstrucao.setText("DELAY");
+        }
+        else
+        {
+        this.labelInstrucao.setText((operando +" r" + instrucaoAtual[1] + " r" + instrucaoAtual[2]+ " " + instrucaoAtual[3]).toString());
+        }
     }
 
     public JPanel getPanel() {
@@ -53,6 +63,26 @@ public class QuadradoComDado extends JPanel {
         panel.setVisible(flag);
         label.setVisible(flag);
     }
+
+    private String getOperando(int valor)
+    {
+      if(valor == 20)
+      return "";
+      else if(valor == -1)
+      return "DELAY";
+      else if(valor == 0)
+      return "";
+      else if(valor == 1)
+      return "add";
+      else if(valor == 2)
+      return "addi";
+      else if(valor == 3)
+      return "and";
+      else if(valor == 4)
+      return "lw";
+      return "Operador nao encontrado";
+    }
+
     
 
 }

@@ -42,6 +42,7 @@ public class Nodo{
         System.out.println("");
     }
 
+
     // executa a instrucao, modificando os valores dos registradores.
     // Observacao e TODO: Ao implementar instrucoes de branch( beq, jump etc..). Sera necessario passar como argumento dessa funcao os PCs dos processos/threads. (Prioridade 5)
     public void rodarNodo(int[] registradores){

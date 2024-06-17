@@ -23,6 +23,7 @@ public class Interface {
     String[] suportesMultiThreading = {"","",""};
     String[] TipoDePipeLine = { "","Escalar", "Superescalar"};
     private Escalar escalar;
+    private SuperEscalar superEscalar;
     String[] pathProcessos = { "./processo1.txt", "./processo3.txt"};
     String[] pathProcessosTeste = new String[10];
     private JTextArea selectedFilesArea;
@@ -31,6 +32,7 @@ public class Interface {
     public Interface() 
     {      
         escalar = new Escalar(pathProcessos.length, pathProcessos);
+        //superEscalar = new SuperEscalar(pathProcessos.length, pathProcessos);
         IF = new QuadradoComDado("", "", Color.PINK);
         ID = new QuadradoComDado("", "",  Color.PINK);
         BUBBLE = new QuadradoComDado("", "",  Color.PINK);
@@ -275,6 +277,7 @@ public class Interface {
                    comboBoxSuportesMultiThreading.addItem("BMT");
                    comboBoxSuportesMultiThreading.setEnabled(true);
                    painelDeDados.add(LabelCPI);
+                   painelDeDados.remove(LabelIPC);
                    painelDeDados.revalidate();
                    painelDeDados.repaint();
                    }
@@ -286,6 +289,7 @@ public class Interface {
                         comboBoxSuportesMultiThreading.addItem("SMT");
                         comboBoxSuportesMultiThreading.setEnabled(true);
                         painelDeDados.add(LabelIPC);
+                        painelDeDados.remove(LabelCPI);
                         painelDeDados.revalidate();
                         painelDeDados.repaint();
                    }
@@ -343,19 +347,34 @@ public class Interface {
                 botaoProximo.setEnabled(false);
                 }
                 
-        
+                Nodo instrucaoAtual;
+                int [] arrayInstrucao;
                 int idProcesso = 0;
+
                 //escalar.rodarCodigo();
                 ListIterator<Nodo> list_Iter = escalar.getPipeline().listIterator();             
                 idProcesso = list_Iter.next().getIdProcesso();
+                instrucaoAtual = list_Iter.previous();
+                arrayInstrucao = instrucaoAtual.getInstrucao();
+                WB.mudarLabelInstrucao(arrayInstrucao);
+                list_Iter.next();
                 WB.mudarCor(corProcessos[(idProcesso)]);
                 WB.mudarLabel("T" + idProcesso);
 
                 idProcesso = list_Iter.next().getIdProcesso();
+                instrucaoAtual = list_Iter.previous();
+                arrayInstrucao = instrucaoAtual.getInstrucao();
+                MEM.mudarLabelInstrucao(arrayInstrucao);
+                list_Iter.next();
                 MEM.mudarCor(corProcessos[(idProcesso)]);
                 MEM.mudarLabel("T" + idProcesso);
+                
 
                 idProcesso = list_Iter.next().getIdProcesso();
+                instrucaoAtual = list_Iter.previous();
+                arrayInstrucao = instrucaoAtual.getInstrucao();
+                EX.mudarLabelInstrucao(arrayInstrucao);
+                list_Iter.next();
                 EX.mudarCor(corProcessos[(idProcesso)]);
                 EX.mudarLabel("T" + idProcesso);
 
@@ -372,11 +391,21 @@ public class Interface {
                         BUBBLE.invisivel(false);
                         LabelBUBBLE.setVisible(false);
                 }
+
+
                 idProcesso = list_Iter.next().getIdProcesso();
+                instrucaoAtual = list_Iter.previous();
+                arrayInstrucao = instrucaoAtual.getInstrucao();
+                ID.mudarLabelInstrucao(arrayInstrucao);
+                list_Iter.next();
                 ID.mudarCor(corProcessos[(idProcesso)]);
                 ID.mudarLabel("T" + idProcesso);
                 
                 idProcesso = list_Iter.next().getIdProcesso();
+                instrucaoAtual = list_Iter.previous();
+                arrayInstrucao = instrucaoAtual.getInstrucao();
+                IF.mudarLabelInstrucao(arrayInstrucao);
+                list_Iter.next();
                 IF.mudarCor(corProcessos[(idProcesso)]);        
                 IF.mudarLabel("T" + idProcesso);
                 if(escalar.getPipeline().size() == 0) botaoProximo.setEnabled(false);

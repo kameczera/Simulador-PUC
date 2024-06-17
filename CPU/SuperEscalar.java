@@ -20,7 +20,7 @@ public class SuperEscalar implements CPU {
     private Registradores[] registradores;
     private int ciclos = 0;
     private int ciclosBolha = 0;
-    private double TempoCiclo = 2.0; // Tempo de ciclo em nanosegundos
+    private double TempoCiclo = 2.0; // Tempo de ciclo em nanosegundos, ou seja, cada ciclo leva 2.0 n/s
     private int instrucoesExecutadas = 0;
     public int pararPipeLine = 0;
 
@@ -35,7 +35,8 @@ public class SuperEscalar implements CPU {
 
         //Inicializa as unidades de execução todas como null
         unidades = new Nodo[4];
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) 
+        {
             unidades[i] = null;
         }
 
