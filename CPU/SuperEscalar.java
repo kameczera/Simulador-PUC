@@ -12,9 +12,9 @@ import java.util.List;
 // Classe Pipeline SuperEscalar
 // TODO: Fazer o pipeline superescalar + o buffer de reordenamento + a renomeacao de registradores
 public class SuperEscalar implements CPU {
-    private Nodo[] unidades;
-    private LinkedList<Nodo> pipeline;
+    private LinkedList<Nodo[]> pipeline;
     private List<Processo> processos;
+    private int[] contagemSaida;
     private int nProcessos;
     private int escalonador;
     private Registradores[] registradores;
@@ -25,19 +25,18 @@ public class SuperEscalar implements CPU {
     public int pararPipeLine = 0;
 
     // unidades especializadas: ALU, branch e LOAD/STORE
-    public SuperEscalar(int nProcessos, String[] pathProcessos) 
-    {
+    public SuperEscalar(int nProcessos, String[] pathProcessos) {
+        contagemSaida = new int[3];
+        for(int i = 0; i < 3; i++) contagemSaida[i] = 0;
         registradores = new Registradores[nProcessos];
-        for (int i = 0; i < nProcessos; i++) 
-        {
+        for (int i = 0; i < nProcessos; i++) {
             registradores[i] = new Registradores(12 / nProcessos);
         }
-
-        //Inicializa as unidades de execução todas como null
-        unidades = new Nodo[5];
-        for (int i = 0; i < 5; i++) 
-        {
-            unidades[i] = null;
+        pipeline = new LinkedList<Nodo[]>();
+        // Inicializa as unidades de execução todas como null
+        for (int i = 0; i < 4; i++) {
+            Nodo[] t = new Nodo[3];
+            pipeline.add(t);
         }
 
         this.nProcessos = nProcessos;
@@ -49,161 +48,111 @@ public class SuperEscalar implements CPU {
         }
     }
 
-    public void rodarCodigo(String comboBoxItem) {
-
-        if (comboBoxItem.equals("IMT")) {
-            preencherPipelineIMT();
-        } else if (comboBoxItem.equals("BMT")) {
-            preencherPipelineBMT();
-        } else {
-            preencherPipelineSMT();
-        }
-        for (int i = 0; i < 4; i++) {
-            Nodo p = unidades[i];
+    public boolean passarParaUnidades(){
+        Nodo[] OF = pipeline.get(2);
+        Nodo[] unidades = pipeline.get(1);
+        for (int i = 0; i < 3; i++) {
+            Nodo p = OF[i];
             if(p != null)
             {
-                if (p.getIdProcesso() != 4) 
-                {
-                    p.rodarNodo(registradores[p.getIdProcesso()].getRegistradores());
-                    ++instrucoesExecutadas;
+                if(p.getInstrucao()[0] == -1) break;
+                
+                // addi, add, and etc..
+                if (p.getInstrucao()[0] < 3) {
+                    if(unidades[0] != null) break;
+                    unidades[0] = p;
+                    OF[i] = null;
+                    
+                    // store & load: sw & lw
+                } else if (p.getInstrucao()[0] == 4 || p.getInstrucao()[0] == 5) {
+                    if(unidades[1] != null) break;
+                    unidades[1] = p;
+                    OF[i] = null;
+                    contagemSaida[1] = 2;
+                    
+                    // branch: beq, j etc..
+                } else {
+                    if(unidades[2] != null) break;
+                    unidades[2] = p;
+                    OF[i] = null;
+                    contagemSaida[2] = 2;
                 }
-                unidades[i] = null;
             }
         }
-        ciclos++;
+        boolean OFVazio = true;
+        for(int i = 0; i < 3; i++) if(OF[i] != null) OFVazio = false;
+        if(OFVazio == false) {
+            pipeline.add(2, new Nodo[4]);
+        }else{
+            pipeline.remove(2);
+        }
+        return OFVazio;
     }
 
-    public void preencherPipelineBMT() 
-    {
-        if (nProcessos > 1) 
-        {
-            Processo processo = processos.get(escalonador);
-            processo.getInstrucoesSuper(unidades);
-            if (processo.getEstado()) 
-            {
-                processos.remove(processo);
-                nProcessos--;
-            }
-            // escalonador faz o entrelacamento das threads, pois e atualizado a cada
-            // chamada da funcao
-            if(unidades[0] != null)
-            {
-                if (unidades[0].getInstrucao()[0] == -1) 
-                {
-                    escalonador = (escalonador + 1) % nProcessos;
-                }
-            }
-        } else if (nProcessos == 1) 
-        {
-            Processo processo = processos.get(0);
-            processo.getInstrucoesSuper(unidades);
-            if (processo.getEstado()) {
-                processos.remove(processo);
-                nProcessos--;
-            }
-            // apenas se houver 1 processo que ele executa o metodo de verificacao de bolha.
-            // Dado que o entrelacamento se perde entre threads se perde
-        } else {
-            for(int i = 0; i < 4; i++)
-            {
-                Nodo p = unidades[i];
-                if (p == null) {
-                    unidades[0] = p;
-                }
+    public void rodarCodigo(String comboBoxItem) {
+        if(passarParaUnidades()){
+            if (comboBoxItem.equals("IMT")) {
+                preencherPipelineIMT();
+            } else if (comboBoxItem.equals("BMT")) {
+                preencherPipelineBMT();
+            } else {
+                preencherPipelineSMT();
             }
         }
-        for (int j = 0; j < nProcessos; j++) 
-        {
-            Processo p = processos.get(j);
-            p.avancarInstrucao();
+        Nodo[] p = pipeline.poll();
+        ciclos++;
+        for(int i = 0; i < 3; i++) if(p[i] != null) {
+            p[i].rodarNodo(registradores[p[i].getIdProcesso()].getRegistradores());
+
         }
+        ++instrucoesExecutadas;
+
+    }
+
+    // if(p.getIdProcesso()!=3)
+
+    // {
+    //     p.rodarNodo(registradores[p.getIdProcesso()].getRegistradores());
+    //     ++instrucoesExecutadas;
+    // }
+
+    public void preencherPipelineBMT() {
     }
 
     public void preencherPipelineSMT() {
-        if (nProcessos > 1) {
-            for(int i = 0; i < nProcessos; i++){
-                Processo processo = processos.get(escalonador);
-                processo.getInstrucoesSuper(unidades);
-                if (processo.getEstado()) {
-                    processos.remove(processo);
-                    nProcessos--;
-                }
-                escalonador = (escalonador + 1) % nProcessos;
-                // Ignorar delays de outras threads/processos porque o processo atual esta
-                // trabalhando no tempo de ociosidade delas
-                // escalonador faz o entrelacamento das threads, pois e atualizado a cada
-                // chamada da funcao
-            }
-        } else if (nProcessos == 1) 
-        {
-            Processo processo = processos.get(0);
-            processo.getInstrucoesSuper(unidades);
-            if (processo.getEstado()) {
-                processos.remove(processo);
-                nProcessos--;
-            }
-            // apenas se houver 1 processo que ele executa o metodo de verificacao de bolha.
-            // Dado que o entrelacamento se perde entre threads se perde
-        } else {
-            for(int i = 0; i < 4; i++){
-                Nodo p = unidades[i];
-                if (p == null) {
-                    unidades[0] = p;
-                }
-            }
-        }
-        for (int j = 0; j < nProcessos; j++) {
-            Processo p = processos.get(j);
-            p.avancarInstrucao();
-        }
     }
 
     public void preencherPipelineIMT() 
     {
-        if (nProcessos > 1) 
+        if (nProcessos > 1)
         {
             Processo processo = processos.get(escalonador);
-            processo.getInstrucoesSuper(unidades);
-            if (processo.getEstado()) {
-                processos.remove(processo);
-                nProcessos--;
-            }
-            // Ignorar delays de outras threads/processos porque o processo atual esta
-            // trabalhando no tempo de ociosidade delas
-            // escalonador faz o entrelacamento das threads, pois e atualizado a cada
-            // chamada da funcao
-            escalonador = (escalonador + 1) % nProcessos;
-        } else if (nProcessos == 1) 
-        {
-            Processo processo = processos.get(0);
-            processo.getInstrucoesSuper(unidades);
+            pipeline.add(processo.getInstrucoesSuper());
             if (processo.getEstado()) 
             {
                 processos.remove(processo);
                 nProcessos--;
             }
+            for(int i = 0; i < nProcessos; i++){
+                Processo p = processos.get(i);
+                if(processo != p) p.avancarInstrucao();
+            }
+            // escalonador faz o entrelacamento das threads, pois e atualizado a cada
+            // chamada da funcao
+            escalonador = (escalonador + 1) % nProcessos;
+        } else if (nProcessos == 1) {
+            Processo processo = processos.get(0);
+            pipeline.add(processo.getInstrucoesSuper());
+            if (processo.getEstado()) {
+                processos.remove(processo);
+                nProcessos--;
+            }
             // apenas se houver 1 processo que ele executa o metodo de verificacao de bolha.
             // Dado que o entrelacamento se perde entre threads se perde
-        } else 
-        {
-            for(int i = 0; i < 4; i++)
-            {
-                Nodo p = unidades[i];
-                if (p == null) {
-                    unidades[0] = p;
-                }
-            }
-        }
-        for (int j = 0; j < nProcessos; j++) 
-        {
-            Processo p = processos.get(j);
-            p.avancarInstrucao();
+        } else {
+            Nodo[] vazio = new Nodo[3];
+            for(int i = 0; i < 3; i++) vazio[i] = null;
+            pipeline.add(vazio);
         }
     }
-
-    //Acho que precisamos do pipeline
-    public LinkedList<Nodo> getPipeline() {
-        return pipeline;
-    }
-
 }

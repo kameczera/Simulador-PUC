@@ -166,8 +166,7 @@ public class Escalar implements CPU {
             }
             // escalonador faz o entrelacamento das threads, pois e atualizado a cada chamada da funcao
             escalonador = (escalonador + 1) % nProcessos;
-        } else if (nProcessos == 1) 
-        {
+        } else if (nProcessos == 1) {
             Processo processo = processos.get(0);
             Nodo n = processo.getInstrucao();
             pipeline.add(n);

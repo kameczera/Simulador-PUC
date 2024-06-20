@@ -523,69 +523,69 @@ public class Interface {
         else if(comboBoxTipoDeEscalaridade.getSelectedItem().toString().equals("Superescalar"))
              {
 
-                ListIterator<Nodo> list_Iter = superEscalar.getPipeline().listIterator();             
-                idProcesso = list_Iter.next().getIdProcesso();
-                instrucaoAtual = list_Iter.previous();
-                arrayInstrucao = instrucaoAtual.getInstrucao();
-                WB.mudarLabelInstrucao(arrayInstrucao);
-                list_Iter.next();
-                WB.mudarCor(corProcessos[(idProcesso)]);
-                WB.mudarLabel("T" + idProcesso);
+                // ListIterator<Nodo> list_Iter = superEscalar.getPipeline().listIterator      
+                // idProcesso = list_Iter.next().getIdProcesso();
+                // instrucaoAtual = list_Iter.previous();
+                // arrayInstrucao = instrucaoAtual.getInstrucao();
+                // WB.mudarLabelInstrucao(arrayInstrucao);
+                // list_Iter.next();
+                // WB.mudarCor(corProcessos[(idProcesso)]);
+                // WB.mudarLabel("T" + idProcesso);
 
-                idProcesso = list_Iter.next().getIdProcesso();
-                instrucaoAtual = list_Iter.previous();
-                arrayInstrucao = instrucaoAtual.getInstrucao();
-                MEM.mudarLabelInstrucao(arrayInstrucao);
-                list_Iter.next();
-                MEM.mudarCor(corProcessos[(idProcesso)]);
-                MEM.mudarLabel("T" + idProcesso);
+                // idProcesso = list_Iter.next().getIdProcesso();
+                // instrucaoAtual = list_Iter.previous();
+                // arrayInstrucao = instrucaoAtual.getInstrucao();
+                // MEM.mudarLabelInstrucao(arrayInstrucao);
+                // list_Iter.next();
+                // MEM.mudarCor(corProcessos[(idProcesso)]);
+                // MEM.mudarLabel("T" + idProcesso);
                 
 
-                idProcesso = list_Iter.next().getIdProcesso();
-                instrucaoAtual = list_Iter.previous();
-                arrayInstrucao = instrucaoAtual.getInstrucao();
-                EX.mudarLabelInstrucao(arrayInstrucao);
-                list_Iter.next();
-                EX.mudarCor(corProcessos[(idProcesso)]);
-                EX.mudarLabel("T" + idProcesso);
+                // idProcesso = list_Iter.next().getIdProcesso();
+                // instrucaoAtual = list_Iter.previous();
+                // arrayInstrucao = instrucaoAtual.getInstrucao();
+                // EX.mudarLabelInstrucao(arrayInstrucao);
+                // list_Iter.next();
+                // EX.mudarCor(corProcessos[(idProcesso)]);
+                // EX.mudarLabel("T" + idProcesso);
 
-                if(escalar.getPipeline().size() == 6) 
-                {
-                        idProcesso = list_Iter.next().getIdProcesso();
-                        BUBBLE.mudarLabel("T" + idProcesso);
-                        BUBBLE.mudarCor(corProcessos[(idProcesso)]);
-                        BUBBLE.invisivel(true);
-                        LabelBUBBLE.setVisible(true);
-                }
-                else
-                {
-                        BUBBLE.invisivel(false);
-                        LabelBUBBLE.setVisible(false);
-                }
+                // if(escalar.getPipeline().size() == 6) 
+                // {
+                //         idProcesso = list_Iter.next().getIdProcesso();
+                //         BUBBLE.mudarLabel("T" + idProcesso);
+                //         BUBBLE.mudarCor(corProcessos[(idProcesso)]);
+                //         BUBBLE.invisivel(true);
+                //         LabelBUBBLE.setVisible(true);
+                // }
+                // else
+                // {
+                //         BUBBLE.invisivel(false);
+                //         LabelBUBBLE.setVisible(false);
+                // }
 
 
-                idProcesso = list_Iter.next().getIdProcesso();
-                instrucaoAtual = list_Iter.previous();
-                arrayInstrucao = instrucaoAtual.getInstrucao();
-                ID.mudarLabelInstrucao(arrayInstrucao);
-                list_Iter.next();
-                ID.mudarCor(corProcessos[(idProcesso)]);
-                ID.mudarLabel("T" + idProcesso);
+                // idProcesso = list_Iter.next().getIdProcesso();
+                // instrucaoAtual = list_Iter.previous();
+                // arrayInstrucao = instrucaoAtual.getInstrucao();
+                // ID.mudarLabelInstrucao(arrayInstrucao);
+                // list_Iter.next();
+                // ID.mudarCor(corProcessos[(idProcesso)]);
+                // ID.mudarLabel("T" + idProcesso);
                 
-                idProcesso = list_Iter.next().getIdProcesso();
-                instrucaoAtual = list_Iter.previous();
-                arrayInstrucao = instrucaoAtual.getInstrucao();
-                IF.mudarLabelInstrucao(arrayInstrucao);
-                list_Iter.next();
-                IF.mudarCor(corProcessos[(idProcesso)]);        
-                IF.mudarLabel("T" + idProcesso);
-                if(escalar.getPipeline().size() == 0) botaoProximo.setEnabled(false);
-                escalar.printarTodosRegistradores();
+                // idProcesso = list_Iter.next().getIdProcesso();
+                // instrucaoAtual = list_Iter.previous();
+                // arrayInstrucao = instrucaoAtual.getInstrucao();
+                // IF.mudarLabelInstrucao(arrayInstrucao);
+                // list_Iter.next();
+                // IF.mudarCor(corProcessos[(idProcesso)]);        
+                // IF.mudarLabel("T" + idProcesso);
+                // if(escalar.getPipeline().size() == 0) botaoProximo.setEnabled(false);
+                // escalar.printarTodosRegistradores();
 
-                LabelCPI.setText("CPI: " + ((escalar.CalculoCPI())));
-                LabelCiclos.setText("Ciclos: " + (escalar.getCiclos()));
-                LabelCiclosBolha.setText("Ciclos Bolhas: " + escalar.CiclosBolha());
-                LabelTempoGasto.setText("Tempo Gasto: " + escalar.TempoTotalGasto() + " ns");
+                // LabelCPI.setText("CPI: " + ((escalar.CalculoCPI())));
+                // LabelCiclos.setText("Ciclos: " + (escalar.getCiclos()));
+                // LabelCiclosBolha.setText("Ciclos Bolhas: " + escalar.CiclosBolha());
+                // LabelTempoGasto.setText("Tempo Gasto: " + escalar.TempoTotalGasto() + " ns");
         }
 
 
