@@ -13,6 +13,7 @@ import java.util.List;
 // TODO: Fazer o pipeline superescalar + o buffer de reordenamento + a renomeacao de registradores
 public class SuperEscalar implements CPU {
     private Nodo[] unidades;
+    private LinkedList<Nodo> pipeline;
     private List<Processo> processos;
     private int nProcessos;
     private int escalonador;
@@ -59,8 +60,10 @@ public class SuperEscalar implements CPU {
         }
         for (int i = 0; i < 4; i++) {
             Nodo p = unidades[i];
-            if(p != null){
-                if (p.getIdProcesso() != 4) {
+            if(p != null)
+            {
+                if (p.getIdProcesso() != 4) 
+                {
                     p.rodarNodo(registradores[p.getIdProcesso()].getRegistradores());
                     ++instrucoesExecutadas;
                 }
@@ -70,18 +73,23 @@ public class SuperEscalar implements CPU {
         ciclos++;
     }
 
-    public void preencherPipelineBMT() {
-        if (nProcessos > 1) {
+    public void preencherPipelineBMT() 
+    {
+        if (nProcessos > 1) 
+        {
             Processo processo = processos.get(escalonador);
             processo.getInstrucoesSuper(unidades);
-            if (processo.getEstado()) {
+            if (processo.getEstado()) 
+            {
                 processos.remove(processo);
                 nProcessos--;
             }
             // escalonador faz o entrelacamento das threads, pois e atualizado a cada
             // chamada da funcao
-            if(unidades[0] != null){
-                if (unidades[0].getInstrucao()[0] == -1) {
+            if(unidades[0] != null)
+            {
+                if (unidades[0].getInstrucao()[0] == -1) 
+                {
                     escalonador = (escalonador + 1) % nProcessos;
                 }
             }
@@ -96,14 +104,16 @@ public class SuperEscalar implements CPU {
             // apenas se houver 1 processo que ele executa o metodo de verificacao de bolha.
             // Dado que o entrelacamento se perde entre threads se perde
         } else {
-            for(int i = 0; i < 4; i++){
+            for(int i = 0; i < 4; i++)
+            {
                 Nodo p = unidades[i];
                 if (p == null) {
                     unidades[0] = p;
                 }
             }
         }
-        for (int j = 0; j < nProcessos; j++) {
+        for (int j = 0; j < nProcessos; j++) 
+        {
             Processo p = processos.get(j);
             p.avancarInstrucao();
         }
@@ -148,8 +158,10 @@ public class SuperEscalar implements CPU {
         }
     }
 
-    public void preencherPipelineIMT() {
-        if (nProcessos > 1) {
+    public void preencherPipelineIMT() 
+    {
+        if (nProcessos > 1) 
+        {
             Processo processo = processos.get(escalonador);
             processo.getInstrucoesSuper(unidades);
             if (processo.getEstado()) {
@@ -165,23 +177,33 @@ public class SuperEscalar implements CPU {
         {
             Processo processo = processos.get(0);
             processo.getInstrucoesSuper(unidades);
-            if (processo.getEstado()) {
+            if (processo.getEstado()) 
+            {
                 processos.remove(processo);
                 nProcessos--;
             }
             // apenas se houver 1 processo que ele executa o metodo de verificacao de bolha.
             // Dado que o entrelacamento se perde entre threads se perde
-        } else {
-            for(int i = 0; i < 4; i++){
+        } else 
+        {
+            for(int i = 0; i < 4; i++)
+            {
                 Nodo p = unidades[i];
                 if (p == null) {
                     unidades[0] = p;
                 }
             }
         }
-        for (int j = 0; j < nProcessos; j++) {
+        for (int j = 0; j < nProcessos; j++) 
+        {
             Processo p = processos.get(j);
             p.avancarInstrucao();
         }
     }
+
+    //Acho que precisamos do pipeline
+    public LinkedList<Nodo> getPipeline() {
+        return pipeline;
+    }
+
 }

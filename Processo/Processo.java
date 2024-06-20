@@ -95,27 +95,32 @@ public class Processo {
         return p;
     }
 
-    public void getInstrucoesSuper(Nodo[] unidades) 
+    public Nodo getInstrucoesSuper(Nodo[] unidades) 
     {
         int adicionados = 0;
+        Nodo p = new Nodo();
         // faz no maximo 4 vezes, pq tem 4 unidades de execucao
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) 
+        {
             if (instrucaoAtual + i == instrucoes.size()) 
             {
                 estado = true;
                 break;
             }
-            Nodo p = instrucoes.get(instrucaoAtual + i);
+             p = instrucoes.get(instrucaoAtual + i);
             boolean semDependencia = true;
             // verifica se tem dependencia com as adicionadas anteriormente
-            for (int j = 0; j < i; j++) {
+            for (int j = 0; j < i; j++) 
+            {
                 Nodo q = unidades[j];
-                if(p.getIdProcesso() == q.getIdProcesso()){
+                if(p.getIdProcesso() == q.getIdProcesso())
+                {
                     if (p.getInstrucao()[2] == q.getInstrucao()[1] || p.getInstrucao()[3] == q.getInstrucao()[1])
                         semDependencia = false;
                 }
             }
-            if (semDependencia) {
+            if (semDependencia) 
+            {
                 // DELAY
                 if(p.getInstrucao()[0] == -1) break;
                 // addi, add, and etc..
@@ -141,6 +146,7 @@ public class Processo {
                 break;
         }
         instrucaoAtual += adicionados;
+        return p;
     }
 
     // avancarInstrucao é um metodo utilizado apenas no BMT para ajudar na simulacao
