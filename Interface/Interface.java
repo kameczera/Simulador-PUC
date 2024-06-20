@@ -56,7 +56,7 @@ public class Interface {
         JFrame janela = new JFrame("Simulador Suporte a Multithreading");
 
         // Definir tamanho da janela
-        janela.setSize(900, 500);
+        janela.setSize(1200, 700);
 
         // Obter as dimensões da tela
         Dimension dimensaoTela = Toolkit.getDefaultToolkit().getScreenSize();
@@ -170,6 +170,7 @@ public class Interface {
         JLabel LabelMEM = new JLabel("MEM");
         LabelMEM.setFont(new Font("Arial", Font.BOLD, 16));
 
+
         JLabel LabelWB = new JLabel("WB");
         LabelWB.setFont(new Font("Arial", Font.BOLD, 16));
         
@@ -183,48 +184,48 @@ public class Interface {
                 pipeline.createSequentialGroup()
                         .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addComponent(LabelIF)
-                                .addComponent(IF.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
+                                .addComponent(IF.getPanel(), GroupLayout.PREFERRED_SIZE, 90,
                                         GroupLayout.PREFERRED_SIZE))
                         .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addComponent(LabelID)
-                                .addComponent(ID.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
+                                .addComponent(ID.getPanel(), GroupLayout.PREFERRED_SIZE, 90,
                                         GroupLayout.PREFERRED_SIZE))
                         .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addComponent(LabelBUBBLE)
-                                .addComponent(BUBBLE.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
+                                .addComponent(BUBBLE.getPanel(), GroupLayout.PREFERRED_SIZE, 90,
                                         GroupLayout.PREFERRED_SIZE))
                         .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addComponent(LabelEX)
-                                .addComponent(EX.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
+                                .addComponent(EX.getPanel(), GroupLayout.PREFERRED_SIZE, 90,
                                         GroupLayout.PREFERRED_SIZE))
 
                         .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addComponent(LabelALU)
-                                .addComponent(ALU.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
+                                .addComponent(ALU.getPanel(), GroupLayout.PREFERRED_SIZE, 90,
                                         GroupLayout.PREFERRED_SIZE))
 
                                         .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addComponent(LabelBranch)
-                                .addComponent(BRANCH.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
+                                .addComponent(BRANCH.getPanel(), GroupLayout.PREFERRED_SIZE, 90,
                                         GroupLayout.PREFERRED_SIZE))
 
                                         .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addComponent(LabelStore)
-                                .addComponent(STORE.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
+                                .addComponent(STORE.getPanel(), GroupLayout.PREFERRED_SIZE, 90,
                                         GroupLayout.PREFERRED_SIZE))
 
                                         .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addComponent(LabelLoad)
-                                .addComponent(LOAD.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
+                                .addComponent(LOAD.getPanel(), GroupLayout.PREFERRED_SIZE, 90,
                                         GroupLayout.PREFERRED_SIZE))
 
                         .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addComponent(LabelMEM)
-                                .addComponent(MEM.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
+                                .addComponent(MEM.getPanel(), GroupLayout.PREFERRED_SIZE, 90,
                                         GroupLayout.PREFERRED_SIZE))
                         .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addComponent(LabelWB)
-                                .addComponent(WB.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
+                                .addComponent(WB.getPanel(), GroupLayout.PREFERRED_SIZE, 90,
                                         GroupLayout.PREFERRED_SIZE)));
 
         pipeline.setVerticalGroup(
@@ -241,17 +242,17 @@ public class Interface {
                                 .addComponent(LabelMEM)
                                 .addComponent(LabelWB))
                         .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
-                                .addComponent(IF.getPanel(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(ID.getPanel(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(BUBBLE.getPanel(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(EX.getPanel(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(ALU.getPanel(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(BRANCH.getPanel(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(LOAD.getPanel(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(STORE.getPanel(), GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(MEM.getPanel(), GroupLayout.PREFERRED_SIZE, 50,
+                                .addComponent(IF.getPanel(), GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(ID.getPanel(), GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(BUBBLE.getPanel(), GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(EX.getPanel(), GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(ALU.getPanel(), GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(BRANCH.getPanel(), GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(LOAD.getPanel(), GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(STORE.getPanel(), GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(MEM.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
                                         GroupLayout.PREFERRED_SIZE)
-                                .addComponent(WB.getPanel(), GroupLayout.PREFERRED_SIZE, 50,
+                                .addComponent(WB.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
                                         GroupLayout.PREFERRED_SIZE)));
 
         // Adicionar painel centralizado ao painel de conteúdo
@@ -358,6 +359,8 @@ public class Interface {
                         comboBoxSuportesMultiThreading.setEnabled(true);
                         EX.invisivel(false);
                         LabelEX.setVisible(false);
+                        LabelMEM.setVisible(false);
+                        MEM.invisivel(false);
                         ALU.invisivel(true);
                         LabelALU.setVisible(true);
                         BRANCH.invisivel(true);
@@ -532,6 +535,7 @@ public class Interface {
                 // WB.mudarCor(corProcessos[(idProcesso)]);
                 // WB.mudarLabel("T" + idProcesso);
 
+<<<<<<< HEAD
                 // idProcesso = list_Iter.next().getIdProcesso();
                 // instrucaoAtual = list_Iter.previous();
                 // arrayInstrucao = instrucaoAtual.getInstrucao();
@@ -540,6 +544,8 @@ public class Interface {
                 // MEM.mudarCor(corProcessos[(idProcesso)]);
                 // MEM.mudarLabel("T" + idProcesso);
                 
+=======
+>>>>>>> 4b29a918862b3b2eeff95d7889ae3e38d24a5fa8
 
                 // idProcesso = list_Iter.next().getIdProcesso();
                 // instrucaoAtual = list_Iter.previous();
