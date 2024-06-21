@@ -6,8 +6,11 @@ public class QuadradoComDado extends JPanel {
     private JPanel panel;
     private JLabel label;
     private JLabel labelInstrucao;
+    private JLabel labelInstrucao2;
+    private JLabel labelInstrucao3;
 
-    public QuadradoComDado(String label, String labelInstrucao, Color cor) {
+    public QuadradoComDado(String label, String labelInstrucao, Color cor) 
+    {
         this.label = new JLabel(label);
         this.labelInstrucao = new JLabel(labelInstrucao);
         this.panel = new JPanel();
@@ -46,6 +49,19 @@ public class QuadradoComDado extends JPanel {
         this.labelInstrucao.setText((operando +" r" + instrucaoAtual[1] + " r" + instrucaoAtual[2]+ " " + instrucaoAtual[3]).toString());
         }
     }
+
+    public void mudarLabelInstrucaoSuperEscalar(Nodo[] instrucao)
+    {
+
+     //String operando = getOperando(instrucao[0]);
+     this.labelInstrucao.setText(instrucao[0].toString());
+     this.labelInstrucao2.setText(instrucao[1].toString());
+     this.labelInstrucao3.setText(instrucao[2].toString());
+    }
+
+    
+
+
 
     public JPanel getPanel() {
         return panel;

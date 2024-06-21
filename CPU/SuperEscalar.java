@@ -13,7 +13,7 @@ import java.util.List;
 // TODO: Fazer o pipeline superescalar + o buffer de reordenamento + a renomeacao de registradores
 public class SuperEscalar implements CPU {
     private Nodo[] unidades;
-    private LinkedList<Nodo> pipeline;
+    private LinkedList<Nodo[]> pipeline;
     private List<Processo> processos;
     private int nProcessos;
     private int escalonador;
@@ -201,8 +201,10 @@ public class SuperEscalar implements CPU {
         }
     }
 
+
     //Acho que precisamos do pipeline
-    public LinkedList<Nodo> getPipeline() {
+    public LinkedList<Nodo[]> getPipeline() 
+    {
         return pipeline;
     }
 

@@ -6,6 +6,7 @@ import Nodo.Nodo;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.LinkedList;
 import java.util.ListIterator;
 
 // Interface:
@@ -27,6 +28,7 @@ public class Interface {
     String[] suportesMultiThreading = {"","",""};
     String[] TipoDePipeLine = { "","Escalar", "Superescalar"};
     private Escalar escalar;
+    LinkedList<Nodo[]> pipelineTest;
     private SuperEscalar superEscalar;
     String[] pathProcessos = {};
     private JTextArea selectedFilesArea;
@@ -526,14 +528,19 @@ public class Interface {
         else if(comboBoxTipoDeEscalaridade.getSelectedItem().toString().equals("Superescalar"))
              {
 
-                ListIterator<Nodo> list_Iter = superEscalar.getPipeline().listIterator();             
-                idProcesso = list_Iter.next().getIdProcesso();
-                instrucaoAtual = list_Iter.previous();
-                arrayInstrucao = instrucaoAtual.getInstrucao();
-                WB.mudarLabelInstrucao(arrayInstrucao);
-                list_Iter.next();
-                WB.mudarCor(corProcessos[(idProcesso)]);
-                WB.mudarLabel("T" + idProcesso);
+                //ListIterator<Nodo> list_Iter = superEscalar.getPipeline().listIterator();
+                ListIterator<Nodo[]> list_Iter = superEscalar.getPipeline().listIterator();
+                int[] idProcessoSuperEscalar = new int[4];
+
+                 Nodo[] p = list_Iter.next(); //Vai conter as 3 instruções aqui dentro      
+                 WB.mudarLabelInstrucaoSuperEscalar(p); //Passando as instruções pra inserir no quadrado WB       
+                 list_Iter.next();
+                 for(int x = 0; x < 4; x++)
+                 { 
+                 idProcessoSuperEscalar[x] = list_Iter.next()[0].getIdProcesso(); 
+                 }
+                 WB.mudarCor(corProcessos[(idProcesso)]);
+                 WB.mudarLabel("T" + idProcesso);
 
 
                 idProcesso = list_Iter.next().getIdProcesso();
