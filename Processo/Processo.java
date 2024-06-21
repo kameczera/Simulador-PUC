@@ -66,6 +66,12 @@ public class Processo {
                         c = Character.getNumericValue(registradores[1].charAt(3));
                         idInstrucao = 4;
                         break;
+                    case "sw":
+                        a = Character.getNumericValue(registradores[0].charAt(1));
+                        b = Character.getNumericValue(registradores[1].charAt(0));
+                        c = Character.getNumericValue(registradores[1].charAt(3));
+                        idInstrucao = 5;
+                        break;
                     // DELAY e um mecanismo de simularmos as ociosidades I/Os e de rede
                     case "DELAY":
                         // a instrucao DELAY no RISC-V sera deste jeito:
@@ -76,6 +82,13 @@ public class Processo {
                             n = new Nodo(idInstrucao, a, b, c, id);
                             instrucoes.add(n);
                         }
+                        break;
+                    case "beq":
+                        a = Character.getNumericValue(registradores[0].charAt(1));
+                        b = Character.getNumericValue(registradores[1].charAt(1));
+                        c = Character.getNumericValue(registradores[2].charAt(0));
+                        idInstrucao = 6;
+                        break;
                 }
                 n = new Nodo(idInstrucao, a, b, c, id);
                 instrucoes.add(n);
@@ -95,58 +108,40 @@ public class Processo {
         return p;
     }
 
-    public Nodo getInstrucoesSuper(Nodo[] unidades) 
+    public Nodo[] getInstrucoesSuper() 
     {
         int adicionados = 0;
         Nodo p = new Nodo();
+        Nodo[] despachados = new Nodo[3];
+        for(int i = 0; i < 3; i++) despachados[i] = null;
         // faz no maximo 4 vezes, pq tem 4 unidades de execucao
-        for (int i = 0; i < 4; i++) 
+        for (int i = 0; i < 4; i++)
         {
             if (instrucaoAtual + i == instrucoes.size()) 
             {
                 estado = true;
                 break;
             }
-             p = instrucoes.get(instrucaoAtual + i);
+            p = instrucoes.get(instrucaoAtual + i);
+            if(p.getInstrucao()[0] == -1) break;
             boolean semDependencia = true;
             // verifica se tem dependencia com as adicionadas anteriormente
             for (int j = 0; j < i; j++) 
             {
-                Nodo q = unidades[j];
+                Nodo q = despachados[j];
                 if(p.getIdProcesso() == q.getIdProcesso())
                 {
-                    if (p.getInstrucao()[2] == q.getInstrucao()[1] || p.getInstrucao()[3] == q.getInstrucao()[1])
-                        semDependencia = false;
+                    if (p.getInstrucao()[2] == q.getInstrucao()[1] || p.getInstrucao()[3] == q.getInstrucao()[1]) semDependencia = false;
                 }
             }
-            if (semDependencia) 
-            {
-                // DELAY
-                if(p.getInstrucao()[0] == -1) break;
-                // addi, add, and etc..
-                if (p.getInstrucao()[0] < 3) {
-                    if(unidades[0] == null) unidades[0] = p;
-                    else if(unidades[1] == null) unidades[1] = p;
-                    else break;
-                    // load: lw
-                } else if (p.getInstrucao()[0] == 4) {
-                    if(unidades[2] != null) break;
-                    unidades[2] = p;
-                    // store: sw
-                } else if (p.getInstrucao()[0] == 5) {
-                    if(unidades[3] != null) break;
-                    unidades[3] = p;
-                    // branch: beq, j etc..
-                } else {
-                    if(unidades[4] != null) break;
-                    unidades[4] = p;
-                }
+            if (semDependencia) {
+                despachados[i] = p;
                 adicionados++;
-            } else
-                break;
+            }
+            else break;
         }
         instrucaoAtual += adicionados;
-        return p;
+        return despachados;
     }
 
     // avancarInstrucao é um metodo utilizado apenas no BMT para ajudar na simulacao
