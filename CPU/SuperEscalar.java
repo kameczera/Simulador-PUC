@@ -25,16 +25,19 @@ public class SuperEscalar implements CPU {
     public int pararPipeLine = 0;
 
     // unidades especializadas: ALU, branch e LOAD/STORE
-    public SuperEscalar(int nProcessos, String[] pathProcessos) {
+    public SuperEscalar(int nProcessos, String[] pathProcessos) 
+    {
         contagemSaida = new int[3];
         for(int i = 0; i < 3; i++) contagemSaida[i] = 0;
         registradores = new Registradores[nProcessos];
-        for (int i = 0; i < nProcessos; i++) {
+        for (int i = 0; i < nProcessos; i++) 
+        {
             registradores[i] = new Registradores(12 / nProcessos);
         }
         pipeline = new LinkedList<Nodo[]>();
         // Inicializa as unidades de execução todas como null
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) 
+        {
             Nodo[] t = new Nodo[3];
             pipeline.add(t);
         }
@@ -42,13 +45,15 @@ public class SuperEscalar implements CPU {
         this.nProcessos = nProcessos;
         processos = new ArrayList<Processo>();
 
-        for (int i = 0; i < nProcessos; i++) {
+        for (int i = 0; i < nProcessos; i++) 
+        {
             Processo processo = new Processo(pathProcessos[i], i);
             processos.add(processo);
         }
     }
 
-    public boolean passarParaUnidades(){
+    public boolean passarParaUnidades()
+    {
         Nodo[] OF = pipeline.get(2);
         Nodo[] unidades = pipeline.get(1);
         for (int i = 0; i < 3; i++) {
@@ -58,7 +63,8 @@ public class SuperEscalar implements CPU {
                 if(p.getInstrucao()[0] == -1) break;
                 
                 // addi, add, and etc..
-                if (p.getInstrucao()[0] < 3) {
+                if (p.getInstrucao()[0] < 3) 
+                {
                     if(unidades[0] != null) break;
                     unidades[0] = p;
                     OF[i] = null;
@@ -71,7 +77,8 @@ public class SuperEscalar implements CPU {
                     contagemSaida[1] = 2;
                     
                     // branch: beq, j etc..
-                } else {
+                } else 
+                {
                     if(unidades[2] != null) break;
                     unidades[2] = p;
                     OF[i] = null;
@@ -89,7 +96,8 @@ public class SuperEscalar implements CPU {
         return OFVazio;
     }
 
-    public void rodarCodigo(String comboBoxItem) {
+    public void rodarCodigo(String comboBoxItem) 
+    {
         if(passarParaUnidades()){
             if (comboBoxItem.equals("IMT")) {
                 preencherPipelineIMT();
@@ -149,10 +157,19 @@ public class SuperEscalar implements CPU {
             }
             // apenas se houver 1 processo que ele executa o metodo de verificacao de bolha.
             // Dado que o entrelacamento se perde entre threads se perde
-        } else {
+        } else 
+        {
             Nodo[] vazio = new Nodo[3];
             for(int i = 0; i < 3; i++) vazio[i] = null;
             pipeline.add(vazio);
         }
     }
+
+   public  LinkedList<Nodo[]> getPipeLineSuperEscalar()
+   {
+    return pipeline;
+   }
+   
+
+
 }

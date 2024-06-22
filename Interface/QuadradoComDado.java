@@ -9,10 +9,12 @@ public class QuadradoComDado extends JPanel {
     private JLabel labelInstrucao2;
     private JLabel labelInstrucao3;
 
-    public QuadradoComDado(String label, String labelInstrucao, Color cor) 
+    public QuadradoComDado(String label, String labelInstrucao, String labelInstrucao2,String labelInstrucao3, Color cor) 
     {
         this.label = new JLabel(label);
         this.labelInstrucao = new JLabel(labelInstrucao);
+        this.labelInstrucao2 = new JLabel(labelInstrucao2);
+        this.labelInstrucao3 = new JLabel(labelInstrucao3);
         this.panel = new JPanel();
         
         // Configura o layout do painel para BoxLayout na orientação Y_AXIS (vertical)
@@ -22,10 +24,16 @@ public class QuadradoComDado extends JPanel {
           // Centraliza os labels no eixo X
           this.label.setAlignmentX(Component.CENTER_ALIGNMENT);
           this.labelInstrucao.setAlignmentX(Component.CENTER_ALIGNMENT);
+          this.labelInstrucao2.setAlignmentX(Component.CENTER_ALIGNMENT);
+          this.labelInstrucao3.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         
         // Adiciona os labels ao painel
         panel.add(this.label);
         panel.add(this.labelInstrucao);
+        panel.add(this.labelInstrucao2);
+        panel.add(this.labelInstrucao3);
+
     }
 
     public void mudarLabel(String label) {
@@ -52,11 +60,57 @@ public class QuadradoComDado extends JPanel {
 
     public void mudarLabelInstrucaoSuperEscalar(Nodo[] instrucao)
     {
+     int controleInsercao = 0;
+     for (Nodo nodo2 : instrucao) 
+     {
+     if(nodo2 != null)
+     {
+     int[] instrucaoAtual = nodo2.getInstrucao();
 
-     //String operando = getOperando(instrucao[0]);
-     this.labelInstrucao.setText(instrucao[0].toString());
-     this.labelInstrucao2.setText(instrucao[1].toString());
-     this.labelInstrucao3.setText(instrucao[2].toString());
+     String operando = getOperando(instrucaoAtual[0]);
+
+     if(controleInsercao == 0)
+     {
+        this.labelInstrucao.setText((operando +" r" + instrucaoAtual[1] + " r" + instrucaoAtual[2]+ " " + instrucaoAtual[3]).toString());
+        controleInsercao++;
+     }
+     else if (controleInsercao == 1)
+     {
+        this.labelInstrucao2.setText((operando +" r" + instrucaoAtual[1] + " r" + instrucaoAtual[2]+ " " + instrucaoAtual[3]).toString());
+        controleInsercao++;
+
+     }
+     else if(controleInsercao == 2)
+     {
+        this.labelInstrucao3.setText((operando +" r" + instrucaoAtual[1] + " r" + instrucaoAtual[2]+ " " + instrucaoAtual[3]).toString());
+        controleInsercao++;
+
+     }
+     }
+     else
+     {
+        if(controleInsercao == 0)
+        {
+           this.labelInstrucao.setText("");
+           controleInsercao++;
+
+        }
+        else if (controleInsercao == 1)
+        {
+            this.labelInstrucao.setText("");
+            controleInsercao++;
+
+
+        }
+        else if(controleInsercao == 2)
+        {
+            this.labelInstrucao.setText("");
+            controleInsercao++;
+        }
+     }
+     }
+
+
     }
 
     
