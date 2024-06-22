@@ -26,6 +26,27 @@ public class SuperEscalar implements CPU {
     private int instrucoesExecutadas = 0;
     public int pararPipeLine = 0;
 
+    // um IPC mais alto indica um processador mais eficiente em executar instruções.
+    //O Calculo de IPC é feito na EXECUÇÃO
+    public float CalculoIPC() {
+        return (float) this.instrucoesExecutadas / (this.ciclos);
+    }
+
+
+    public int CiclosBolha() {
+        return this.ciclosBolha;
+    }
+
+    public int getCiclos() {
+        return this.ciclos;
+    }
+
+        // A fórmula básica para calcular o tempo total de execução em um pipeline é:
+    // TempoTotal = Numero de instruções + numero de bolhas + tempo de ciclo
+    public double TempoTotalGasto() {
+        return ((ciclos + ciclosBolha) * (TempoCiclo));
+    }
+
     // unidades especializadas: ALU, branch e LOAD/STORE
     public SuperEscalar(int nProcessos, String[] pathProcessos) {
         contagemSaida = new int[3];

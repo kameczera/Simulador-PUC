@@ -621,16 +621,12 @@ public class Interface {
                    }
                    IF.mudarLabelSuperEscalar(stringInstrucoesLabel);
                   
-                
 
-                
-                // if(escalar.getPipeline().size() == 0) botaoProximo.setEnabled(false);
-                // escalar.printarTodosRegistradores();
 
-                // LabelCPI.setText("CPI: " + ((escalar.CalculoCPI())));
-                // LabelCiclos.setText("Ciclos: " + (escalar.getCiclos()));
-                // LabelCiclosBolha.setText("Ciclos Bolhas: " + escalar.CiclosBolha());
-                // LabelTempoGasto.setText("Tempo Gasto: " + escalar.TempoTotalGasto() + " ns");
+                 LabelIPC.setText("IPC: " + ((superEscalar.CalculoIPC())));
+                 LabelCiclos.setText("Ciclos: " + (superEscalar.getCiclos()));
+                 LabelCiclosBolha.setText("Ciclos Bolhas: " + superEscalar.CiclosBolha());
+                 LabelTempoGasto.setText("Tempo Gasto: " + superEscalar.TempoTotalGasto() + " ns");
         }
 
 
