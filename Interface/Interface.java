@@ -458,6 +458,7 @@ public class Interface {
                 int [] arrayInstrucao;
                 int idProcesso = 0;
 
+             //Pipeline Escalar
              if(comboBoxTipoDeEscalaridade.getSelectedItem().toString().equals("Escalar"))
              {
 
@@ -525,17 +526,15 @@ public class Interface {
                 LabelCiclosBolha.setText("Ciclos Bolhas: " + escalar.CiclosBolha());
                 LabelTempoGasto.setText("Tempo Gasto: " + escalar.TempoTotalGasto() + " ns");
         }
-
+        //Pipeline Superescalar
         else if(comboBoxTipoDeEscalaridade.getSelectedItem().toString().equals("Superescalar"))
              {
-                //WB
+                //Unidade WB
                 ListIterator<Nodo[]> list_Iter = superEscalar.getPipeLineSuperEscalar().listIterator();
                 int[] idProcessoSuperEscalar = new int[4];
-                boolean processosIguais = true;
                  Nodo[] p = list_Iter.next(); //Vai conter as 3 instruções aqui dentro      
                  WB.mudarLabelInstrucaoSuperEscalar(p); //Passando as instruções pra inserir no quadrado        
                  idProcessoSuperEscalar = superEscalar.getIdProcessosSuperEscalar(p);
-                 //processosIguais = superEscalar.TodosProcessosIguais(idProcessoSuperEscalar);
                  String[] stringInstrucoesLabel = new String[3];
 
                   WB.mudarCor(corProcessos[5]);
@@ -546,14 +545,11 @@ public class Interface {
                   WB.mudarLabelSuperEscalar(stringInstrucoesLabel);
 
 
-                //Unidades de Execução
+                //Unidades de Execução (LOAD,STORE,BRANCH,ALU)
                  p = list_Iter.next(); //Vai conter as 3 instruções aqui dentro      
-                 //WB.mudarLabelInstrucaoSuperEscalar(p); //Metodo tem que ser diferente   
                  idProcessoSuperEscalar = superEscalar.getIdProcessosSuperEscalar(p);
-                 //processosIguais = superEscalar.TodosProcessosIguais(idProcessoSuperEscalar);
-
-                 int count = 0;
                  String unidadeExecucaoAlocar; //Através dessa variavel, que eu vou descobrir em qual quadrado alocar qual valor
+
                   for (Nodo nodoAtual : p) 
                   {
                   int[] instrucoesArray = new int[4];
@@ -596,14 +592,10 @@ public class Interface {
                   }//fim for
 
                  
-                 
-                 
-          
-                 //ID
+                 //Unidade ID
                  p = list_Iter.next(); //Vai conter as 3 instruções aqui dentro      
                  ID.mudarLabelInstrucaoSuperEscalar(p); //Passando as instruções pra inserir no quadrado        
                  idProcessoSuperEscalar = superEscalar.getIdProcessosSuperEscalar(p);
-                 //processosIguais = superEscalar.TodosProcessosIguais(idProcessoSuperEscalar);
                   ID.mudarCor(corProcessos[5]);
                   for(int i = 0; i < 3; i++)
                   {
@@ -611,11 +603,10 @@ public class Interface {
                   }
                   ID.mudarLabelSuperEscalar(stringInstrucoesLabel);
                  
-                  //IF
+                  //Unidade IF
                   p = list_Iter.next(); //Vai conter as 3 instruções aqui dentro      
                   IF.mudarLabelInstrucaoSuperEscalar(p); //Passando as instruções pra inserir no quadrado        
                   idProcessoSuperEscalar = superEscalar.getIdProcessosSuperEscalar(p);
-                  //processosIguais = superEscalar.TodosProcessosIguais(idProcessoSuperEscalar);
                    IF.mudarCor(corProcessos[5]);
                    for(int i = 0; i < 3; i++)
                    {

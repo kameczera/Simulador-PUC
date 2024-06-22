@@ -45,6 +45,8 @@ public class QuadradoComDado extends JPanel {
         this.labelInstrucao.setText(this.labelInstrucao.getText());
     }
 
+    //IF,ID e WB utilizam
+    //Recebe uma lista de instrução por parametro e concatena, exemplo (T0 + T1 + T2)
     public void mudarLabelSuperEscalar(String [] stringsInstrucoes)
     {
      String idsProcessadores = "";
@@ -62,6 +64,7 @@ public class QuadradoComDado extends JPanel {
     }
 
    //Mudar instrução passando nodo por parametro
+   //Utilizado tanto pro escalar quanto pro superescalar
     public void mudarLabelInstrucao(Nodo nodo) 
     {
         int[] instrucaoAtual = nodo.getInstrucao();
@@ -76,7 +79,7 @@ public class QuadradoComDado extends JPanel {
         }
     }
 
-    //Mudar label instrução passando instrucaoAtual por parametro
+    //Mudar label instrução passando array instrucaoAtual por parametro
     public void mudarLabelInstrucao(int [] instrucaoAtual) 
     {
         String operando = getOperando(instrucaoAtual[0]);
@@ -128,28 +131,21 @@ public class QuadradoComDado extends JPanel {
         {
            this.labelInstrucao.setText("");
            controleInsercao++;
-
         }
         else if (controleInsercao == 1)
         {
             this.labelInstrucao.setText("");
         controleInsercao++;
-
-
         }
         else if(controleInsercao == 2)
         {
             this.labelInstrucao.setText("");
-            controleInsercao++;
-        
+            controleInsercao++;     
         }
      }
      }//fim for
 
     }
-
-    
-
 
 
     public JPanel getPanel() {

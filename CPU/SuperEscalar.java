@@ -275,7 +275,7 @@ public class SuperEscalar implements CPU {
     }
 
     //Verificando se na unidade atual todos os processos são da mesma Thread
-    //Se não for, então se trata de um SMT
+    //Nao esta sendo utilizado por enquanto, porem pode ter seu uso no futuro quem sabe
     public boolean TodosProcessosIguais(int[] Processos)
     {
     boolean processosIguais = true;
