@@ -162,7 +162,7 @@ public class SuperEscalar implements CPU {
                 }
             }
         }
-        writeBack();
+        // writeBack();
         Nodo[] p = pipeline.poll();
         ciclos++;
         for (int i = 0; i < 3; i++)
