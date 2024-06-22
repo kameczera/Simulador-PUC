@@ -110,38 +110,29 @@ public class Processo {
 
     public Nodo[] getInstrucoesSuper() 
     {
-        int adicionados = 0;
-        Nodo p = new Nodo();
         Nodo[] despachados = new Nodo[3];
-        for(int i = 0; i < 3; i++) despachados[i] = null;
-        // faz no maximo 4 vezes, pq tem 4 unidades de execucao
-        for (int i = 0; i < 4; i++)
-        {
-            if (instrucaoAtual + i == instrucoes.size()) 
-            {
+        for(int i = 0; i < 3; i++){
+            if (instrucaoAtual == instrucoes.size()){
                 estado = true;
-                break;
+            }else{
+                despachados[i] = instrucoes.get(instrucaoAtual++);
             }
-            p = instrucoes.get(instrucaoAtual + i);
-            if(p.getInstrucao()[0] == -1) break;
-            boolean semDependencia = true;
-            // verifica se tem dependencia com as adicionadas anteriormente
-            for (int j = 0; j < i; j++) 
-            {
-                Nodo q = despachados[j];
-                if(p.getIdProcesso() == q.getIdProcesso())
-                {
-                    if (p.getInstrucao()[2] == q.getInstrucao()[1] || p.getInstrucao()[3] == q.getInstrucao()[1]) semDependencia = false;
-                }
-            }
-            if (semDependencia) {
-                despachados[i] = p;
-                adicionados++;
-            }
-            else break;
         }
-        instrucaoAtual += adicionados;
         return despachados;
+    }
+
+    public Nodo[] getInstrucoesSuper(Nodo[] p) 
+    {
+        for(int i = 0; i < 3; i++){
+            if (instrucaoAtual == instrucoes.size()){
+                estado = true;
+            }else{
+                if(p[i] == null){
+                    p[i] = instrucoes.get(instrucaoAtual++);
+                }else break;
+            }
+        }
+        return p;
     }
 
     // avancarInstrucao é um metodo utilizado apenas no BMT para ajudar na simulacao
