@@ -530,6 +530,7 @@ public class Interface {
         else if(comboBoxTipoDeEscalaridade.getSelectedItem().toString().equals("Superescalar"))
              {
                 //Unidade WB
+                WB.limparQuadradoComDado();
                 ListIterator<Nodo[]> list_Iter = superEscalar.getPipeLineSuperEscalar().listIterator();
                 int[] idProcessoSuperEscalar = new int[4];
                  Nodo[] p = list_Iter.next(); //Vai conter as 3 instruções aqui dentro      
@@ -547,6 +548,10 @@ public class Interface {
 
                 //Unidades de Execução (LOAD,STORE,BRANCH,ALU)
                  p = list_Iter.next(); //Vai conter as 3 instruções aqui dentro      
+                 LOAD.limparQuadradoComDado();
+                 STORE.limparQuadradoComDado();
+                 ALU.limparQuadradoComDado();
+                 BRANCH.limparQuadradoComDado();
                  idProcessoSuperEscalar = superEscalar.getIdProcessosSuperEscalar(p);
                  String unidadeExecucaoAlocar; //Através dessa variavel, que eu vou descobrir em qual quadrado alocar qual valor
 
@@ -593,6 +598,7 @@ public class Interface {
 
                  
                  //Unidade ID
+                 ID.limparQuadradoComDado();
                  p = list_Iter.next(); //Vai conter as 3 instruções aqui dentro      
                  ID.mudarLabelInstrucaoSuperEscalar(p); //Passando as instruções pra inserir no quadrado        
                  idProcessoSuperEscalar = superEscalar.getIdProcessosSuperEscalar(p);
@@ -604,6 +610,7 @@ public class Interface {
                   ID.mudarLabelSuperEscalar(stringInstrucoesLabel);
                  
                   //Unidade IF
+                  IF.limparQuadradoComDado();
                   p = list_Iter.next(); //Vai conter as 3 instruções aqui dentro      
                   IF.mudarLabelInstrucaoSuperEscalar(p); //Passando as instruções pra inserir no quadrado        
                   idProcessoSuperEscalar = superEscalar.getIdProcessosSuperEscalar(p);

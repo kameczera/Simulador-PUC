@@ -93,6 +93,15 @@ public class QuadradoComDado extends JPanel {
         }
     }
 
+    public void limparQuadradoComDado()
+    {
+    this.label.setText("");
+    this.labelInstrucao.setText("");
+    this.labelInstrucao2.setText("");
+    this.labelInstrucao3.setText("");
+
+    }
+
 
 
     //Esse metodo só vai funcionar somente pra unidades que não seja de execução
@@ -134,12 +143,12 @@ public class QuadradoComDado extends JPanel {
         }
         else if (controleInsercao == 1)
         {
-            this.labelInstrucao.setText("");
+            this.labelInstrucao2.setText("");
         controleInsercao++;
         }
         else if(controleInsercao == 2)
         {
-            this.labelInstrucao.setText("");
+            this.labelInstrucao3.setText("");
             controleInsercao++;     
         }
      }
