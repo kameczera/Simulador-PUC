@@ -24,7 +24,7 @@ public class Interface {
     private QuadradoComDado STORE;
     private QuadradoComDado MEM;
     private QuadradoComDado WB;
-    private Color[] corProcessos = { Color.GREEN, new Color(0x60, 0x7E, 0xC9), Color.ORANGE, Color.CYAN, Color.PINK };
+    private Color[] corProcessos = { Color.GREEN, new Color(0x60, 0x7E, 0xC9), Color.ORANGE, Color.CYAN, Color.PINK, new Color(0x83, 0xE5, 0x09)};
     String[] suportesMultiThreading = {"","",""};
     String[] TipoDePipeLine = { "","Escalar", "Superescalar"};
     private Escalar escalar;
@@ -440,13 +440,12 @@ public class Interface {
                 {
                 superEscalar.rodarCodigo(comboBoxSuportesMultiThreading.getSelectedItem().toString());
                 }
-                else
+                else  if(comboBoxSuportesMultiThreading.getSelectedItem().toString().equals("SMT"))
                 {
                  superEscalar.rodarCodigo(comboBoxSuportesMultiThreading.getSelectedItem().toString());
                 }
                   
                 }
-
 
                 comboBoxSuportesMultiThreading.setEnabled(false);
 
@@ -529,24 +528,101 @@ public class Interface {
 
         else if(comboBoxTipoDeEscalaridade.getSelectedItem().toString().equals("Superescalar"))
              {
-
+                //WB
                 ListIterator<Nodo[]> list_Iter = superEscalar.getPipeLineSuperEscalar().listIterator();
                 int[] idProcessoSuperEscalar = new int[4];
-
+                boolean processosIguais = true;
                  Nodo[] p = list_Iter.next(); //Vai conter as 3 instruções aqui dentro      
-                 WB.mudarLabelInstrucaoSuperEscalar(p); //Passando as instruções pra inserir no quadrado WB       
-                 list_Iter.next();
-                //   for(int x = 0; x < 4; x++)
-                //   { 
-                //   idProcessoSuperEscalar[x] = list_Iter.next()[0].getIdProcesso(); 
-                //   }
-                  WB.mudarCor(corProcessos[(idProcesso)]);
-                  WB.mudarLabel("T" + idProcesso);
-                  WB.mudarCor(corProcessos[(0)]);
-                  WB.mudarLabel("T" + idProcesso);
+                 WB.mudarLabelInstrucaoSuperEscalar(p); //Passando as instruções pra inserir no quadrado        
+                 idProcessoSuperEscalar = superEscalar.getIdProcessosSuperEscalar(p);
+                 //processosIguais = superEscalar.TodosProcessosIguais(idProcessoSuperEscalar);
+                 String[] stringInstrucoesLabel = new String[3];
 
-                
+                  WB.mudarCor(corProcessos[5]);
+                  for(int i = 0; i < 3; i++)
+                  {
+                  stringInstrucoesLabel[i] = ("T" + idProcessoSuperEscalar[i]);
+                  }
+                  WB.mudarLabelSuperEscalar(stringInstrucoesLabel);
 
+
+                //Unidades de Execução
+                 p = list_Iter.next(); //Vai conter as 3 instruções aqui dentro      
+                 //WB.mudarLabelInstrucaoSuperEscalar(p); //Metodo tem que ser diferente   
+                 idProcessoSuperEscalar = superEscalar.getIdProcessosSuperEscalar(p);
+                 //processosIguais = superEscalar.TodosProcessosIguais(idProcessoSuperEscalar);
+
+                 int count = 0;
+                 String unidadeExecucaoAlocar; //Através dessa variavel, que eu vou descobrir em qual quadrado alocar qual valor
+                  for (Nodo nodoAtual : p) 
+                  {
+                  int[] instrucoesArray = new int[4];
+                  if(nodoAtual != null)
+                  {
+                  instrucoesArray = nodoAtual.getInstrucao();
+                  }
+                  else
+                  {
+                  instrucoesArray[0] = 0;
+                  }
+                  unidadeExecucaoAlocar = superEscalar.getOperacaoInstrucao(instrucoesArray[0]); //Indo descobrir qual tipo de operação
+
+
+                  if(unidadeExecucaoAlocar == "add")
+                  {
+                        ALU.mudarCor(corProcessos[5]); //Considerando que todos os processos sao iguais, basta selecionar o primeiro idProcesso do array
+                        ALU.mudarLabel("T" + nodoAtual.getIdProcesso());
+                        ALU.mudarLabelInstrucao(nodoAtual);
+                  }
+                  else if(unidadeExecucaoAlocar == "addi")
+                  {
+                        ALU.mudarCor(corProcessos[5]); //Considerando que todos os processos sao iguais, basta selecionar o primeiro idProcesso do array
+                        ALU.mudarLabel("T" + nodoAtual.getIdProcesso());
+                        ALU.mudarLabelInstrucao(nodoAtual);
+                  }
+                  else if(unidadeExecucaoAlocar == "and")
+                  {
+                  ALU.mudarCor(corProcessos[5]); //Considerando que todos os processos sao iguais, basta selecionar o primeiro idProcesso do array
+                  ALU.mudarLabel("T" + nodoAtual.getIdProcesso());
+                  ALU.mudarLabelInstrucao(nodoAtual);
+                  }
+                  else if(unidadeExecucaoAlocar == "lw")
+                  {
+                  LOAD.mudarCor(corProcessos[5]); //Considerando que todos os processos sao iguais, basta selecionar o primeiro idProcesso do array
+                  LOAD.mudarLabel("T" + nodoAtual.getIdProcesso());
+                  LOAD.mudarLabelInstrucao(nodoAtual);
+                  }
+                  
+                  }//fim for
+
+                 
+                 
+                 
+          
+                 //ID
+                 p = list_Iter.next(); //Vai conter as 3 instruções aqui dentro      
+                 ID.mudarLabelInstrucaoSuperEscalar(p); //Passando as instruções pra inserir no quadrado        
+                 idProcessoSuperEscalar = superEscalar.getIdProcessosSuperEscalar(p);
+                 //processosIguais = superEscalar.TodosProcessosIguais(idProcessoSuperEscalar);
+                  ID.mudarCor(corProcessos[5]);
+                  for(int i = 0; i < 3; i++)
+                  {
+                  stringInstrucoesLabel[i] = ("T" + idProcessoSuperEscalar[i]);
+                  }
+                  ID.mudarLabelSuperEscalar(stringInstrucoesLabel);
+                 
+                  //IF
+                  p = list_Iter.next(); //Vai conter as 3 instruções aqui dentro      
+                  IF.mudarLabelInstrucaoSuperEscalar(p); //Passando as instruções pra inserir no quadrado        
+                  idProcessoSuperEscalar = superEscalar.getIdProcessosSuperEscalar(p);
+                  //processosIguais = superEscalar.TodosProcessosIguais(idProcessoSuperEscalar);
+                   IF.mudarCor(corProcessos[5]);
+                   for(int i = 0; i < 3; i++)
+                   {
+                   stringInstrucoesLabel[i] = ("T" + idProcessoSuperEscalar[i]);
+                   }
+                   IF.mudarLabelSuperEscalar(stringInstrucoesLabel);
+                  
                 
 
                 

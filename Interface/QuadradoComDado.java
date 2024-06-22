@@ -45,6 +45,38 @@ public class QuadradoComDado extends JPanel {
         this.labelInstrucao.setText(this.labelInstrucao.getText());
     }
 
+    public void mudarLabelSuperEscalar(String [] stringsInstrucoes)
+    {
+     String idsProcessadores = "";
+     for(int i = 0; i < 3; i++)
+     {
+       if(stringsInstrucoes[i].equals("T4"))
+       {
+       stringsInstrucoes[i] = "";
+       }
+
+       idsProcessadores = idsProcessadores + " " + stringsInstrucoes[i] + " ";
+     }
+     this.label.setText(idsProcessadores);
+     
+    }
+
+   //Mudar instrução passando nodo por parametro
+    public void mudarLabelInstrucao(Nodo nodo) 
+    {
+        int[] instrucaoAtual = nodo.getInstrucao();
+        String operando = getOperando(instrucaoAtual[0]);
+        if(operando.equals("DELAY"))
+        {
+        this.labelInstrucao.setText("DELAY");
+        }
+        else
+        {
+        this.labelInstrucao.setText((operando +" r" + instrucaoAtual[1] + " r" + instrucaoAtual[2]+ " " + instrucaoAtual[3]).toString());
+        }
+    }
+
+    //Mudar label instrução passando instrucaoAtual por parametro
     public void mudarLabelInstrucao(int [] instrucaoAtual) 
     {
         String operando = getOperando(instrucaoAtual[0]);
@@ -58,6 +90,9 @@ public class QuadradoComDado extends JPanel {
         }
     }
 
+
+
+    //Esse metodo só vai funcionar somente pra unidades que não seja de execução
     public void mudarLabelInstrucaoSuperEscalar(Nodo[] instrucao)
     {
      int controleInsercao = 0;
@@ -98,7 +133,7 @@ public class QuadradoComDado extends JPanel {
         else if (controleInsercao == 1)
         {
             this.labelInstrucao.setText("");
-            controleInsercao++;
+        controleInsercao++;
 
 
         }
@@ -106,10 +141,10 @@ public class QuadradoComDado extends JPanel {
         {
             this.labelInstrucao.setText("");
             controleInsercao++;
+        
         }
      }
-     }
-
+     }//fim for
 
     }
 

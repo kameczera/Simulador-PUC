@@ -250,6 +250,83 @@ public class SuperEscalar implements CPU {
         }
     }
 
+
+    //Pegando os ID's dos processos
+    //Se não houver instrução (nulo), idProcesso = 4 (rosa) o que indica vazio
+    public int[] getIdProcessosSuperEscalar(Nodo[] instrucoes)
+    {
+     int countInstrucoes = 0;
+     int[] idProcessos = new int[3];
+
+     for (Nodo nodo : instrucoes) 
+     {
+      if(nodo == null)
+      {
+        idProcessos[countInstrucoes] = 4;
+        countInstrucoes++;
+      }
+      else
+      {
+      idProcessos[countInstrucoes] = nodo.getIdProcesso();
+      countInstrucoes++;
+      }  
+     }
+     return idProcessos;
+    }
+
+    //Verificando se na unidade atual todos os processos são da mesma Thread
+    //Se não for, então se trata de um SMT
+    public boolean TodosProcessosIguais(int[] Processos)
+    {
+    boolean processosIguais = true;
+    int verificarProcesso = Processos[0];
+
+    for(int i = 0 ; i < 3; i++)
+    {
+     if(Processos[i] != verificarProcesso)
+     {
+     processosIguais = false;
+     break;
+     }
+    }
+     return processosIguais;
+    }
+
+   public boolean verificarTodasInstrucoesVazias(int[] idProcessos)
+   {
+   boolean todasInstrucoesVazias = true;
+
+   for(int i = 0; i < 3; i++)
+   {
+    if(idProcessos[i] != 4)
+    {
+     todasInstrucoesVazias = false;
+     break;
+    }
+   }
+   return todasInstrucoesVazias;
+
+   }
+
+    public String getOperacaoInstrucao(int valor)
+    {
+      if(valor == 20)
+      return "";
+      else if(valor == -1)
+      return "DELAY";
+      else if(valor == 0)
+      return "";
+      else if(valor == 1)
+      return "add";
+      else if(valor == 2)
+      return "addi";
+      else if(valor == 3)
+      return "and";
+      else if(valor == 4)
+      return "lw";
+      return "Operador nao encontrado";
+    }
+
     public LinkedList<Nodo[]> getPipeLineSuperEscalar() {
         return pipeline;
     }
