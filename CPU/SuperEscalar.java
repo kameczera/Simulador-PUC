@@ -102,7 +102,6 @@ public class SuperEscalar implements CPU {
                             break;
                         unidades[0] = p;
                         OF[i] = null;
-                        contagemSaida[0] = 0;
 
                         // store & load: sw & lw
                     } else if (p.getInstrucao()[0] == 4 || p.getInstrucao()[0] == 5) {
@@ -110,7 +109,6 @@ public class SuperEscalar implements CPU {
                             break;
                         unidades[1] = p;
                         OF[i] = null;
-                        contagemSaida[1] = 1;
 
                         // branch: beq, j etc..
                     } else {
@@ -118,12 +116,10 @@ public class SuperEscalar implements CPU {
                             break;
                         unidades[2] = p;
                         OF[i] = null;
-                        contagemSaida[2] = 1;
                     }
                 }
             }
         }
-
         for (int i = 0; i < 3; i++)
             if (OF[i] != null)
                 contador++;
@@ -154,20 +150,56 @@ public class SuperEscalar implements CPU {
             Nodo[] vazio = new Nodo[3];
             for (int i = 0; i < 3; i++)
                 vazio[i] = null;
-            pipeline.add(2, vazio);
+        pipeline.add(2, vazio);
         return IFVazio;
     }
 
-    public void writeBack(){
-        Nodo[] despachados = new Nodo[3];
+    public void passarParaUnidades2() {
+        Nodo[] WB = pipeline.get(0);
         Nodo[] unidades = pipeline.get(1);
-        int cont = 0;
-        for(int i = 0; i < 3; i++){
-            if(contagemSaida[i] == 0) {
-                despachados[cont] = unidades[i];
+        Nodo[] OF = pipeline.get(2);
+        for (int i = 0; i < 3; i++) {
+            Nodo p = OF[i];
+            if (p != null) {
+                boolean semDependencia = true;
+                for (int j = 0; j < 3; j++) {
+                    Nodo q = unidades[j];
+                    if (q != null) {
+                        if (p.getIdProcesso() == q.getIdProcesso()) {
+                            if (p.getInstrucao()[2] == q.getInstrucao()[1]
+                                    || p.getInstrucao()[3] == q.getInstrucao()[1])
+                                semDependencia = false;
+                        }
+                    }
+                }
+                if (semDependencia) {
+                    if (p.getInstrucao()[0] == -1)
+                        break;
+
+                    // addi, add, and etc..
+                    if (p.getInstrucao()[0] < 3) {
+                        if (unidades[0] != null)
+                            break;
+                        unidades[0] = p;
+                        OF[i] = null;
+
+                        // store & load: sw & lw
+                    } else if (p.getInstrucao()[0] == 4 || p.getInstrucao()[0] == 5) {
+                        if (unidades[1] != null)
+                            break;
+                        unidades[1] = p;
+                        OF[i] = null;
+
+                        // branch: beq, j etc..
+                    } else {
+                        if (unidades[2] != null)
+                            break;
+                        unidades[2] = p;
+                        OF[i] = null;
+                    }
+                }
             }
         }
-        pipeline.add(1, despachados);
     }
 
     public void rodarCodigo(String comboBoxItem) {
@@ -183,16 +215,15 @@ public class SuperEscalar implements CPU {
                 }
             }
         }
-        // writeBack();
         Nodo[] p = pipeline.poll();
         ciclos++;
         for (int i = 0; i < 3; i++)
-            if (p[i] != null) {
-                p[i].rodarNodo(registradores[p[i].getIdProcesso()].getRegistradores());
-
-            }
+        if (p[i] != null) {
+            p[i].rodarNodo(registradores[p[i].getIdProcesso()].getRegistradores());
+            
+        }
         ++instrucoesExecutadas;
-
+        passarParaUnidades2();
     }
 
     // if(p.getIdProcesso()!=3)
