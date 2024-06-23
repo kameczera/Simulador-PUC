@@ -175,7 +175,7 @@ public class SuperEscalar implements CPU {
         ciclos++;
         for (int i = 0; i < 3; i++)
         if (p[i] != null) {
-            p[i].rodarNodo(registradores[p[i].getIdProcesso()].getRegistradores());
+            p[i].rodarNodo(registradores[p[i].getIdProcesso()].getRegistradores(), processos.get(p[i].getIdProcesso()));
             
         }
         ++instrucoesExecutadas;
@@ -206,9 +206,11 @@ public class SuperEscalar implements CPU {
             // chamada da funcao
             Nodo[] f = pipeline.getLast();
             for(int i = 0; i < 3; i++) {
-                if(f[i].getInstrucao()[0] == -1) {
-                    escalonador = (escalonador + 1) % nProcessos;
-                    break;
+                if(f[i] != null){
+                    if(f[i].getInstrucao()[0] == -1) {
+                        escalonador = (escalonador + 1) % nProcessos;
+                        break;
+                    }
                 }
             }
             } else if (nProcessos == 1) {

@@ -118,7 +118,7 @@ public class Escalar implements CPU {
         ciclos++;
 
         if (p.getIdProcesso() != 4) {
-            p.rodarNodo(registradores[p.getIdProcesso()].getRegistradores());
+            p.rodarNodo(registradores[p.getIdProcesso()].getRegistradores(), processos.get(p.getIdProcesso()));
             ++instrucoesExecutadas;
         }
     }
