@@ -2,7 +2,6 @@ package CPU;
 
 import Nodo.*;
 import Processo.*;
-import BufferReordenamento.*;
 import Registrador.Registradores;
 
 import java.util.ArrayList;
@@ -101,7 +100,7 @@ public class SuperEscalar implements CPU {
                     }
 
                     // addi, add, and etc..
-                    if (p.getInstrucao()[0] < 3) 
+                    if (p.getInstrucao()[0] < 3 || p.getInstrucao()[0] == 6) 
                     {
                         if (unidades[0] != null)
                             break;
