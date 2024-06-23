@@ -128,14 +128,23 @@ public class SuperEscalar implements CPU {
 
                     }
                 }
-                ciclosExecucao++;
             }
         }
         for (int i = 0; i < 3; i++)
             if (OF[i] != null)
                 contador++;
         if (contador != 0)
-            OFVazio = false;
+        {
+        OFVazio = false;
+        }
+        contador = 0;
+        for (int i = 0; i < 3; i++)
+            if (unidades[i] != null)
+                contador++;
+        if (contador != 0)
+        {
+        ciclosExecucao++;
+        }
         if(OFVazio) pipeline.remove(3);
         return OFVazio;
     }
@@ -187,7 +196,6 @@ public class SuperEscalar implements CPU {
             p[i].rodarNodo(registradores[p[i].getIdProcesso()].getRegistradores(), processos.get(p[i].getIdProcesso()));
             
         }
-        passarParaUnidades2();
     }
 
     // if(p.getIdProcesso()!=3)
@@ -384,6 +392,10 @@ public class SuperEscalar implements CPU {
       return "and";
       else if(valor == 4)
       return "lw";
+      else if(valor == 5)
+      return "sub";
+      else if(valor == 6)
+      return "sw";
       return "Operador nao encontrado";
     }
 

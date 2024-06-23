@@ -175,23 +175,27 @@ public class QuadradoComDado extends JPanel {
 
     private String getOperando(int valor)
     {
-      if(valor == 20)
-      return "";
-      else if(valor == -1)
-      return "DELAY";
-      else if(valor == 0)
-      return "";
-      else if(valor == 1)
-      return "add";
-      else if(valor == 2)
-      return "addi";
-      else if(valor == 3)
-      return "and";
-      else if(valor == 4)
-      return "lw";
-      return "Operador nao encontrado";
+        if(valor == 20)
+        return "";
+        else if(valor == -1)
+        return "DELAY";
+        else if(valor == 0)
+        return "";
+        else if(valor == 1)
+        return "add";
+        else if(valor == 2)
+        return "addi";
+        else if(valor == 3)
+        return "and";
+        else if(valor == 4)
+        return "lw";
+        else if(valor == 5)
+        return "sub";
+        else if(valor == 6)
+        return "sw";
+        return "Operador nao encontrado";
+      
     }
 
     
-
 }

@@ -19,7 +19,6 @@ public class Interface {
     private QuadradoComDado BUBBLE;
     private QuadradoComDado EX;
     private QuadradoComDado ALU;
-    private QuadradoComDado BRANCH;
     private QuadradoComDado LOAD;
     private QuadradoComDado STORE;
     private QuadradoComDado MEM;
@@ -45,7 +44,6 @@ public class Interface {
         MEM = new QuadradoComDado("", "","","", Color.PINK);
         WB = new QuadradoComDado("", "","","", Color.PINK);
         ALU = new QuadradoComDado("", "","","", Color.PINK);
-        BRANCH = new QuadradoComDado("", "","","", Color.PINK);
         LOAD = new QuadradoComDado("", "","","", Color.PINK);
         STORE = new QuadradoComDado("", "","","", Color.PINK);
     }
@@ -150,11 +148,6 @@ public class Interface {
         ALU.invisivel(false);
         LabelALU.setFont(new Font("Arial", Font.BOLD, 16));
 
-        JLabel LabelBranch = new JLabel("BRANCH");
-        LabelBranch.setVisible(false);
-        BRANCH.invisivel(false);
-        LabelBranch.setFont(new Font("Arial", Font.BOLD, 16));
-
         JLabel LabelStore = new JLabel("STORE");
         LabelStore.setVisible(false);
         STORE.invisivel(false);
@@ -207,11 +200,6 @@ public class Interface {
                                         GroupLayout.PREFERRED_SIZE))
 
                                         .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
-                                .addComponent(LabelBranch)
-                                .addComponent(BRANCH.getPanel(), GroupLayout.PREFERRED_SIZE, 90,
-                                        GroupLayout.PREFERRED_SIZE))
-
-                                        .addGroup(pipeline.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addComponent(LabelStore)
                                 .addComponent(STORE.getPanel(), GroupLayout.PREFERRED_SIZE, 90,
                                         GroupLayout.PREFERRED_SIZE))
@@ -238,7 +226,6 @@ public class Interface {
                                 .addComponent(LabelBUBBLE)
                                 .addComponent(LabelEX)
                                 .addComponent(LabelALU)
-                                .addComponent(LabelBranch)
                                 .addComponent(LabelStore)
                                 .addComponent(LabelLoad)
                                 .addComponent(LabelMEM)
@@ -249,7 +236,6 @@ public class Interface {
                                 .addComponent(BUBBLE.getPanel(), GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(EX.getPanel(), GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(ALU.getPanel(), GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(BRANCH.getPanel(), GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(LOAD.getPanel(), GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(STORE.getPanel(), GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
                                 .addComponent(MEM.getPanel(), GroupLayout.PREFERRED_SIZE, 80,
@@ -343,8 +329,6 @@ public class Interface {
                    LabelMEM.setVisible(true);
                    ALU.invisivel(false);
                    LabelALU.setVisible(false);
-                   BRANCH.invisivel(false);
-                   LabelBranch.setVisible(false);
                    LOAD.invisivel(false);
                    LabelLoad.setVisible(false);
                    STORE.invisivel(false);
@@ -367,8 +351,6 @@ public class Interface {
                         MEM.invisivel(false);
                         ALU.invisivel(true);
                         LabelALU.setVisible(true);
-                        BRANCH.invisivel(true);
-                        LabelBranch.setVisible(true);
                         LOAD.invisivel(true);
                         LabelLoad.setVisible(true);
                         STORE.invisivel(true);
@@ -551,7 +533,6 @@ public class Interface {
                  LOAD.limparQuadradoComDado();
                  STORE.limparQuadradoComDado();
                  ALU.limparQuadradoComDado();
-                 BRANCH.limparQuadradoComDado();
                  idProcessoSuperEscalar = superEscalar.getIdProcessosSuperEscalar(p);
                  String unidadeExecucaoAlocar; //Através dessa variavel, que eu vou descobrir em qual quadrado alocar qual valor
 
