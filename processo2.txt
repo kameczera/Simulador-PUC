@@ -5,3 +5,5 @@ add r3,r1,r2
 addi r3,r3,7
 add r3,r1,r3
 add r1,r3,r3
+add r1,r3,r3
+add r1,r3,r3

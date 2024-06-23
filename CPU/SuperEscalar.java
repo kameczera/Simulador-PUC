@@ -95,8 +95,10 @@ public class SuperEscalar implements CPU {
                     }
                 }
                 if (semDependencia) {
-                    if (p.getInstrucao()[0] == -1)
+                    if (p.getInstrucao()[0] == -1){
+                        OF[i] = null;
                         break;
+                    }
 
                     // addi, add, and etc..
                     if (p.getInstrucao()[0] < 3) 
@@ -139,76 +141,30 @@ public class SuperEscalar implements CPU {
     }
 
     public boolean passarParaOF() {
-        Nodo[] IF = pipeline.get(3);
-        Nodo[] OF = pipeline.get(2);
-        int contador = 0;
         boolean IFVazio = true;
-        int instrucaoIF = 0;
-        for(int j = 0; j < 3; j++){
-            if(OF[j] == null){
-                OF[j] = IF[instrucaoIF];
-                IF[instrucaoIF] = null;
-                instrucaoIF++;
+        if(nProcessos > 1){
+            Nodo[] IF = pipeline.get(3);
+            Nodo[] OF = pipeline.get(2);
+            int contador = 0;
+            int instrucaoIF = 0;
+            for(int j = 0; j < 3; j++){
+                if(OF[j] == null){
+                    OF[j] = IF[instrucaoIF];
+                    IF[instrucaoIF] = null;
+                    instrucaoIF++;
+                }
             }
-        }
-        for (int i = 0; i < 3; i++)
-            if (IF[i] != null)
-                contador++;
-        if (contador != 0)
-            IFVazio = false;
-            Nodo[] vazio = new Nodo[3];
             for (int i = 0; i < 3; i++)
-                vazio[i] = null;
-        pipeline.add(2, vazio);
-        return IFVazio;
-    }
-
-    public void passarParaUnidades2() {
-        Nodo[] WB = pipeline.get(0);
-        Nodo[] unidades = pipeline.get(1);
-        Nodo[] OF = pipeline.get(2);
-        for (int i = 0; i < 3; i++) {
-            Nodo p = OF[i];
-            if (p != null) {
-                boolean semDependencia = true;
-                for (int j = 0; j < 3; j++) {
-                    Nodo q = unidades[j];
-                    if (q != null) {
-                        if (p.getIdProcesso() == q.getIdProcesso()) {
-                            if (p.getInstrucao()[2] == q.getInstrucao()[1]
-                                    || p.getInstrucao()[3] == q.getInstrucao()[1])
-                                semDependencia = false;
-                        }
-                    }
-                }
-                if (semDependencia) {
-                    if (p.getInstrucao()[0] == -1)
-                        break;
-
-                    // addi, add, and etc..
-                    if (p.getInstrucao()[0] < 3) {
-                        if (unidades[0] != null)
-                            break;
-                        unidades[0] = p;
-                        OF[i] = null;
-
-                        // store & load: sw & lw
-                    } else if (p.getInstrucao()[0] == 4 || p.getInstrucao()[0] == 5) {
-                        if (unidades[1] != null)
-                            break;
-                        unidades[1] = p;
-                        OF[i] = null;
-
-                        // branch: beq, j etc..
-                    } else {
-                        if (unidades[2] != null)
-                            break;
-                        unidades[2] = p;
-                        OF[i] = null;
-                    }
-                }
-            }
+                if (IF[i] != null)
+                    contador++;
+            if (contador != 0)
+                IFVazio = false;
+                Nodo[] vazio = new Nodo[3];
+                for (int i = 0; i < 3; i++)
+                    vazio[i] = null;
+            pipeline.add(2, vazio);    
         }
+        return IFVazio;
     }
 
     public void rodarCodigo(String comboBoxItem) {
@@ -228,7 +184,7 @@ public class SuperEscalar implements CPU {
         ciclos++;
         for (int i = 0; i < 3; i++)
         if (p[i] != null) {
-            p[i].rodarNodo(registradores[p[i].getIdProcesso()].getRegistradores());
+            p[i].rodarNodo(registradores[p[i].getIdProcesso()].getRegistradores(), processos.get(p[i].getIdProcesso()));
             
         }
         passarParaUnidades2();
@@ -242,7 +198,47 @@ public class SuperEscalar implements CPU {
     // }
 
     public void preencherPipelineBMT() {
+        if (nProcessos > 1) {
+            Processo processo = processos.get(escalonador);
+            pipeline.add(processo.getInstrucoesSuper());
+            if (processo.getEstado()) {
+                processos.remove(processo);
+                nProcessos--;
+            }
+            for (int i = 0; i < nProcessos; i++) {
+                Processo p = processos.get(i);
+                if (processo != p)
+                    p.avancarInstrucao();
+            }
+            // escalonador faz o entrelacamento das threads, pois e atualizado a cada
+            // chamada da funcao
+            Nodo[] f = pipeline.getLast();
+            for(int i = 0; i < 3; i++) {
+                if(f[i] != null){
+                    if(f[i].getInstrucao()[0] == -1) {
+                        escalonador = (escalonador + 1) % nProcessos;
+                        break;
+                    }
+                }
+            }
+            } else if (nProcessos == 1) {
+            Processo processo = processos.get(0);
+            pipeline.add(processo.getInstrucoesSuper());
+            if (processo.getEstado()) {
+                processos.remove(processo);
+                nProcessos--;
+            }
+            // apenas se houver 1 processo que ele executa o metodo de verificacao de bolha.
+            // Dado que o entrelacamento se perde entre threads se perde
+        } else {
+            Nodo[] vazio = new Nodo[3];
+            for (int i = 0; i < 3; i++)
+                vazio[i] = null;
+            pipeline.add(vazio);
+        }
     }
+
+    
 
     public void preencherPipelineSMT() {
         if (nProcessos > 1) {
@@ -262,11 +258,15 @@ public class SuperEscalar implements CPU {
             escalonador = (escalonador + 1) % nProcessos;
         } else if (nProcessos == 1) {
             Processo processo = processos.get(0);
-            pipeline.add(processo.getInstrucoesSuper());
             if (processo.getEstado()) {
                 processos.remove(processo);
                 nProcessos--;
             }
+            Nodo[] vazio = new Nodo[3];
+            for (int i = 0; i < 3; i++)
+            vazio[i] = null;
+            pipeline.add(vazio);
+            processo.getInstrucoesSuper(pipeline.getLast());
             // apenas se houver 1 processo que ele executa o metodo de verificacao de bolha.
             // Dado que o entrelacamento se perde entre threads se perde
         } else {
