@@ -83,10 +83,10 @@ public class Processo {
                             instrucoes.add(n);
                         }
                         break;
-                    case "beq":
+                    case "sub":
                         a = Character.getNumericValue(registradores[0].charAt(1));
                         b = Character.getNumericValue(registradores[1].charAt(1));
-                        c = Character.getNumericValue(registradores[2].charAt(0));
+                        c = Character.getNumericValue(registradores[2].charAt(1));
                         idInstrucao = 6;
                         break;
                 }

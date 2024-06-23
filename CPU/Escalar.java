@@ -18,7 +18,7 @@ public class Escalar implements CPU {
     private Registradores[] registradores;
     private int ciclos = 0;
     private int ciclosBolha = 0;
-    private double TempoCiclo = 2.0; // Tempo de ciclo em nanosegundos
+    private double TempoCiclo = 1.0; // Tempo de ciclo em nanosegundos
     private int instrucoesExecutadas = 0;
     public int pararPipeLine = 0;
 

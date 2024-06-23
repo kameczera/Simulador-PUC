@@ -21,6 +21,7 @@ public class SuperEscalar implements CPU {
     private int escalonador;
     private Registradores[] registradores;
     private int ciclos = 0;
+    private int ciclosExecucao;
     private int ciclosBolha = 0;
     private double TempoCiclo = 1.0; // Tempo de ciclo em nanosegundos, ou seja, cada ciclo leva 1.0 n/s
     private int instrucoesExecutadas = 0;
@@ -28,8 +29,9 @@ public class SuperEscalar implements CPU {
 
     // um IPC mais alto indica um processador mais eficiente em executar instruções.
     //O Calculo de IPC é feito na EXECUÇÃO
-    public float CalculoIPC() {
-        return (float) this.instrucoesExecutadas / (this.ciclos);
+    public float CalculoIPC() 
+    {
+        return (float) this.instrucoesExecutadas / (this.ciclosExecucao);
     }
 
 
@@ -99,18 +101,22 @@ public class SuperEscalar implements CPU {
                     }
 
                     // addi, add, and etc..
-                    if (p.getInstrucao()[0] < 3) {
+                    if (p.getInstrucao()[0] < 3) 
+                    {
                         if (unidades[0] != null)
                             break;
                         unidades[0] = p;
                         OF[i] = null;
+                        instrucoesExecutadas++;
 
                         // store & load: sw & lw
-                    } else if (p.getInstrucao()[0] == 4 || p.getInstrucao()[0] == 5) {
+                    } else if (p.getInstrucao()[0] == 4 || p.getInstrucao()[0] == 5) 
+                    {
                         if (unidades[1] != null)
                             break;
                         unidades[1] = p;
                         OF[i] = null;
+                        instrucoesExecutadas++;
 
                         // branch: beq, j etc..
                     } else {
@@ -118,6 +124,8 @@ public class SuperEscalar implements CPU {
                             break;
                         unidades[2] = p;
                         OF[i] = null;
+                        instrucoesExecutadas++;
+
                     }
                 }
             }
@@ -126,7 +134,17 @@ public class SuperEscalar implements CPU {
             if (OF[i] != null)
                 contador++;
         if (contador != 0)
-            OFVazio = false;
+        {
+        OFVazio = false;
+        }
+        contador = 0;
+        for (int i = 0; i < 3; i++)
+            if (unidades[i] != null)
+                contador++;
+        if (contador != 0)
+        {
+        ciclosExecucao++;
+        }
         if(OFVazio) pipeline.remove(3);
         return OFVazio;
     }
@@ -176,9 +194,9 @@ public class SuperEscalar implements CPU {
         for (int i = 0; i < 3; i++)
         if (p[i] != null) {
             p[i].rodarNodo(registradores[p[i].getIdProcesso()].getRegistradores());
+            p[i].rodarNodo(registradores[p[i].getIdProcesso()].getRegistradores());
+            
         }
-        ++instrucoesExecutadas;
-
     }
 
     // if(p.getIdProcesso()!=3)
@@ -376,6 +394,10 @@ public class SuperEscalar implements CPU {
       return "and";
       else if(valor == 4)
       return "lw";
+      else if(valor == 5)
+      return "sw";
+      else if(valor == 6)
+      return "sub";
       return "Operador nao encontrado";
     }
 
