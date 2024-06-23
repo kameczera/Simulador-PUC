@@ -46,7 +46,7 @@ public class Nodo{
 
     // executa a instrucao, modificando os valores dos registradores.
     // Observacao e TODO: Ao implementar instrucoes de branch( beq, jump etc..). Sera necessario passar como argumento dessa funcao os PCs dos processos/threads. (Prioridade 5)
-    public void rodarNodo(int[] registradores, Processo p){
+    public void rodarNodo(int[] registradores){
         switch(instrucao[0]){
             // case 0: // bubble
             //     break;
@@ -65,8 +65,8 @@ public class Nodo{
             case 5: // sw
                 // TODO
                 break;
-            case 6: // beq
-                // if(registradores[1] == registradores[2]) p.
+            case 6: // sub
+            registradores[instrucao[1]] = registradores[instrucao[2]] - registradores[instrucao[3]];
                 break;
         }
     }

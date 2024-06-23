@@ -193,7 +193,7 @@ public class SuperEscalar implements CPU {
         ciclos++;
         for (int i = 0; i < 3; i++)
         if (p[i] != null) {
-            p[i].rodarNodo(registradores[p[i].getIdProcesso()].getRegistradores(), processos.get(p[i].getIdProcesso()));
+            p[i].rodarNodo(registradores[p[i].getIdProcesso()].getRegistradores());
             
         }
     }
@@ -393,9 +393,9 @@ public class SuperEscalar implements CPU {
       else if(valor == 4)
       return "lw";
       else if(valor == 5)
-      return "sub";
-      else if(valor == 6)
       return "sw";
+      else if(valor == 6)
+      return "sub";
       return "Operador nao encontrado";
     }
 

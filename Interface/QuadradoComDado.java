@@ -190,9 +190,9 @@ public class QuadradoComDado extends JPanel {
         else if(valor == 4)
         return "lw";
         else if(valor == 5)
-        return "sub";
-        else if(valor == 6)
         return "sw";
+        else if(valor == 6)
+        return "sub";
         return "Operador nao encontrado";
       
     }
