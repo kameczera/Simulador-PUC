@@ -110,7 +110,7 @@ public class SuperEscalar implements CPU {
                         instrucoesExecutadas++;
 
                         // store & load: sw & lw
-                    } else if (p.getInstrucao()[0] == 4 || p.getInstrucao()[0] == 5) 
+                    } else if (p.getInstrucao()[0] == 4) 
                     {
                         if (unidades[1] != null)
                             break;
@@ -119,7 +119,7 @@ public class SuperEscalar implements CPU {
                         instrucoesExecutadas++;
 
                         // branch: beq, j etc..
-                    } else {
+                    } else if(p.getInstrucao()[0] == 5){
                         if (unidades[2] != null)
                             break;
                         unidades[2] = p;
@@ -193,8 +193,7 @@ public class SuperEscalar implements CPU {
         ciclos++;
         for (int i = 0; i < 3; i++)
         if (p[i] != null) {
-            p[i].rodarNodo(registradores[p[i].getIdProcesso()].getRegistradores());
-            
+            p[i].rodarNodo(registradores[p[i].getIdProcesso()].getRegistradores());         
         }
     }
 

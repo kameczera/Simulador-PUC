@@ -582,9 +582,9 @@ public class Interface {
                   }
                   else if(unidadeExecucaoAlocar == "sw")
                   {
-                  LOAD.mudarCor(corProcessos[5]); //Considerando que todos os processos sao iguais, basta selecionar o primeiro idProcesso do array
-                  LOAD.mudarLabel("T" + nodoAtual.getIdProcesso());
-                  LOAD.mudarLabelInstrucao(nodoAtual);
+                  STORE.mudarCor(corProcessos[5]); //Considerando que todos os processos sao iguais, basta selecionar o primeiro idProcesso do array
+                  STORE.mudarLabel("T" + nodoAtual.getIdProcesso());
+                  STORE.mudarLabelInstrucao(nodoAtual);
                   }
                   
                   }//fim for
