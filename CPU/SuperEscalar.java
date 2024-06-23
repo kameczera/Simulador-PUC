@@ -175,8 +175,7 @@ public class SuperEscalar implements CPU {
         ciclos++;
         for (int i = 0; i < 3; i++)
         if (p[i] != null) {
-            p[i].rodarNodo(registradores[p[i].getIdProcesso()].getRegistradores(), processos.get(p[i].getIdProcesso()));
-            
+            p[i].rodarNodo(registradores[p[i].getIdProcesso()].getRegistradores());
         }
         ++instrucoesExecutadas;
 
@@ -272,7 +271,8 @@ public class SuperEscalar implements CPU {
     public void preencherPipelineIMT() {
         if (nProcessos > 1) {
             Processo processo = processos.get(escalonador);
-            pipeline.add(processo.getInstrucoesSuper());
+            Nodo[] despachados = processo.getInstrucoesSuper();
+            pipeline.add(despachados);
             if (processo.getEstado()) {
                 processos.remove(processo);
                 nProcessos--;

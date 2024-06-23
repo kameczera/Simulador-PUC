@@ -65,6 +65,28 @@ public class Nodo{
             case 5: // sw
                 // TODO
                 break;
+        }
+    }
+
+    public void rodarNodo(int[] registradores){
+        switch(instrucao[0]){
+            // case 0: // bubble
+            //     break;
+            case 1: // add
+                registradores[instrucao[1]] = registradores[instrucao[2]] + registradores[instrucao[3]];
+                break;
+            case 2: // addi
+                registradores[instrucao[1]] = registradores[instrucao[2]] + instrucao[3];
+                break;
+            case 3: // and
+                registradores[instrucao[1]] = registradores[instrucao[2]] & registradores[instrucao[3]];
+                break;
+            case 4: // lw
+                // TODO
+                break;
+            case 5: // sw
+                // TODO
+                break;
             case 6: // beq
                 // if(registradores[1] == registradores[2]) p.
                 break;

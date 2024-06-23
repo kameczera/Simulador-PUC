@@ -115,7 +115,12 @@ public class Processo {
             if (instrucaoAtual == instrucoes.size()){
                 estado = true;
             }else{
-                despachados[i] = instrucoes.get(instrucaoAtual++);
+                if(instrucoes.get(instrucaoAtual).getInstrucao()[0] != -1) despachados[i] = instrucoes.get(instrucaoAtual++);
+                else{
+                    despachados[i] = instrucoes.get(instrucaoAtual++);
+                    break;
+                }
+
             }
         }
         return despachados;
@@ -139,9 +144,11 @@ public class Processo {
     // dos DELAYS, enquanto uma thread está executando, a outra vai eliminando o
     // tempo de DELAY e de I/O ou rede.
     public void avancarInstrucao() {
-        Nodo p = instrucoes.get(instrucaoAtual);
-        if (p.getInstrucao()[0] == -1)
-            instrucaoAtual++;
+        if(instrucaoAtual < instrucoes.size()){
+            Nodo p = instrucoes.get(instrucaoAtual);
+            if (p.getInstrucao()[0] == -1)
+                instrucaoAtual++;
+        }
     }
 
     public boolean getEstado() {
