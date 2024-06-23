@@ -7,13 +7,23 @@ public class Arquitetura {
         //  i.criarInterface();
         String[] pathProcessos = { "./processo1.txt", "./processo3.txt" };
         SuperEscalar a = new SuperEscalar(2, pathProcessos);
-        a.rodarCodigo("SMT");
-        a.rodarCodigo("SMT");
-        a.rodarCodigo("SMT");
-        a.rodarCodigo("SMT");
-        a.rodarCodigo("SMT");
-        a.rodarCodigo("SMT");
-        a.rodarCodigo("SMT");
-        a.rodarCodigo("SMT");
+        a.rodarCodigo("BMT");
+        a.rodarCodigo("BMT");
+        a.rodarCodigo("BMT");
+        a.rodarCodigo("BMT");
+        a.rodarCodigo("BMT");
+        a.rodarCodigo("BMT");
+        a.rodarCodigo("BMT");
+        a.rodarCodigo("BMT");
+        a.rodarCodigo("BMT");
+        a.rodarCodigo("BMT");
+        a.rodarCodigo("BMT");
+        a.rodarCodigo("BMT");
+        a.rodarCodigo("BMT");
+        a.rodarCodigo("BMT");
+        a.rodarCodigo("BMT");
+        a.rodarCodigo("BMT");
+        a.rodarCodigo("BMT");
+        a.rodarCodigo("BMT");
     }
 }
