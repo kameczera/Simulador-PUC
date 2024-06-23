@@ -281,8 +281,11 @@ public class Interface {
                 seletorArquivo.setMultiSelectionEnabled(true);
                 seletorArquivo.setFileSelectionMode(JFileChooser.FILES_ONLY);
                 String userDir = System.getProperty("user.dir");
+                // Concatena o diretório "Testes" ao final do caminho
+                String newPath = userDir + File.separator + "Testes";
+                System.out.print(userDir);
                 // Combina o diretório de trabalho com o nome da pasta
-                String targetDir = userDir + File.separator;
+                String targetDir = newPath + File.separator;
 
                 // Especifica o diretório inicial
                 seletorArquivo.setCurrentDirectory(new File(targetDir));
