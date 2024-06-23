@@ -194,7 +194,6 @@ public class SuperEscalar implements CPU {
         for (int i = 0; i < 3; i++)
         if (p[i] != null) {
             p[i].rodarNodo(registradores[p[i].getIdProcesso()].getRegistradores());
-            p[i].rodarNodo(registradores[p[i].getIdProcesso()].getRegistradores());
             
         }
     }
