@@ -103,7 +103,6 @@ public class QuadradoComDado extends JPanel {
     }
 
 
-
     //Esse metodo só vai funcionar somente pra unidades que não seja de execução
     public void mudarLabelInstrucaoSuperEscalar(Nodo[] instrucao)
     {

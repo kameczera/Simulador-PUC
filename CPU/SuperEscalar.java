@@ -21,6 +21,7 @@ public class SuperEscalar implements CPU {
     private int escalonador;
     private Registradores[] registradores;
     private int ciclos = 0;
+    private int ciclosExecucao;
     private int ciclosBolha = 0;
     private double TempoCiclo = 1.0; // Tempo de ciclo em nanosegundos, ou seja, cada ciclo leva 1.0 n/s
     private int instrucoesExecutadas = 0;
@@ -28,8 +29,9 @@ public class SuperEscalar implements CPU {
 
     // um IPC mais alto indica um processador mais eficiente em executar instruções.
     //O Calculo de IPC é feito na EXECUÇÃO
-    public float CalculoIPC() {
-        return (float) this.instrucoesExecutadas / (this.ciclos);
+    public float CalculoIPC() 
+    {
+        return (float) this.instrucoesExecutadas / (this.ciclosExecucao);
     }
 
 
@@ -97,18 +99,22 @@ public class SuperEscalar implements CPU {
                         break;
 
                     // addi, add, and etc..
-                    if (p.getInstrucao()[0] < 3) {
+                    if (p.getInstrucao()[0] < 3) 
+                    {
                         if (unidades[0] != null)
                             break;
                         unidades[0] = p;
                         OF[i] = null;
+                        instrucoesExecutadas++;
 
                         // store & load: sw & lw
-                    } else if (p.getInstrucao()[0] == 4 || p.getInstrucao()[0] == 5) {
+                    } else if (p.getInstrucao()[0] == 4 || p.getInstrucao()[0] == 5) 
+                    {
                         if (unidades[1] != null)
                             break;
                         unidades[1] = p;
                         OF[i] = null;
+                        instrucoesExecutadas++;
 
                         // branch: beq, j etc..
                     } else {
@@ -116,8 +122,11 @@ public class SuperEscalar implements CPU {
                             break;
                         unidades[2] = p;
                         OF[i] = null;
+                        instrucoesExecutadas++;
+
                     }
                 }
+                ciclosExecucao++;
             }
         }
         for (int i = 0; i < 3; i++)
@@ -222,7 +231,6 @@ public class SuperEscalar implements CPU {
             p[i].rodarNodo(registradores[p[i].getIdProcesso()].getRegistradores());
             
         }
-        ++instrucoesExecutadas;
         passarParaUnidades2();
     }
 
